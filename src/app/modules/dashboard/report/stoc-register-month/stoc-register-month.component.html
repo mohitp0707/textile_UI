@@ -1,0 +1,145 @@
+<h3 class="page-header pt-4 pb-2 border-bottom ">STOCK STATEMENT</h3>
+<p></p>
+
+<div class="row">
+	<div class = "col-sm-1 input-group">
+		<label for="GR_Date" class="col-form-label text-right">From </label>
+		</div>
+		<div class = "col-sm-3 input-group">
+			<input class="form-control" type="date" id="GR_Fdat" name="GR_Fdat"  [(ngModel)]="invoice.GR_Fdat" ngbDatepicker #d="ngbDatepicker" required />
+			<div class="input-group-append">
+				<button class="btn btn-outline-secondary" (click)="d.toggle()" type="button"><i class = "fas fa-calendar-alt"></i></button>
+			</div>
+	</div>
+
+	<div class = "col-sm-1 input-group">
+		<label for="GR_Date" class="col-form-label text-right">TO </label>
+		</div>
+		<div class = "col-sm-3 input-group">
+			<input class="form-control" type="date" id="GR_Tdat" name="GR_Tdat"  [(ngModel)]="invoice.GR_Tdat"  ngbDatepicker #d1="ngbDatepicker" required />
+			<div class="input-group-append">
+				<button class="btn btn-outline-secondary" (click)="d1.toggle()" type="button"><i class = "fas fa-calendar-alt"></i></button>
+			</div>
+	</div>
+	<div class="col-sm-3"><button class="btn btn-info" (click)="getdatamonth(invoice)">Show</button> </div>
+</div>
+
+
+<div class="content table-responsive table-full-width mt-4">
+	<table id="dattab" class="table tablefixed table-bordered table-sm">
+		<thead class = "thead-light">
+			<tr>
+				<th>SR.No.</th>
+				<th>ITEM</th>
+				<th>UNIT</th>
+				<th>TYPE</th>
+				<th>OPENING</th>
+				<th>PURCHASE</th>
+				<th>STOCK IN</th>
+				<th>TOTAL</th>
+				<th>STOCK RATE</th>
+				<th>CONS. RATE</th>
+				<th>STOCK OUT</th>
+				<!-- <th>STORE OUT</th> -->
+				<th>CONS.</th>
+				<th>VALUE</th>
+				<!-- <th  style="color:red;font-weight: bold">CLOSE</th> -->
+				 <th style="color:green;font-weight: bold">ACT CLOS.</th>
+				<th style="color:blue;font-weight: bold">DIFF.</th>
+				<th style="color:blue;font-weight: bold">CLOS. VAL</th>
+				<th>WAREHOUSE</th>
+			</tr>
+      <tr>
+		  <td></td>
+          <td><input class="form-control" type="text" name="search1" [(ngModel)]="setITEM"> </td>
+					<td></td>
+					<td><input class="form-control" type="text" name="search1" [(ngModel)]="serTyp"></td>
+         
+          <td><input class="form-control" type="text" name="search1" [(ngModel)]="serOp"> </td>
+          <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+					<td><input class="form-control" type="text" name="search1" [(ngModel)]="serClose"> </td>
+					<td></td>
+					<td><input class="form-control" type="text" name="search1" [(ngModel)]="serWH"> </td>
+		</tr>
+		</thead>
+		<tbody>
+			<tr style="cursor: pointer"  (dblclick)="clickEven(product)" *ngFor="let product of greyChecking  | filter: { itm: setITEM } | filter: {AIMS_TYPE: serTyp} | filter: {STKMW_WH: serWH} | filter: {op: serOp} |filter: {cls: serClose} | paginate: { itemsPerPage: 20, currentPage: p } ; let i = index">
+				<td>{{ i + 1 }}</td>
+				<td>{{ product.itm }}</td>
+				<td>{{ product.STKMW_UNI }}</td>
+				<td>{{ product.AIMS_TYPE }}</td>
+				<td>{{ product.op | number: '0.2'  }}</td>
+				<td>{{ product.PIC | number: '0.2'  }}</td>
+				<td>{{ product.stkIN | number: '0.2'  }}</td>
+				<td>{{ product.total | number: '0.2'  }}</td>
+				<td>{{ product.rat | number: '0.2'  }}</td>
+				<td>{{ product.consrat | number: '0.2'  }}</td>
+				<td>{{ product.out1 | number: '0.2'  }}</td>
+				<!-- <td>{{ product.store | number: '0.2'  }}</td> -->
+				<td>{{ product.cons | number: '0.2'  }}</td>
+				<td>{{ product.consval  | number: '0.2'  }}</td>
+				<!-- <td style="color:red;font-weight: bold">{{ product.syscls | number: '0.2'  }}</td> -->
+				 <td style="color:green;font-weight: bold">{{ product.cls | number: '0.2'  }}</td> 
+				<td style="color:blue;font-weight: bold">{{ product.diff | number: '0.2'  }}</td>
+				<td style="color:blue;font-weight: bold">{{ product.val  | number: '0.2'  }}</td>
+				<td>{{ product.STKMW_WH }}</td>
+		</tr>
+		
+		<tr>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td>{{ greyChecking  | filter: { itm: setITEM } | filter: {AIMS_TYPE: serTyp} | filter: {STKMW_WH: serWH} | filter: {op: serOp} |filter: {cls: serClose} | sumpipe:'op' | number: '0.2' }}</td>
+			<td>{{ greyChecking  | filter: { itm: setITEM } | filter: {AIMS_TYPE: serTyp} | filter: {STKMW_WH: serWH} | filter: {op: serOp} |filter: {cls: serClose} | sumpipe:'PIC' | number: '0.2' }}</td>
+			<td>{{ greyChecking  | filter: { itm: setITEM } | filter: {AIMS_TYPE: serTyp} | filter: {STKMW_WH: serWH} | filter: {op: serOp} |filter: {cls: serClose} | sumpipe:'stkIN' | number: '0.2' }}</td>
+			<td>{{ greyChecking  | filter: { itm: setITEM } | filter: {AIMS_TYPE: serTyp} | filter: {STKMW_WH: serWH} | filter: {op: serOp} |filter: {cls: serClose} | sumpipe:'total' | number: '0.2' }}</td>
+			<td></td><td></td>
+			<td>{{ greyChecking  | filter: { itm: setITEM } | filter: {AIMS_TYPE: serTyp} | filter: {STKMW_WH: serWH} | filter: {op: serOp} |filter: {cls: serClose} | sumpipe:'out1' | number: '0.2' }}</td>
+			<td>{{ greyChecking  | filter: { itm: setITEM } | filter: {AIMS_TYPE: serTyp} | filter: {STKMW_WH: serWH} | filter: {op: serOp} |filter: {cls: serClose} | sumpipe:'cons' | number: '0.2' }}</td>
+			<td>{{ greyChecking  | filter: { itm: setITEM } | filter: {AIMS_TYPE: serTyp} | filter: {STKMW_WH: serWH} | filter: {op: serOp} |filter: {cls: serClose} | sumpipe:'consval' | number: '0.2' }}</td>
+			<td style="color:green;font-weight: bold">{{ greyChecking  | filter: { itm: setITEM } | filter: {AIMS_TYPE: serTyp} | filter: {STKMW_WH: serWH} | filter: {op: serOp} |filter: {cls: serClose} | sumpipe:'cls' | number: '0.2' }}</td>
+			<td style="color:blue;font-weight: bold">{{ greyChecking  | filter: { itm: setITEM } | filter: {AIMS_TYPE: serTyp} | filter: {STKMW_WH: serWH} | filter: {op: serOp} |filter: {cls: serClose} | sumpipe:'diff' | number: '0.2' }}</td>
+			<td style="color:blue;font-weight: bold">{{ greyChecking  | filter: { itm: setITEM } | filter: {AIMS_TYPE: serTyp} | filter: {STKMW_WH: serWH} | filter: {op: serOp} |filter: {cls: serClose} | sumpipe:'val' | number: '0.2' }}</td>
+			
+			<td></td>
+		</tr>
+	</tbody>
+	</table>
+	<pagination-controls *ngIf="greyChecking.length>0" (pageChange)="p = $event"></pagination-controls>
+</div>
+
+<button *ngIf="greyChecking.length>0" class="btn btn-info" (click)="export()">Export Pdf</button>
+
+
+<div *ngIf="showdetraw" class="content table-responsive table-full-width mt-4">
+	<table id="dattab" class="table table-bordered table-sm">
+		<thead class = "thead-light">
+			<tr>
+				<th>SR.No.</th>
+				<th>Date</th>
+				<th>ITEM</th>
+				<th>TYPE</th>
+				<th>QTY</th>
+				<th>IN/OUT</th>
+			</tr>
+			</thead>
+			<tr>
+				<td></td>
+				<td><input class="form-control" type="text" name="search1" [(ngModel)]="serdetdate"> </td>
+				<td><input class="form-control" type="text" name="search1" [(ngModel)]="serdetitem"></td>
+				<td><input class="form-control" type="text" name="search1" [(ngModel)]="serdettyp"> </td>
+				<td></td>
+				<td><input class="form-control" type="text" name="search1" [(ngModel)]="serdetinout"> </td>
+			</tr>
+				  
+			<tr  *ngFor="let product of rawuptStk   | filter: { dat: serdetdate }  | filter: { itm: serdetitem }  | filter: { AS_TT: serdettyp }  | filter: { AS_IO: serdetinout }    ; let i = index">
+				<td>{{ i + 1 }}</td>
+				<td>{{product.dat}}</td>
+				<td>{{ product.itm }}</td>
+				<td>{{ product.AS_TT }}</td>
+				<td>{{ product.qty }}</td>
+				<td>{{ product.AS_IO }}</td>
+			</tr>
+		</table>
+		</div>

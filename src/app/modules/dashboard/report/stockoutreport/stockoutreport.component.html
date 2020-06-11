@@ -1,0 +1,87 @@
+<h3 class="page-header pt-4 pb-2 border-bottom ">STOCK OUT REPORT</h3>
+<p></p>
+
+
+<div class="row">
+	<div class = "col-sm-1 input-group">
+		<label for="GR_Date" class="col-form-label text-right">From </label>
+		</div>
+		<div class = "col-sm-3 input-group">
+			<input class="form-control" type="date" id="GR_Fdat" name="GR_Fdat"  [(ngModel)]="invoice.GR_Fdat" ngbDatepicker #d="ngbDatepicker" required />
+			<div class="input-group-append">
+				<button class="btn btn-outline-secondary" (click)="d.toggle()" type="button"><i class = "fas fa-calendar-alt"></i></button>
+			</div>
+	</div>
+
+	<div class = "col-sm-1 input-group">
+		<label for="GR_Date" class="col-form-label text-right">TO </label>
+		</div>
+		<div class = "col-sm-3 input-group">
+			<input class="form-control" type="date" id="GR_Tdat" name="GR_Tdat"  [(ngModel)]="invoice.GR_Tdat"  ngbDatepicker #d1="ngbDatepicker" required />
+			<div class="input-group-append">
+				<button class="btn btn-outline-secondary" (click)="d1.toggle()" type="button"><i class = "fas fa-calendar-alt"></i></button>
+			</div>
+	</div>
+	<div class="col-sm-3"><button class="btn btn-info" (click)="getdata(invoice)">Show</button> </div>
+</div>
+
+<div class="content table-responsive table-full-width mt-5">
+	<table id="dattab" class="table tablefixed table-bordered table-sm">
+		<thead class = "thead-light">
+			<tr>
+				<th>Sr. No.</th>
+        <th>DATE</th>
+        <th>WAREHOUSE</th>
+				<th>ITEM</th>
+				<th>UNIT</th>
+				<th>QTY</th>
+				<th>RATE</th>
+				<th>AMOUNT</th>
+				<th>REMARK</th>
+			</tr>
+			<tr>
+				<td></td>
+				<td><input class="form-control" type="text" name="search1" [(ngModel)]="serdat"> </td>
+				<td><input class="form-control" type="text" name="search1" [(ngModel)]="serwh" > </td>
+				<td><input class="form-control" type="text" name="search1" [(ngModel)]="seritm"> </td>
+				<td><input class="form-control" type="text" name="search1" [(ngModel)]="serum"> </td>
+				<td><input class="form-control" type="text" name="search1" [(ngModel)]="serqty"> </td>
+				<td><input class="form-control" type="text" name="search1" [(ngModel)]="serrate"> </td>
+        <td><input class="form-control" type="text" name="search1" [(ngModel)]="seramt"> </td>
+        <td><input class="form-control" type="text" name="search1" [(ngModel)]="serrmk"> </td>
+			</tr>
+			</thead>
+			<tbody>
+			<tr *ngFor="let product of greyRecive | filter: {rmk: serrmk} | filter: {wh: serwh} | filter: {dat: serdat} | filter: {itm: seritm} | filter: {STCKIND_UNIT: serum} | filter: {qty: serqty} | filter: {rat: serrate} | filter:{ amt :seramt }   | paginate: { itemsPerPage: 20, currentPage: p } ; let i = index">
+				<td>{{ i + 1 }}</td>
+        <td>{{ product.dat  }}</td>
+				<td>{{ product.wh }}</td>
+				<td>{{ product.itm }}</td>
+				<td>{{ product.STCKOUTD_UNIT }}</td>
+				<td>{{ product.qty | number:'0.2' }}</td>
+				<td>{{ product.rat | number:'0.2'  }}</td>
+        <td>{{product.amt | number:'0.2'}}</td>
+        <td>{{product.rmk}}</td>
+
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+				<td><span style="font-weight: bold">Total</span></td>
+				<td><span style="font-weight: bold">{{ greyRecive | filter: {rmk: serrmk}  | filter: {wh: serwh} | filter: {dat: serdat} | filter: {itm: seritm} | filter: {STCKIND_UNIT: serum} | filter: {qty: serqty} | filter: {rat: serrate} | filter:{ amt :seramt }   |  sumpipe:'amt' | number:'0.2' }}</span></td>
+        <td></td>
+			</tr>
+
+		</tbody>
+	</table>
+	<pagination-controls *ngIf="greyRecive.length>0" (pageChange)="p = $event"></pagination-controls>
+</div>
+
+
+
+<button *ngIf="greyRecive.length>0" class="btn btn-info" (click)="export()">Export Pdf</button>
+<!-- <button class="btn btn-info" (click)="exportExcel()">Export Excel</button> -->

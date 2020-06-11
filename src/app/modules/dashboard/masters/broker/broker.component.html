@@ -1,0 +1,171 @@
+
+	<h2 class="page-header pt-4 pb-2 border-bottom">Add Broker</h2>
+	<!-- <div *ngIf="invalidForm" class="alert alert-danger" role="alert">
+		Please fill out all fields.
+	</div> -->
+	
+	<ngb-alert type="danger" *ngIf="ds.invalidForm" (close)="ds.invalidForm = false">
+		{{ ds.errorMessage }}
+	</ngb-alert>
+
+	<ngb-alert type="success" *ngIf="ds.formSubmitted" (close)="ds.formSubmitted = false">
+	{{ ds.submittedMessage }}
+	</ngb-alert>
+	
+	<div *ngIf="!ds.formSubmitted" class="border p-2 pt-4">
+		<form class="needs-validation" method="post" #addPartyForm="ngForm"  (ngSubmit)="submitForm(addPartyForm,party)" autocomplete="off">
+			
+				<div class="form-group row">
+			
+		
+			
+				<label for="name" class="col-sm-1 col-form-label text-right">Full Name </label>
+				<div class="col-sm-5">
+					<input type="text" [ngClass]="{'is-invalid' : name.touched && name.invalid, 'is-valid' : name.touched && name.valid }" id ="name" name="PM_NAME" class="form-control" pattern="[a-zA-Z\s]+" [(ngModel)]="party.PM_NAME" #name="ngModel" autocomplete="off" [ngbTypeahead]="search" placeholder="Full Name" required>
+					<small class="form-text text-muted">Enter alphabets only.</small>
+					<div  [ngClass]="name.touched && name.invalid ? 'invalid-feedback' : 'valid-feedback'" *ngIf="name.touched && name.invalid">
+						<span *ngIf="name.errors.required">Full Name required</span>
+						<span *ngIf="name.errors.pattern">Full Name not valid only alphabets insert</span>
+					</div>
+				</div>
+
+				<label for="status" class="col-sm-1 col-form-label text-right">Status </label>
+				<div class="col-sm-2">
+					<select id ="Staus" #cate="ngModel" name="Staus" class="form-control"  placeholder="Selct Staus"  [(ngModel)]="party.PM_STATUS">
+						<option value="Active" selected>Active</option>
+						<option value="In-Active" >In-Active</option>
+					</select>
+					
+				</div>
+			</div>
+
+			<div class="form-group row">
+			<label class="col-sm-1 col-form-label text-right">Email </label>
+				<div class="col-sm-3">
+					<input type="email" [ngClass]="email.touched && email.invalid ? 'is-invalid' : 'is-valid'" name="PM_EMAIL"  class="form-control" [(ngModel)]="party.PM_EMAIL" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" #email="ngModel" placeholder="Email ID" >
+					<div [ngClass]="email.touched && email.invalid ? 'is-invalid' : 'is-valid'" *ngIf="email.touched && email.invalid">
+						<span *ngIf="email.errors.required">Email ID is required!</span>
+						<span *ngIf="email.errors.pattern">Invalid Email ID.</span>
+					</div>
+				</div>
+
+				<label for = "mobile" class="col-sm-1 col-form-label text-right">Contact</label>
+				<div class="col-sm-3">
+					<input type="text" [ngClass]="{ 'is-invalid' : mobile.touched && mobile.invalid, 'is-valid': mobile.touched && mobile.valid }" id = "mobile" name="PM_MOBILE" class="form-control"  [(ngModel)]="party.PM_MOBILE"  #mobile="ngModel" placeholder="Contact no" required>
+					<div [ngClass]="mobile.touched && mobile.invalid ? 'is-invalid' : 'is-valid'" *ngIf="mobile.touched && mobile.invalid">
+						<span *ngIf="mobile.errors.required">mobile Number is required!</span>
+						<span *ngIf="mobile.errors.pattern">Invalid mobile number.</span>
+					</div>
+				</div>			
+			
+				
+			</div>
+			
+			
+			<div class="form-group row">
+				
+				<label for="city" class="col-sm-1 col-form-label text-right">City </label>
+				<div class="col-sm-3">
+						<input type="text" [ngClass]="{ 'is-invalid' : city.touched && city.invalid, 'is-valid' : city.touched && city.invalid }" id="city " name="PM_CITY" class="form-control"  [(ngModel)]="party.PM_CITY " #city="ngModel" placeholder="City">
+						<small class="form-text text-muted">Taluka name or Tahashil</small>
+				</div>
+				<div *ngIf="city.touched && city.invalid">
+						<span *ngIf="location.errors.pattern">ity not valid</span>
+				</div>
+				
+		
+				<label for="area" class="col-sm-1 col-form-label text-right">Area </label>
+				<div class="col-sm-3">
+					<input type="text" [ngClass]="{ 'is-invalid' : area.touched && area.invalid, 'is-valid' : area.touched && area.invalid }" id="area " name="PM_AREA" class="form-control"  [(ngModel)]="party.PM_AREA " #area="ngModel" placeholder="Area">
+					<small class="form-text text-muted">Taluka name or Tahashil</small>
+				</div>
+
+				<label for="location" class="col-sm-1 col-form-label text-right">District</label>
+				<div class="col-sm-2">
+						<input type="text" [ngClass]="{ 'is-invalid' : area .touched && location.invalid, 'is-valid' : location.touched && location.invalid }" id="location " name="PM_LOC" class="form-control"  [(ngModel)]="party.PM_LOC" #location="ngModel" placeholder="District">
+						<small class="form-text text-muted">District name</small>
+				</div>
+			
+			</div>
+
+			
+			<div class="form-group row">
+			
+					<label for="address" class="col-sm-1 col-form-label text-right">Address </label>
+					<div class="col-sm-9">
+						<textarea type="text" [ngClass]="{ 'is-invalid' : address.touched && address.invalid, 'is-valid' : address.touched && address.invalid }" id="address" name="PM_ADD" class="form-control"  [(ngModel)]="party.PM_ADD" #address="ngModel" placeholder="Address"></textarea>
+					</div>
+					<div *ngIf="address.touched && address.invalid">
+						<span *ngIf="address.errors.pattern">Address not valid</span>
+					</div>
+			</div>
+			
+			<div class="form-group row">
+			
+				<label for="state" class="col-sm-1 col-form-label text-right">State </label>
+				<div class="col-sm-3">
+					<input type="text" [ngClass]="{ 'is-invalid' : state.touched && state.invalid, 'is-valid' : state.touched && state.invalid }" id="state " name="PM_STATE" class="form-control"  [(ngModel)]="party.PM_STATE " #state="ngModel" placeholder="State" required>
+					<small class="form-text text-muted">State name</small>
+					<div *ngIf="state.touched && state.invalid">
+						<span *ngIf="state.errors.required">State Name is required!</span>
+						<span *ngIf="state.errors.pattern">State Name not valid</span>
+					</div>
+				</div>
+				
+				
+				<label for="country" class="col-sm-1 col-form-label text-right">Country </label>
+				<div class="col-sm-3">
+					<input type="text" [ngClass]="{ 'is-invalid' : country.touched && country.invalid, 'is-valid' : country.touched && country.invalid }" id="country" name="PM_COUNTRY" class="form-control"  [(ngModel)]="party.PM_COUNTRY" #country ="ngModel" placeholder="Country" required>
+					<small class="form-text text-muted">country  name </small>
+					<div *ngIf="country .touched && country .invalid">
+						<span *ngIf="country.errors.required">Country Name is required!</span>
+						<span *ngIf="country.errors.pattern">Country Name not valid</span>
+					</div>
+				</div>
+	
+
+				<label for="pincode" class="col-sm-1 col-form-label text-right">Pincode </label>
+				<div class="col-sm-2">
+					<input type="text" [ngClass]="{ 'is-invalid' : pincode.touched && pincode.invalid, 'is-valid' : pincode.touched && pincode.invalid }" id="pincode" name="PM_PIN" class="form-control" pattern=""[(ngModel)]="party.PM_PIN" #pincode="ngModel" placeholder="Pincode" required>
+					<small class="form-text text-muted">Pincode</small>
+					<div *ngIf="pincode.touched && pincode .invalid">
+						<span *ngIf="pincode .errors.required">Pincode is required!</span>
+						<span *ngIf="pincode .errors.pattern">Pincode not valid</span>
+					</div>
+				</div>
+
+			</div>
+
+						
+			<div class="form-group row">
+			
+				<label for="gstNO" class="col-sm-1 col-form-label text-right">GST NO </label>
+				<div class="col-sm-3">
+					<input type="text" [ngClass]="{ 'is-invalid' : gstNO.touched && gstNO.invalid, 'is-valid' : gstNO.touched && gstNO.invalid }" id="gstNO " name="PM_GST" class="form-control"  [(ngModel)]="party.PM_GST " #gstNO="ngModel" placeholder="GST NO" required>
+					
+				</div>
+				<div *ngIf="gstNO.touched && gstNO.invalid">
+					<span *ngIf="gstNO.errors.required">GST NO is required!</span>
+				</div>
+				
+				<label for="PANNO" class="col-sm-1 col-form-label text-right">PAN NO</label>
+				<div class="col-sm-3">
+					<input type="text" [ngClass]="{ 'is-invalid' : PANNO.touched && PANNO.invalid, 'is-valid' : PANNO.touched && PANNO.invalid }" id="PANNO" name="PM_PANNO" class="form-control"  [(ngModel)]="party.PM_PANNO" #PANNO ="ngModel" placeholder="PAN NO" required>
+				</div>
+				<div *ngIf="PANNO .touched && PANNO .invalid">
+					<span *ngIf="PANNO.errors.required">PAN No is required!</span>
+					
+				</div>
+
+
+
+			</div>
+			
+
+			
+		
+		
+			
+			<button class="btn btn-primary mt-3">Submit</button>
+		</form>
+	</div>

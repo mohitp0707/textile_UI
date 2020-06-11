@@ -1,0 +1,156 @@
+<h2 class="page-header pt-4 pb-2 border-bottom"> Stock Settlement </h2>
+	<!-- <ngb-alert type="danger" *ngIf="ds.invalidForm" (close)="ds.invalidForm = false">
+			{{ ds.errorMessage }}
+	</ngb-alert>
+	<ngb-alert type="success" *ngIf="ds.formSubmitted" (close)="ds.formSubmitted = false">
+			{{ ds.submittedMessage }}
+	</ngb-alert> -->
+<div  class="border p-2 pt-4">
+<form class="needs-validation" method="post" (ngSubmit)="saveForm(addInvoiceForm,invoice)" #addInvoiceForm="ngForm">
+    <div class="form-group row">	
+    <div class="col-sm-1 ">
+        <label for="JDate" class="col-form-label text-right"> Date</label>
+    </div>
+    <div class="col-sm-3 input-group">
+          <input [disabled]="productList.length>0"  class="form-control" type="text" [ngClass]="{ 'is-invalid' : JDate.touched && JDate.invalid , 'is-valid' : JDate.touched && JDate.valid }" id="JDate" name="JDate"  [(ngModel)]="invoice.JDate" #JDate="ngModel" ngbDatepicker #d2="ngbDatepicker" required />
+            <div class="input-group-append">
+              <button [disabled]="productList.length>0" class="btn btn-outline-secondary" (click)="d2.toggle()" type="button"><i class = "fas fa-calendar-alt"></i></button>
+            </div>
+        </div>
+
+        <div class="col-sm-1">
+            <label for="pckby" class="col-form-label text-right">Employee</label></div>
+            <div class="col-sm-3 ">
+              <select *ngIf="!retrieve" class="custom-select form-control" [ngClass]="{'is-invalid' : pckby.touched && pckby.invalid, 'is-valid' : pckby.touched && pckby.valid }" id ="pckby" name="pckby" class="form-control" [(ngModel)]="emp" #pckby="ngModel" required (change)="invoice.pckby=emp.EM_ID">
+                <option [ngValue]="emp"  *ngFor="let emp of emplist">{{emp.EM_NAME}}</option>		
+              </select>
+              <input *ngIf="retrieve" class="form-control"  type="text" name="EM_NAME" [(ngModel)]="invoice.EM_NAME" readonly />
+            </div>
+    
+            <div class="col-sm-1">
+              <label for="Godown" class="col-form-label text-right">Godown</label>
+              </div>
+              <div class="col-sm-3">
+              <select *ngIf="!retrieve" class="custom-select form-control" id ="Godown" required name="PCK_WH" class="form-control" [(ngModel)]="invoice.PCK_WH" (change)="getProduct()" #Godown="ngModel">
+                <option [ngValue]="Godown1.GM_Name"  *ngFor="let Godown1 of GodownArr" selected>{{Godown1.GM_Name}}</option>
+              </select>	
+              <input *ngIf="retrieve" class="form-control"   type="text" name="PCK_WH" [(ngModel)]="invoice.PCK_WH"  readonly/>
+            </div>
+        </div>
+        <!-- <div class="form-group row">	
+          <div class="col-sm-1 ">
+              <label for="JDate" class="col-form-label text-right"> Month</label>
+          </div>
+              <div class="col-sm-3">
+                <select *ngIf="!retrieve" class="custom-select form-control" id ="month" required name="month" class="form-control" [(ngModel)]="invoice.month">
+                  <option value="01/01/2019" >January</option>
+                  <option value="02/01/2019" >February</option>
+                  <option value="03/01/2019" >March</option>
+                  <option value="04/01/2019" >April</option>
+                  <option value="05/01/2019" >May</option>
+                  <option value="06/01/2019">June</option>
+                  <option value="07/01/2019" >July</option>
+                  <option value="08/01/2019" >August</option>
+                  <option value="09/01/2019" >September</option>
+                  <option value="10/01/2019" >October</option>
+                  <option value="11/01/2019">November</option>
+                  <option value="12/01/2019">December</option>
+              </select>	
+          </div>
+        </div> -->
+     
+
+
+        <table class = "table mt-4">
+            <thead class = "thead-light">
+              <tr>
+                <th scope="col">Category</th>
+                <th scope="col">Name</th>
+                <th  scope="col">Unit</th>
+                <th scope="col">Actual QTY</th>
+                <th scope="col">Physical Qty</th>
+                <th scope="col">Remark</th>
+                <th scope="col">Add</th>
+                </tr>
+              </thead>
+              <tr>
+                  <td>
+                  
+                    <select class = "custom-select" id ="itemTyp" name="itemTyp" class="form-control"  [(ngModel)]="product" (change)="particular.IM_TYP=product;getProductName(product)" #itemTyp="ngModel" required >
+                      <option value="">Please Select</option>	
+                      <option [ngValue]="product" *ngFor="let product of finalresult">{{product}}</option>
+                    </select>
+
+                  </td>
+            
+                <td style="width:300px">
+                
+                  <!-- <select class = "custom-select" [ngClass]="{'is-invalid' : itemName.touched && itemName.invalid, 'is-valid' : itemName.touched && itemName.valid }" id ="itemName" name="itemName" class="form-control" (change)="particular.IM_ID=selectedProduct.IM_ID;particular.IM_NM=selectedProduct.IM_NM;getUnit(selectedProduct);" #focusText [(ngModel)]="selectedProduct" #itemName="ngModel" required >
+                    <option [ngValue]="product" *ngFor="let product of productName,let i=index">{{product.IM_NM}}</option>
+                  </select> -->
+                  <select size="1" #focusText    class="selectpicker custom-select form-control"  data-live-search="true" (change)="getItemDetails()"  placeholder="select Party" required  >
+                    <option disabled value="">SELECT ITEM</option>
+                    <option [value]="product.IM_ID"  *ngFor="let product of productName,let i=index">{{product.IM_NM}}</option>
+                  </select>
+                  <!-- <div  [ngClass]="itemName.touched && itemName.invalid ? 'invalid-feedback' : 'valid-feedback'" *ngIf="itemName.touched && itemName.invalid">
+                    <span *ngIf="itemName.errors.required">Particular name </span>
+                  </div> -->
+                </td>
+        
+        
+                <td style="width:100px">
+                  <input type="text"  id ="unit" name="unit" class="form-control" [(ngModel)]="particular.unit" #unit="ngModel" readonly />	
+                </td>
+
+                <td style="width:100px">
+                    <input type="text"  id ="aqty" name="aqty" class="form-control" [(ngModel)]="particular.aqty" readonly />
+                    
+                  </td>
+              
+                <td style="width:150px">
+                  <input type="number" pattern="[0-9.\s]+" [ngClass]="{'is-invalid' : quantity.touched && quantity.invalid, 'is-valid' : quantity.touched && quantity.valid }" id ="quantity" name="quantity" class="form-control" [(ngModel)]="particular.quantity"   #quantity="ngModel" required />
+                  <div   [hidden]="quantity.valid" class="alert alert-danger">Please Enter Number Only</div>	
+                </td>
+                <td>
+                  <input type="text"  id ="rmk" name="rmk" class="form-control" [(ngModel)]="particular.rmk" #rmk="ngModel" />
+                </td>
+                <td>
+                  <button  type="button" class="btn btn-info" (click) = addParticular(particular)>+</button>
+                
+                </td>
+              </tr>
+          </table>
+         
+          <table class = "table">
+            <thead class = "thead-light">
+              <tr>
+                <th scope="col">Sr. No.</th>
+                <th scope="col">Particular</th>
+                <th scope="col">Unit</th>
+                <th scope="col">Actual QTY</th>
+                <th scope="col">Physical QTY</th>
+                <th scope="col">Differnece</th>
+                <th scope="col">Manage</th>
+                </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of invoice.RecQtyList; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ item.IM_NM }}</td>
+                <td>{{ item.unit }}</td>
+                <td>{{ item.aqty}}</td>
+                <td>{{item.quantity}}</td>
+                <td *ngIf="!retrieve">{{ item.quantity -item.aqty}} </td>
+                <td *ngIf="retrieve">{{ item.dqty }}</td>
+                <td><i (click)="removeParticular(i)" class = "fas fa-times"></i></td>
+                </tr>
+              <!-- <tr style="font-weight:bold;color:red">
+                <td><span>TOTAL Qty</span></td>
+                <td >{{invoice.totalQty}}<span></span></td>
+              </tr> -->
+            </table>
+    <button *ngIf="!retrieve" class="btn btn-primary mt-3">Submit</button>
+    <button *ngIf="retrieve" class="btn btn-primary mt-3" type="button" (click)="delete()" >Delete</button>
+		<button *ngIf="!retrieve" type="button" (click)="reset()" class="btn btn-primary mt-3">Reset</button>  
+</form>
+</div>

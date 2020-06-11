@@ -1,0 +1,128 @@
+<h3 class="page-header pt-4 pb-2 border-bottom ">Dyeing Production Report</h3>
+<p></p>
+
+
+<div class="row">
+	<div class = "col-sm-1 input-group">
+		<label for="GR_Date" class="col-form-label text-right">From </label>
+		</div>
+		<div class = "col-sm-3 input-group">
+			<input class="form-control" type="date" id="GR_Fdat" name="GR_Fdat"  [(ngModel)]="invoice.GR_Fdat" ngbDatepicker #d="ngbDatepicker" required />
+			<div class="input-group-append">
+				<button class="btn btn-outline-secondary" (click)="d.toggle()" type="button"><i class = "fas fa-calendar-alt"></i></button>
+			</div>
+	</div>
+
+	<div class = "col-sm-1 input-group">
+		<label for="GR_Date" class="col-form-label text-right">TO </label>
+		</div>
+		<div class = "col-sm-3 input-group">
+			<input class="form-control" type="date" id="GR_Tdat" name="GR_Tdat"  [(ngModel)]="invoice.GR_Tdat"  ngbDatepicker #d1="ngbDatepicker" required />
+			<div class="input-group-append">
+				<button class="btn btn-outline-secondary" (click)="d1.toggle()" type="button"><i class = "fas fa-calendar-alt"></i></button>
+			</div>
+	</div>
+	<div class="col-sm-3"><button class="btn btn-info" (click)="getdata(invoice)">Show</button> </div>
+</div>
+
+
+<div class="content table-responsive table-full-width mt-4">
+	<table id="dattab" class="table tablefixed table-bordered table-sm">
+		<thead class = "thead-light">
+			<tr>
+				<th>Sr. No.</th>
+        <th>DATE</th>
+        <th>BATCH</th>
+        <th>SHADE</th>
+        <th>QUALITY</th>
+				<th>PARTY</th>
+				<th>PROCESS</th>
+				<th>Total PCS</th>
+				<th>Total MTR</th>
+			</tr>
+			<tr>
+				<td></td>
+				
+        <td><input class="form-control" type="text" name="search1" [(ngModel)]="serDat" (input)="chanDat(serDat)"> </td>
+        <td><input class="form-control" type="text" name="search1" [(ngModel)]="serBatch"> </td>
+        <td><input class="form-control" type="text" name="search1" [(ngModel)]="serShade"> </td>
+        <td><input class="form-control" type="text" name="search1" [(ngModel)]="serqual"> </td>
+				<td><input class="form-control" type="text" name="search1" [(ngModel)]="sersupp" > </td>
+				<td><input class="form-control" type="text" name="search1" [(ngModel)]="serProc"> </td>
+		
+				<td><input class="form-control" type="text" name="search1" [(ngModel)]="serqty"> </td>
+				<td><input class="form-control" type="text" name="search1" [(ngModel)]="serTMTR"> </td>
+			
+			</tr>
+			</thead>
+			<tbody>
+			<tr *ngFor="let product of greyRecive | filter: {dat: serDat} | filter: {JBC_JBatch: serBatch} | filter: {shade: serShade} | filter: {GR_Quality: serqual} | filter: {party: sersupp} | filter: {procss: serProc} | filter: {pcs: serqty} | filter: {mtr: serTMTR}   | paginate: { itemsPerPage: 20, currentPage: p } ; let i = index">
+				<td>{{ i + 1 }}</td>
+				<td>{{ product.dat  }}</td>
+				<td>{{ product.JBC_JBatch }}</td>
+				<td>{{ product.shade }}</td>
+				<td>{{ product.GR_Quality }}</td>
+				<td>{{ product.party }}</td>
+				<td>{{ product.procss  }}</td>
+				<td>{{product.pcs | number:'0.2'}}</td>
+        		<td>{{product.mtr | number:'0.2'}}</td>
+			</tr>
+	
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+        		<td></td>
+        		<td></td>
+				<td></td>
+				<td></td>
+        		<td></td>
+        		<td></td>
+			
+			</tr>
+			<tr class="blank_row">  <td colspan="8"></td></tr>
+		
+			<tr>
+				<td><span style="font-weight: bold">Total</span></td>
+				<td><span style="font-weight: bold">TD(PCS)</span></td>
+				<td><span style="font-weight: bold">TD(MTR)</span></td>
+				<td><span style="font-weight: bold">PD(PCS)</span></td>
+				<td><span style="font-weight: bold">PD(MTR)</span></td>
+				<td><span style="font-weight: bold">RF(PCS)</span></td>
+				<td><span style="font-weight: bold">RF(MTR)</span></td>
+				<td><span style="font-weight: bold;color:red">TOTAL(PCS)</span></td>
+				<td><span style="font-weight: bold;color:red">TOTAL(MTR)</span></td>
+			</tr>
+			<tr>
+					<td><span style="font-weight: bold"> TODAY {{today}}</span></td>
+					
+				
+					<td><span style="font-weight: bold">{{ greyRecive | filter: {dat: today} | filter: {JBC_JBatch: serBatch} | filter: {shade: serShade} | filter: {GR_Quality: serqual} | filter: {party: sersupp} | filter: {procss: serProc} | filter: {pcs: serqty} | filter: {mtr: serTMTR}  | filter: {GR_Process:'TD' }   | sumpipe:'pcs'  | number:'0.2'}}</span></td>
+					<td><span style="font-weight: bold">{{ greyRecive | filter: {dat: today} | filter: {JBC_JBatch: serBatch} | filter: {shade: serShade} | filter: {GR_Quality: serqual} | filter: {party: sersupp} | filter: {procss: serProc} | filter: {pcs: serqty} | filter: {mtr: serTMTR}  | filter: {GR_Process:'TD' }   | sumpipe:'mtr' | number:'0.2' }}</span></td>
+					<td><span style="font-weight: bold">{{ greyRecive | filter: {dat: today} | filter: {JBC_JBatch: serBatch} | filter: {shade: serShade} | filter: {GR_Quality: serqual} | filter: {party: sersupp} | filter: {procss: serProc} | filter: {pcs: serqty} | filter: {mtr: serTMTR}  | filter: {GR_Process:'PD' }   | sumpipe:'pcs' | number:'0.2' }}</span></td>
+					<td><span style="font-weight: bold">{{ greyRecive | filter: {dat: today} | filter: {JBC_JBatch: serBatch} | filter: {shade: serShade} | filter: {GR_Quality: serqual} | filter: {party: sersupp} | filter: {procss: serProc} | filter: {pcs: serqty} | filter: {mtr: serTMTR}  | filter: {GR_Process:'PD' }    | sumpipe:'mtr' | number:'0.2' }}</span></td>
+					<td><span style="font-weight: bold">{{ greyRecive | filter: {dat: today} | filter: {JBC_JBatch: serBatch} | filter: {shade: serShade} | filter: {GR_Quality: serqual} | filter: {party: sersupp} | filter: {procss: serProc} | filter: {pcs: serqty} | filter: {mtr: serTMTR}  | filter: {GR_Process:'RF' }   | sumpipe:'pcs' | number:'0.2' }}</span></td>
+					<td><span style="font-weight: bold">{{ greyRecive | filter: {dat: today} | filter: {JBC_JBatch: serBatch} | filter: {shade: serShade} | filter: {GR_Quality: serqual} | filter: {party: sersupp} | filter: {procss: serProc} | filter: {pcs: serqty} | filter: {mtr: serTMTR}  | filter: {GR_Process:'RF' }  | sumpipe:'mtr' | number:'0.2' }}</span></td>
+					<td><span style="font-weight: bold;color:red">{{ greyRecive | filter: {dat: today} | filter: {JBC_JBatch: serBatch} | filter: {shade: serShade} | filter: {GR_Quality: serqual} | filter: {party: sersupp} | filter: {procss: serProc} | filter: {pcs: serqty} | filter: {mtr: serTMTR}  |  sumpipe:'pcs' | number:'0.2' }}</span></td>
+					<td><span style="font-weight: bold;color:red">{{ greyRecive | filter: {dat: today} | filter: {JBC_JBatch: serBatch} | filter: {shade: serShade} | filter: {GR_Quality: serqual} | filter: {party: sersupp} | filter: {procss: serProc} | filter: {pcs: serqty} | filter: {mtr: serTMTR}    | sumpipe:'mtr' | number:'0.2' }}</span></td>
+				</tr>
+			<tr>
+					<td><span style="font-weight: bold">UP TO DATE</span></td>
+					<td><span style="font-weight: bold">{{ greyRecive  | filter: {JBC_JBatch: serBatch} | filter: {shade: serShade} | filter: {GR_Quality: serqual} | filter: {party: sersupp} | filter: {procss: serProc} | filter: {pcs: serqty} | filter: {mtr: serTMTR}  | filter: {GR_Process:'TD' }   | sumpipe:'pcs' | number:'0.2' }}</span></td>
+					<td><span style="font-weight: bold">{{ greyRecive  | filter: {JBC_JBatch: serBatch} | filter: {shade: serShade} | filter: {GR_Quality: serqual} | filter: {party: sersupp} | filter: {procss: serProc} | filter: {pcs: serqty} | filter: {mtr: serTMTR}  | filter: {GR_Process:'TD' }   | sumpipe:'mtr' | number:'0.2' }}</span></td>
+					<td><span style="font-weight: bold">{{ greyRecive  | filter: {JBC_JBatch: serBatch} | filter: {shade: serShade} | filter: {GR_Quality: serqual} | filter: {party: sersupp} | filter: {procss: serProc} | filter: {pcs: serqty} | filter: {mtr: serTMTR}  | filter: {GR_Process:'PD' }   | sumpipe:'pcs' | number:'0.2' }}</span></td>
+					<td><span style="font-weight: bold">{{ greyRecive | filter: {JBC_JBatch: serBatch} | filter: {shade: serShade} | filter: {GR_Quality: serqual} | filter: {party: sersupp} | filter: {procss: serProc} | filter: {pcs: serqty} | filter: {mtr: serTMTR}  | filter: {GR_Process:'PD' }    | sumpipe:'mtr' | number:'0.2' }}</span></td>
+					<td><span style="font-weight: bold">{{ greyRecive | filter: {JBC_JBatch: serBatch} | filter: {shade: serShade} | filter: {GR_Quality: serqual} | filter: {party: sersupp} | filter: {procss: serProc} | filter: {pcs: serqty} | filter: {mtr: serTMTR}  | filter: {GR_Process:'RF' }   | sumpipe:'pcs' | number:'0.2' }}</span></td>
+					<td><span style="font-weight: bold">{{ greyRecive  | filter: {JBC_JBatch: serBatch} | filter: {shade: serShade} | filter: {GR_Quality: serqual} | filter: {party: sersupp} | filter: {procss: serProc} | filter: {pcs: serqty} | filter: {mtr: serTMTR}  | filter: {GR_Process:'RF' }  | sumpipe:'mtr' | number:'0.2' }}</span></td>
+					<td><span style="font-weight: bold;color:red">{{ greyRecive  | filter: {JBC_JBatch: serBatch} | filter: {shade: serShade} | filter: {GR_Quality: serqual} | filter: {party: sersupp} | filter: {procss: serProc} | filter: {pcs: serqty} | filter: {mtr: serTMTR}  |  sumpipe:'pcs' | number:'0.2' }}</span></td>
+					<td><span style="font-weight: bold;color:red">{{ greyRecive  | filter: {JBC_JBatch: serBatch} | filter: {shade: serShade} | filter: {GR_Quality: serqual} | filter: {party: sersupp} | filter: {procss: serProc} | filter: {pcs: serqty} | filter: {mtr: serTMTR}    | sumpipe:'mtr' | number:'0.2' }}</span></td>
+			</tr> 
+		</tbody>
+	</table>
+	<pagination-controls *ngIf="greyRecive.length>0" (pageChange)="p = $event"></pagination-controls>
+</div>
+
+
+
+<button *ngIf="greyRecive.length>0" class="btn btn-info" (click)="export()">Export Pdf</button>
+<!-- <button class="btn btn-info" (click)="exportExcel()">Export Excel</button> -->

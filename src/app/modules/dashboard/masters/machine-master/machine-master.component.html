@@ -1,0 +1,87 @@
+<h2 class="page-header pt-4 pb-2 border-bottom">Machine Detail</h2>
+<ngb-alert type="danger" *ngIf="ds.invalidForm" (close)="ds.invalidForm = false">
+		{{ ds.errorMessage }}
+	</ngb-alert>
+	
+	<ngb-alert type="success" *ngIf="ds.formSubmitted" (close)="ds.formSubmitted = false">
+	{{ ds.submittedMessage }}
+	</ngb-alert>
+<div *ngIf="!ds.formSubmitted" class="border p-2 pt-4">
+<form class="needs-validation" *ngIf="!ds.formSubmitted" #addProductForm="ngForm"  (ngSubmit)="save(addProductForm,addmachine)" >
+		
+  <div class="form-group row">
+  
+    <label for="machineName" class="col-sm-1 col-form-label text-right"> Name </label>
+        <div class="col-sm-4">
+            <input type="text" #name="ngModel"    id="machineName" name="machineName" class="form-control " placeholder="Name"  [(ngModel)]="addmachine.Machine_name" [ngbTypeahead]="search" required />
+            <div  class="col-sm-5" [hidden]="name.valid|| (name.pristine && name.untouched)" class="alert alert-danger">Please Enter name</div> 
+      </div>
+
+      <label for="sNo" class="col-sm-2 col-form-label text-right"> Serial No. </label>
+        <div class="col-sm-2">
+              <input type="text" #SNo="ngModel"    id="SNo" name="SNo" class="form-control " placeholder="SrNo"  [(ngModel)]="addmachine.Machine_srNo"  required />
+             <div  class="col-sm-5" [hidden]="SNo.valid|| (SNo.pristine && SNo.untouched)" class="alert alert-danger">Please Enter name</div> 
+      </div>
+
+      <label for="status" class="col-sm-1 col-form-label text-right">Status </label>
+      <div class="col-sm-2">
+        <select id ="Staus" #cate="ngModel" name="Staus" class="form-control"  placeholder="Selct Staus"  [(ngModel)]="addmachine.status1">
+          <option value="Active" selected>Active</option>
+          <option value="In-Active" >In-Active</option>
+        </select>
+        
+      </div>
+  </div>
+
+  <div class="form-group row">
+          
+          <label for="PDate" class="col-sm-2 col-form-label ">Pur. Date</label>
+          <div class="col-sm-3 input-group">
+					<input class="form-control" type="date"  id="PDate" name="PDate"  [(ngModel)]="addmachine.Machine_PDate"  ngbDatepicker #d2="ngbDatepicker" required />
+						<div class="input-group-append">
+							  <button class="btn btn-outline-secondary" (click)="d2.toggle()" type="button"><i class = "fas fa-calendar-alt"></i></button>
+            </div>
+          </div>
+
+
+
+      <label for="mtype" class="col-sm-2 col-form-label "> Machine Type </label>
+           <div class="col-sm-4">
+              <input type="text" #mtyp="ngModel"    id="mtyp" name="mtyp" class="form-control " placeholder="Machine Type"  [(ngModel)]="addmachine.Machine_Mtyp"  required />
+             <div  class="col-sm-5" [hidden]="mtyp.valid|| (mtyp.pristine && mtyp.untouched)" class="alert alert-danger">Please Enter name</div> 
+        </div>
+    </div>
+        
+            <button  class="btn btn-success ml-auto mr-auto">{{ update == false ? 'SAVE' : 'UPDATE' }}</button>
+            <button type="reset" class="btn btn-primary">Clear</button>
+ 
+    </form>
+
+    <button type="button" class="btn btn-info" (click)="getAllmachine()">Show List</button>
+    <table *ngIf="show" class="table table-bordered mt-4">
+        <thead class = "thead-dark">
+          <tr>
+            <th>Sr. No.</th>
+            <th>NAME</th>
+            <th>SRNO</th>
+            <th>Purchase Date</th>
+            <th>TYPE</th>
+            <th>STATUS</th>
+            <th>MANAGE</th>
+          </tr>
+          <tr *ngFor = "let cat of Allmachine, let i=index">
+            <td>{{ i + 1}}</td>
+            <td>{{ cat.Machine_name }}</td>
+            <td>{{ cat.Machine_srNo }}</td>
+            <td>{{ cat.Machine_PDate  | date  }}</td>
+            <td>{{ cat.Machine_Mtyp }}</td>
+            <td>{{ cat.status1 }}</td>
+            
+            <td>
+              <a><button class="btn btn-primary" (click)="edit(cat)" ><i class="fas fa-pencil-alt" aria-hidden="true"></i></button> </a> 
+    
+              <a> <button class="btn btn-danger" (click)="chanestatus(cat.id)"> <i class="fas fa-print" aria-hidden="true" ></i> </button>	</a>	
+            </td>
+        </tr>
+        </thead>
+      </table>

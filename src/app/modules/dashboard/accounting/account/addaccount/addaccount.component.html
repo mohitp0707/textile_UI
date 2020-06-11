@@ -1,0 +1,109 @@
+
+	<h2 class="page-header pt-4 pb-2 border-bottom">Add Account</h2>
+	<!-- <div *ngIf="invalidForm" class="alert alert-danger" role="alert">
+		Please fill out all fields.
+	</div> -->
+	
+	<ngb-alert type="danger" *ngIf="ds.invalidForm" (close)="ds.invalidForm = false">
+		{{ds.errorMessage }}
+	</ngb-alert>
+	
+	<ngb-alert type="success" *ngIf="ds.formSubmitted" (close)="ds.formSubmitted = false">
+		{{ ds.submittedMessage }}
+	</ngb-alert>
+	
+	<div *ngIf="!ds.formSubmitted" class="border p-2 pt-4">
+		<form class="needs-validation" method="post" #addAccountForm="ngForm"  (ngSubmit)="submitForm(addAccountForm,account)">
+			<div class="form-group row">
+				<label for="category" class="col-sm-2 col-form-label text-right">Category </label>
+				<div class="col-sm-9">
+					<select class="custom-select" [ngClass]="{'is-invalid' : category.touched && category.invalid, 'is-valid' : category.touched && category.valid }" id ="category" name="category" class="form-control" [(ngModel)]="account.category" #category="ngModel" placeholder="Category" required (change)="getAccountType(account.category)">
+						<option value="" selected>Select Category</option>
+						<option [value]="item.value" *ngFor="let item of config.category">{{item.name}}</option>
+						
+					</select>
+					<small class="invalid-feedback" *ngIf="category.touched && category.invalid">
+						<span *ngIf="category.errors.required">Category required</span>
+					</small>
+				</div>
+			</div>
+						
+			<div class="form-group row">
+				<label for="type" class="col-sm-2 col-form-label text-right">Type </label>
+				<div class="col-sm-9">
+					<select class="custom-select" [ngClass]="{'is-invalid' : type.touched && type.invalid, 'is-valid' : type.touched && type.valid }" id ="type" name="type" class="form-control" [(ngModel)]="account.type" #type="ngModel" placeholder="Type" required (change)="getAccountType(account.type)">
+						<option value="" selected>Select Type</option>
+						<option [value]="item.value" *ngFor="let item of accountTypes">{{item.name}}</option>
+						
+					</select>
+				
+					<small class="invalid-feedback" *ngIf="type.touched && type.invalid">
+						<span *ngIf="type.errors.required">Type required</span>
+					</small>
+				</div>
+			</div>
+			
+			<div class="form-group row">
+				<label for="accountNo" class="col-sm-2 col-form-label text-right">Account Number</label>
+				<div class="col-sm-9">
+					<input type="text" [ngClass]="{'is-invalid':accountNo.touched && accountNo.invalid, 'is-valid':accountNo.touched && accountNo.valid }" id="accountNo" name="accountNo" class="form-control" [(ngModel)]="account.accountNo" #accountNo="ngModel" pattern = "[0-9]" placeholder="Account Number" required />
+					<small class="invalid-feedback" *ngIf="accountNo.touched && accountNo.invalid">
+						<span *ngIf="accountNo.errors.required">Account Number required</span>
+						<span *ngIf="accountNo.errors.required">Account Number not valid</span>
+					</small>
+				</div>
+			</div>
+			
+			<div class="form-group row">
+				<label for="accountName" class="col-sm-2 col-form-label text-right">Account Name </label>
+				<div class="col-sm-9">
+					<input type="text" [ngClass]="{'is-invalid':accountName.touched && accountName.invalid, 'is-valid':accountName.touched && accountName.valid }" id="accountName" name="accountName" class="form-control" pattern="[A-Za-z\s]+" [(ngModel)]="account.accountName" #accountName="ngModel" placeholder="Account Name" required />
+				</div>
+				<small class="invalid-feedback" *ngIf="accountName.touched && accountName.invalid">
+					<span *ngIf="accountName.errors.required">Account Name required</span>
+					<span *ngIf="accountName.errors.pattern">Invalid Account Name</span>
+				</small>
+			</div>
+			
+			<div class="form-group row">
+				<label for = "openingBalance" class="col-sm-2 col-form-label text-right">Opening Balance</label>
+				<div class="col-sm-9">
+					<input type="text" [ngClass]="{'is-invalid':openingBalance.touched && openingBalance.invalid, 'is-valid':openingBalance.touched && openingBalance.valid }" id = "openingBalance" name="openingBalance" class="form-control"  [(ngModel)]="account.openingBalance" pattern = "^-?[0-9]+(\.[0-9]{1,3})?$" #openingBalance="ngModel" placeholder="Opening Balance" required />
+					<small class="form-text text-muted">In Rs.</small>
+				</div>
+				<small class="invalid-feedback" *ngIf="openingBalance.touched && openingBalance.invalid">
+					<span *ngIf="openingBalance.errors.required">Opening Balance is required!</span>
+					<span *ngIf="openingBalance.errors.pattern">Opening Balance not valid!</span>
+				</small>
+			</div>
+			
+			<div class="form-group row">
+			<label for = "description" class="col-sm-2 col-form-label text-right">Description </label>
+				<div class="col-sm-9">
+					<textarea type="text" [ngClass]="{'is-invalid':description.touched && description.invalid, 'is-valid':description.touched && description.valid }" rows = "4" maxlength = "256" id="description" name="description"  class="form-control" [(ngModel)]="account.description" #description="ngModel" placeholder="Description" required></textarea>
+				</div>
+				<small class="invalid-feedback" *ngIf="description.touched && description.invalid">
+					<span *ngIf="description.errors.required">Description is required!</span>
+				</small>
+			</div>
+			
+			<div class="form-group row">
+			<label for = "accountDate" class="col-sm-2 col-form-label text-right">Account Date </label>
+				<div class="col-sm-9 input-group">
+					<input type="date" [ngClass]="accountDate.touched && accountDate.invalid ? 'is-invalid' : 'is-valid'" id="accountDate" name="accountDate"  class="form-control" [(ngModel)]="account.accountDate" #accountDate="ngModel" ngbDatepicker #d1="ngbDatepicker" required />
+					<div class="input-group-append">
+						<button class="btn btn-outline-secondary" (click)="d1.toggle()" type="button"><i class = "fa fa-calendar-alt"></i>
+						</button>
+					</div>
+					<small class="invalid-feedback" *ngIf="accountDate.touched && accountDate.invalid">
+					<span *ngIf="accountDate.errors.required">Account Date is required!</span>
+					</small>			
+				</div>
+			</div>			
+			
+			
+		
+			
+			<button class="btn ml-auto mr-auto">Submit</button>
+	</form>
+</div>

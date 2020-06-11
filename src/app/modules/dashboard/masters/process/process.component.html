@@ -1,0 +1,148 @@
+
+  <h2 class="page-header pt-4 pb-2 border-bottom">PROCESS</h2>
+  <div class="container">
+    <form class="needs-validation" method="post" #addPartyForm="ngForm"  (ngSubmit)="submitForm(addPartyForm,proc)">
+      <div class="form-group row">
+          <div class="col-md-4">
+              <h5 class="page-header pt-4 pb-2 border-bottom">PROCESS NAME</h5>
+            <div class="row">
+              <div class="col-md-10">
+                 <input id="name" name="Proc_name"   type="text"  class="form-control"    [(ngModel)]="proc.Proc_name" required>
+               </div>
+               <div class="col-md-2">
+                  <button type="button" (click)="addprocname()" class="btn btn-info">+</button>
+               </div>
+          </div>
+			      <table *ngIf="procename" class = "table">
+				        <thead class = "thead-light">
+					      <tr>
+						      <th scope="col">Sr. No.</th>
+                  <th scope="col">Name</th>
+						    </tr>
+				    </thead>
+					<tr *ngFor="let item of procnamea; let i = index">
+						  <td>{{ i + 1 }}</td>
+              <td>{{ item.Proc_name }}</td>
+              <td><i (click)="removprocname(i)" class = "fas fa-times"></i></td>
+					</tr>
+          </table>
+          <button *ngIf="procename" type="button" (click)="saveprocname()" class="btn btn-info mt-3">SAVE</button>
+
+          <h5 mt-4 class="page-header pt-4 pb-2 border-bottom">SAVE DATA</h5>
+          <table  class = "table">
+              <thead class = "thead-light">
+                <tr>
+                  <th scope="col">Sr. No.</th>
+                  <th scope="col">Name</th>
+                  <th scope="col">STATUS</th>
+                </tr>
+              </thead>
+                <tr *ngFor="let item of procNameRet; let i = index">
+                  <td>{{ i + 1 }}</td>
+                  <td *ngIf="editable!=i">{{ item.name }}</td>
+                  <td *ngIf="editable==i"><input type="text" class="form-control" name="name" [(ngModel)]="item.name"></td>
+                  <td *ngIf="item.status1==1"><i  (click)="updateSatusprocname(item)" class="fas fa-check"></i></td>
+                  <td *ngIf="item.status1==0"><i  (click)="updateSatusprocname(item)" class="fas fa-ban"></i></td>
+                  <td *ngIf="editable!=i"><i (click)="editprocname(i)" class = "fas fa-pencil-alt"></i></td>
+                  <td *ngIf="editable==i"><i (click)="saveeditprocname(item)" class = "fas fa-save"></i></td>
+                  
+                </tr>
+          </table> 
+
+        </div>
+    <div class="col-md-4">
+              <h5 class="page-header pt-4 pb-2 border-bottom">TYPE (COST EFFECTIVE)</h5>
+              <div class="row">
+                  <div class="col-md-10">
+                     <input id="name" name="Proc_name"   type="text"  class="form-control"    [(ngModel)]="proc.Proc_typ" required>
+                   </div>
+                   <div class="col-md-2">
+                      <button type="button" (click)="addproctyp()" class="btn btn-info">+</button>
+                   </div>
+              </div>
+              <table *ngIf="proctyp" class = "table">
+                  <thead class = "thead-light">
+                    <tr>
+                      <th scope="col">Sr. No.</th>
+                      <th scope="col">Name</th>
+                    </tr>
+                  </thead>
+              <tr *ngFor="let item of proctypa; let i = index">
+                   <td>{{ i + 1 }}</td>
+                  <td>{{ item.Proc_typ }}</td>
+                  <td><i (click)="removproctyp(i)" class = "fas fa-pencil-alt"></i></td>
+              </tr>
+              </table>
+              <button *ngIf="proctyp" type="button" (click)="saveproctyp()" class="btn btn-info mt-3">SAVE</button>
+
+              <h5 mt-4 class="page-header pt-4 pb-2 border-bottom">SAVE DATA</h5>
+              <table  class = "table">
+                  <thead class = "thead-light">
+                    <tr>
+                      <th scope="col">Sr. No.</th>
+                      <th scope="col"> Name</th>
+                      <th scope="col"> STATUS</th>
+                    </tr>
+                  </thead>
+                    <tr *ngFor="let item of procTypRet; let i = index">
+                        <td>{{ i + 1 }}</td>
+                        <td *ngIf="editable1!=i">{{ item.name }}</td>
+                        <td *ngIf="editable1==i"><input type="text" class="form-control" name="name" [(ngModel)]="item.name"></td>
+                        <td *ngIf="item.status1==1"><i  (click)="updatStatuscostEffect(item)" class="fas fa-check"></i></td>
+                        <td *ngIf="item.status1==0"><i  (click)="updatStatuscostEffect(item)" class="fas fa-ban"></i></td>
+                        <td *ngIf="editable1!=i"><i (click)="editproctyp(i)" class = "fas fa-pencil-alt"></i></td>
+                        <td *ngIf="editable1==i"><i (click)="saveditproctyp(item)" class = "fas fa-save"></i></td>
+                    </tr>
+              </table> 
+      </div>
+          <div class="col-md-4">
+              <h5 class="page-header pt-4 pb-2 border-bottom">TYPE(FIXED COST)</h5>
+              <div class="row">
+                  <div class="col-md-10">
+                     <input id="name" name="Proc_name"   type="text"  class="form-control"    [(ngModel)]="proc.Proc_wocost" required>
+                   </div>
+                   <div class="col-md-2">
+                      <button type="button" (click)="addproccostfree()" class="btn btn-info">+</button>
+                   </div>
+              </div>  
+          <table *ngIf="costfreeproc" class = "table">
+                <thead class = "thead-light">
+                  <tr>
+                    <th scope="col">Sr. No.</th>
+                    <th scope="col">Name</th>
+                   
+                  </tr>
+                </thead>
+                  <tr *ngFor="let item of costfreeproca; let i = index">
+                    <td>{{ i + 1 }}</td>
+                    <td>{{ item.Proc_wocost }}</td>
+                    <td><i (click)="removcostfree(i)" class = "fas fa-pencil-alt"></i></td>
+                  </tr>
+          </table> 
+          <button *ngIf="costfreeproc" type="button" (click)="saveprowocost()" class="btn btn-info mt-3">SAVE</button>
+         
+          <h5 mt-4 class="page-header pt-4 pb-2 border-bottom">SAVE DATA</h5>
+          <table  class = "table">
+              <thead class = "thead-light">
+                <tr>
+                  <th scope="col">Sr. No.</th>
+                  <th scope="col"> Name</th>
+                  <th scope="col"> STATUS</th>
+                </tr>
+              </thead>
+                <tr *ngFor="let item of costTypRet; let i = index">
+                    <td>{{ i + 1 }}</td>
+                    <td *ngIf="editable2!=i">{{ item.name }}</td>
+                    <td *ngIf="editable2==i"><input type="text" class="form-control" name="name" [(ngModel)]="item.name"></td>
+                    <td *ngIf="item.status1==1"><i  (click)="updatStatuscostFixed(item)" class="fas fa-check"></i></td>
+                    <td *ngIf="item.status1==0"><i  (click)="updatStatuscostFixed(item)" class="fas fa-ban"></i></td>
+                    <td *ngIf="editable2!=i"><i (click)="editcostfreeproc(i)" class = "fas fa-pencil-alt"></i></td>
+                    <td *ngIf="editable2==i"><i (click)="savcostfproc(item)" class = "fas fa-save"></i></td>
+                </tr>
+          </table> 
+
+          </div>
+      </div>
+        </form>
+      </div>
+     

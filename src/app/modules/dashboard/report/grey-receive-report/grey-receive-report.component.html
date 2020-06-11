@@ -1,0 +1,124 @@
+<h3 class="page-header pt-4 pb-2 border-bottom ">Grey Recieve Report</h3>
+<p></p>
+
+
+<div class="row">
+	<div class = "col-sm-1 input-group">
+		<label for="GR_Date" class="col-form-label text-right">From </label>
+		</div>
+		<div class = "col-sm-3 input-group">
+			<input class="form-control" type="date" id="GR_Fdat" name="GR_Fdat"  [(ngModel)]="invoice.GR_Fdat" ngbDatepicker #d="ngbDatepicker" required />
+			<div class="input-group-append">
+				<button class="btn btn-outline-secondary" (click)="d.toggle()" type="button"><i class = "fas fa-calendar-alt"></i></button>
+			</div>
+	</div>
+
+	<div class = "col-sm-1 input-group">
+		<label for="GR_Date" class="col-form-label text-right">TO </label>
+		</div>
+		<div class = "col-sm-3 input-group">
+			<input class="form-control" type="date" id="GR_Tdat" name="GR_Tdat"  [(ngModel)]="invoice.GR_Tdat"  ngbDatepicker #d1="ngbDatepicker" required />
+			<div class="input-group-append">
+				<button class="btn btn-outline-secondary" (click)="d1.toggle()" type="button"><i class = "fas fa-calendar-alt"></i></button>
+			</div>
+	</div>
+	<div class="col-sm-3"><button class="btn btn-info" (click)="getdata(invoice)">Show</button> </div>
+</div>
+
+<div class="content table-responsive table-full-width mt-5">
+	<table id="dattab" class="table tablefixed table-bordered table-sm">
+		<thead class = "thead-light">
+			<tr>
+				<th style="width: 50px;">Sr. No.</th>
+				<th>DATE</th>
+				<th style="width: 200px;">PARTY</th>
+				<th style="width: 100px;">CHALLAN No</th>
+				<th>Vehicle No</th>
+				<th>Lot No</th>
+				<th style="width: 100px;">Total PCS</th>
+				<th>Total MTR</th>
+				<th>GODOWN</th>
+			</tr>
+			<tr>
+				<td style="width: 50px;"></td>
+				
+				<td><input class="form-control" type="text" name="search1" [(ngModel)]="serDat" (input)="chanDat(serDat)"> </td>
+				<td style="width: 200px;"><input class="form-control" type="text" name="search1" [(ngModel)]="sersupp" > </td>
+				<td style="width: 100px;"><input class="form-control" type="text" name="search1" [(ngModel)]="serChal"> </td>
+				<td><input class="form-control" type="text" name="search1" [(ngModel)]="servehicle"> </td>
+				<td><input class="form-control" type="text" name="search1" [(ngModel)]="serBatch"> </td>
+				<td style="width: 100px;"><input class="form-control" type="text" name="search1" [(ngModel)]="serqty"> </td>
+				<td><input class="form-control" type="text" name="search1" [(ngModel)]="serTMTR"> </td>
+				<td><input class="form-control" type="text" name="search1" [(ngModel)]="setWH"> </td>
+			</tr>
+			</thead>
+			<tbody>
+				
+			<tr *ngFor="let product of greyRecive | filter: {Supp: sersupp} | filter: {vehicle:servehicle} | filter: {Dat: serDat} | filter: {GR_Batch: serBatch} | filter: {GR_ChallNo: serChal} | filter: {TQTY: serqty} | filter: {TMTR: serTMTR} | filter:{ GR_WH :setWH }   | paginate: { itemsPerPage: 20, currentPage: p } ; let i = index">
+				<td style="width: 50px;">{{ i + 1 }}</td>
+				<td>{{ product.Dat  }}</td>
+				<td style="width: 200px;">{{ product.Supp }}</td>
+				<td style="width: 100px;">{{ product.GR_ChallNo }}</td>
+				<td>{{ product.vehicle }}</td>
+				<td>{{ product.GR_Batch }}</td>
+				<td style="width: 100px;">{{ product.TQTY | number:'0.2' }}</td>
+				<td>{{ product.TMTR | number:'0.2'  }}</td>
+				<td>{{product.GR_WH}}</td>
+
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td><span style="font-weight: bold">Total</span></td>
+				<td><span style="font-weight: bold">{{ greyRecive | filter: {vehicle:servehicle} | filter: {Supp: sersupp} | filter: {Dat: serDat} | filter: {GR_Batch: serBatch} | filter: {GR_ChallNo: serChal} | filter: {TQTY: serqty}  | filter:{ GR_WH :setWH }   | sumpipe:'TQTY' | number:'0.2' }}</span></td>
+				<td><span style="font-weight: bold">{{ greyRecive | filter: {vehicle:servehicle} | filter: {Supp: sersupp} | filter: {Dat: serDat} | filter: {GR_Batch: serBatch} | filter: {GR_ChallNo: serChal} | filter: {TQTY: serqty}  | filter:{ GR_WH :setWH }   | sumpipe:'TMTR' | number:'0.2' }}</span></td>
+				<td></td>
+			</tr>
+		
+			<tr class="blank_row">  <td colspan="8"></td></tr>
+			
+			<tr>
+				<td><span style="font-weight: bold">Total</span></td>
+				<td><span style="font-weight: bold">TD(PCS)</span></td>
+				<td><span style="font-weight: bold">TD(MTR)</span></td>
+				<td><span style="font-weight: bold">PD(PCS)</span></td>
+				<td><span style="font-weight: bold">PD(MTR)</span></td>
+				<td><span style="font-weight: bold">RF(PCS)</span></td>
+				<td><span style="font-weight: bold">RF(MTR)</span></td>
+				<td><span style="font-weight: bold;color:red">TOTAL(PCS)</span></td>
+				<td><span style="font-weight: bold;color:red">TOTAL(MTR)</span></td>
+			</tr>
+			<tr>
+					<td><span style="font-weight: bold"> TODAY {{today}}</span></td>
+					
+				
+					<td><span style="font-weight: bold">{{ greyRecive | filter: {vehicle:servehicle} | filter: {Supp: sersupp} | filter: {Dat: today} | filter: {GR_Batch: serBatch} | filter: {GR_ChallNo: serChal} | filter: {TQTY: serqty} | filter: {GR_PROCESS:'TD' }  | filter:{ GR_WH :setWH }   | sumpipe:'TQTY' | number:'0.2' }}</span></td>
+					<td><span style="font-weight: bold">{{ greyRecive | filter: {vehicle:servehicle} | filter: {Supp: sersupp} | filter: {Dat: today} | filter: {GR_Batch: serBatch} | filter: {GR_ChallNo: serChal} | filter: {TQTY: serqty} | filter: {GR_PROCESS:'TD' } | filter:{ GR_WH :setWH }    | sumpipe:'TMTR' | number:'0.2' }}</span></td>
+					<td><span style="font-weight: bold">{{ greyRecive | filter: {vehicle:servehicle} | filter: {Supp: sersupp} | filter: {Dat: today} | filter: {GR_Batch: serBatch} | filter: {GR_ChallNo: serChal} | filter: {TQTY: serqty} | filter: {GR_PROCESS:'PD' }  | filter:{ GR_WH :setWH }   | sumpipe:'TQTY' | number:'0.2' }}</span></td>
+					<td><span style="font-weight: bold">{{ greyRecive | filter: {vehicle:servehicle} | filter: {Supp: sersupp} | filter: {Dat: today} | filter: {GR_Batch: serBatch} | filter: {GR_ChallNo: serChal} | filter: {TQTY: serqty} | filter: {GR_PROCESS:'PD' } | filter:{ GR_WH :setWH }    | sumpipe:'TMTR' | number:'0.2' }}</span></td>
+					<td><span style="font-weight: bold">{{ greyRecive | filter: {vehicle:servehicle} | filter: {Supp: sersupp} | filter: {Dat: today} | filter: {GR_Batch: serBatch} | filter: {GR_ChallNo: serChal} | filter: {TQTY: serqty} | filter: {GR_PROCESS:'RF' }  | filter:{ GR_WH :setWH }   | sumpipe:'TQTY' | number:'0.2' }}</span></td>
+					<td><span style="font-weight: bold">{{ greyRecive | filter: {vehicle:servehicle} | filter: {Supp: sersupp} | filter: {Dat: today} | filter: {GR_Batch: serBatch} | filter: {GR_ChallNo: serChal} | filter: {TQTY: serqty} | filter: {GR_PROCESS:'RF' } | filter:{ GR_WH :setWH }   | sumpipe:'TMTR' | number:'0.2' }}</span></td>
+					<td><span style="font-weight: bold;color:red">{{ greyRecive | filter: {vehicle:servehicle} | filter: {Supp: sersupp} | filter: {Dat: today} | filter: {GR_Batch: serBatch} | filter: {GR_ChallNo: serChal} | filter: {TQTY: serqty}  | filter:{ GR_WH :setWH }    | sumpipe:'TQTY' }}</span></td>
+					<td><span style="font-weight: bold;color:red">{{ greyRecive | filter: {vehicle:servehicle} | filter: {Supp: sersupp} | filter: {Dat: today} | filter: {GR_Batch: serBatch} | filter: {GR_ChallNo: serChal} | filter: {TQTY: serqty} | filter:{ GR_WH :setWH }     | sumpipe:'TMTR' }}</span></td>
+				</tr>
+			<tr>
+					<td><span style="font-weight: bold">UP TO DATE</span></td>
+					<td><span style="font-weight: bold">{{ greyRecive | filter: {vehicle:servehicle} | filter: {Supp: sersupp}  | filter: {GR_Batch: serBatch} | filter: {GR_ChallNo: serChal} | filter: {TQTY: serqty} | filter: {GR_PROCESS:'TD' }   | filter:{ GR_WH :setWH }   | sumpipe:'TQTY' | number:'0.2' }}</span></td>
+					<td><span style="font-weight: bold">{{ greyRecive | filter: {vehicle:servehicle} | filter: {Supp: sersupp}  | filter: {GR_Batch: serBatch} | filter: {GR_ChallNo: serChal} | filter: {TQTY: serqty} | filter: {GR_PROCESS:'TD' }   | filter:{ GR_WH :setWH }   | sumpipe:'TMTR' | number:'0.2' }}</span></td>
+					<td><span style="font-weight: bold">{{ greyRecive | filter: {vehicle:servehicle} | filter: {Supp: sersupp}  | filter: {GR_Batch: serBatch} | filter: {GR_ChallNo: serChal} | filter: {TQTY: serqty} | filter: {GR_PROCESS:'PD' }   | filter:{ GR_WH :setWH }   | sumpipe:'TQTY' | number:'0.2' }}</span></td>
+					<td><span style="font-weight: bold">{{ greyRecive | filter: {vehicle:servehicle} | filter: {Supp: sersupp}  | filter: {GR_Batch: serBatch} | filter: {GR_ChallNo: serChal} | filter: {TQTY: serqty} | filter: {GR_PROCESS:'PD' }   | filter:{ GR_WH :setWH }   | sumpipe:'TMTR' | number:'0.2' }}</span></td>
+					<td><span style="font-weight: bold">{{ greyRecive | filter: {vehicle:servehicle} | filter: {Supp: sersupp} | filter: {GR_Batch: serBatch} | filter: {GR_ChallNo: serChal} | filter: {TQTY: serqty} | filter: {GR_PROCESS:'RF' }   | filter:{ GR_WH :setWH }   | sumpipe:'TQTY' | number:'0.2' }}</span></td>
+					<td><span style="font-weight: bold">{{ greyRecive | filter: {vehicle:servehicle} | filter: {Supp: sersupp}  | filter: {GR_Batch: serBatch} | filter: {GR_ChallNo: serChal} | filter: {TQTY: serqty} | filter: {GR_PROCESS:'RF' }   | filter:{ GR_WH :setWH }   | sumpipe:'TMTR' | number:'0.2' }}</span></td>
+					<td><span style="font-weight: bold;color:red">{{ greyRecive | filter: {vehicle:servehicle} | filter: {Supp: sersupp}  | filter: {GR_Batch: serBatch} | filter: {GR_ChallNo: serChal} | filter: {TQTY: serqty}  | filter:{ GR_WH :setWH }     | sumpipe:'TQTY' | number:'0.2' }}</span></td>
+					<td><span style="font-weight: bold;color:red">{{ greyRecive | filter: {vehicle:servehicle} | filter: {Supp: sersupp}  | filter: {GR_Batch: serBatch} | filter: {GR_ChallNo: serChal} | filter: {TQTY: serqty}   | filter:{ GR_WH :setWH }    | sumpipe:'TMTR' | number:'0.2' }}</span></td>
+			</tr>
+		</tbody>
+	</table>
+	<pagination-controls *ngIf="greyRecive.length>0" (pageChange)="p = $event"></pagination-controls>
+</div>
+
+<button *ngIf="greyRecive.length>0" class="btn btn-info" (click)="export()">Export Pdf</button>
+<!-- <button class="btn btn-info" (click)="exportExcel()">Export Excel</button> -->

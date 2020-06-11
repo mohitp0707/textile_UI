@@ -1,0 +1,42 @@
+<h3 class="page-header pt-4 pb-2 border-bottom ">WATER TANK VIEW</h3>
+<p></p>
+<div class="row">
+	<div class="col-md-6"></div>
+	<div class="col-md-2">Search</div>
+	<div class="col-md-4">
+	<input class="form-control" type="text" name="search" [(ngModel)]="searchText">
+	<p><p>
+ </div>
+</div>
+<div class="content table-responsive table-full-width">
+	<table class="table table-bordered table-sm">
+		<thead class = "thead-light">
+			<tr>
+        <th>SR.No.</th>
+        <th>DATE</th>
+        <th>PARTY</th>
+				<th>EMPLOYEE</th>
+        <th>CHNO</th>
+        <th>QTY</th>
+				<th>Manage</th>
+			</tr>
+			</thead>
+			<tr *ngFor="let product of watetank | filter: {dat: searchText,party: searchText,WATNK_CHNo: searchText, emp:searchText,qty: searchText} | paginate: { itemsPerPage: 10, currentPage: p } ; let i = index">
+				<td>{{ i + 1 }}</td>
+				<td>{{ product.dat }}</td>
+				<td>{{ product.party }}</td>
+        <td>{{ product.emp }}</td>
+        <td>{{ product.WATNK_CHNo }}</td>
+				<td>{{ product.qty }}</td>
+				<td>
+					<a *ngIf="delete"  [routerLink]="['../watertank', product.WATNK_ID]"><button class="btn btn-primary " ><i class="fas fa-pencil-alt" aria-hidden="true"></i></button> </a> 
+
+					<!-- <button  class="btn btn-danger"  (click)="deletedata(product.id, i)" > <i class="fas fa-trash-alt" aria-hidden="true" ></i> </button> -->
+					<!-- <a [routerLink]="['../../printing/grvprint', product.GR_ID]"> <button class="btn btn-danger"> <i class="fas fa-print" aria-hidden="true" ></i> </button>	</a>	 -->
+				</td>
+			</tr>
+
+	</table>
+	<pagination-controls (pageChange)="p = $event"></pagination-controls>
+</div>
+

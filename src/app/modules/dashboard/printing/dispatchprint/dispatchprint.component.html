@@ -1,0 +1,102 @@
+<html>
+  <head>
+    <title>DISPATCH</title>
+  </head>
+  <div id="print-section">
+    <div class="row mt-3">
+        <div class="col-md-4">
+          <img src="../../../../../assets/img/tex-pro.png" class="img-avatar" />
+        </div>
+      <div class="col-md-4">
+        <h2 class="head text-center ">{{basicdatails.CO_CN}}</h2>
+      </div> 
+      <div class="col-md-4"></div>  
+    </div>   
+    <h4 class="text-center" style="text-decoration: underline;font-weight: bold">DELIVARY CHALLAN </h4>
+    <div class="container">
+      <div class="row">
+      <table class="table" >
+            <tr>
+              <th colspan="2">{{basicdatails.CO_Address}}</th>
+              <th>DATE: &nbsp;{{basicdatails.dat}}</th>
+            </tr>
+            <tr>
+              <th colspan="2">CONTACT:&nbsp;{{basicdatails.CO_ConNo}} </th>
+              <th>CH No:&nbsp;{{basicdatails.DSP_DPNO}}</th>
+            </tr> 
+            <tr>
+                <th colspan="2">GSTIN/UIN:&nbsp;{{basicdatails.CO_GST}} </th>
+                <th>Vehicle No:&nbsp;{{basicdatails.DSP_VHNO}}</th>
+            </tr> 
+            <tr>
+                <th colspan="2">STATE:&nbsp;{{basicdatails.CO_STATE}} </th>
+                <th>TRANSPORT:&nbsp;{{basicdatails.trans}}</th>
+            </tr> 
+            <tr>
+                <th>EMAIL:&nbsp;{{basicdatails.CO_EC}} </th>
+                <th>WEBSITE:&nbsp;{{basicdatails.CO_Web}}</th>
+                <th>BROKER:&nbsp;{{basicdatails.brokr}}</th>
+            </tr> 
+            </table>
+            <table class="table">
+            <tr>
+                <th  colspan="2">PARTY:&nbsp;{{basicdatails.party}} </th>
+                <th>CONTACT:&nbsp;{{basicdatails.PM_MOBILE}} </th>
+                
+            </tr> 
+            <tr>
+                <th colspan="2">ADDRESS:&nbsp;{{basicdatails.PM_ADD}}</th>
+                <th >GST:&nbsp;{{basicdatails.PM_GST}}</th>
+          
+            </tr> 
+        </table>
+      </div>  
+      <div class="row">
+      <table class="table ">
+       <tr >
+            <th> Sr.No</th>
+            <th>HSN</th>
+            <th>PARTICULAR</th>
+            <th>BALE NO</th>
+            <th>PCS</th>
+            <th>MTR</th>
+            <th>TOTAL BALE</th>
+         </tr>    
+         <tr *ngFor="let product of details; let i = index">
+            <td>{{i+1}}</td>
+            <td>{{product.HSN}}</td>
+            <td>{{product.itm}}</td>
+            <td>{{product.DSP_PackId}}</td>
+            <td>{{product.tpcs | number:'0.2'}}</td>
+            <td>{{product.tmtr | number:'0.2'}}</td>
+            <td>{{product.count1 | number:'0.2' }}</td>
+         </tr>
+            <tr></tr>
+         <tr>
+           <td></td> <td></td> <td></td> 
+           <td>TOTAL</td><td>{{basicdatails.tpcs | number:'0.2'}}</td><td>{{basicdatails.tmtr | number:'0.2'}}</td>
+           <td>{{basicdatails.totalcount}}</td>
+         </tr>
+         <tr><td colspan="7">           TERMS : 1. CONDITON 1 <br>
+            &nbsp;&nbsp;  2. CONDITION 2
+          </td>
+
+         </tr>
+
+      </table>
+      <table class="table">
+          <tr>
+              <th rowspan="3">RECEIVER SIGN SEAL</th>
+              <th >FOR {{basicdatails.CO_CN}}</th>
+          </tr> 
+          <tr>
+              <th>AUTHORIZED SIGN</th>
+          </tr> 
+      </table>
+      </div>
+         
+     </div> 
+
+  </div>
+    <button type="button" class="btn btn-secondary"  printSectionId="print-section" (click)="print()" >Print</button>
+  </html>  

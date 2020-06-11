@@ -1,0 +1,76 @@
+.container-fluid
+{
+	height : calc(100% - 60px);
+	background-color : #595959; 
+	.col-sm-2
+	{
+		ul
+		{
+			padding-left : 0px;
+			background-color : #d9d9d9;
+			ul{
+				li{
+					.nav-link { color : #fff; }
+					background-color : #595959; 
+				
+				}
+			}
+		}
+		.nav-pills
+		{
+			background : #3E3E3E;
+			.nav-link
+			{				
+				color : #fff;
+			
+			}
+			.nav-link.active
+			{
+				background : #f2f2f2;
+				
+				border-radius : 4px 4px 4px 4px;
+				box-shadow : 0px 3px 12px  rgb(243, 106, 90);
+				color : rgb(243, 106, 90);
+			}
+			.nav-link:hover
+			{
+				background : #bfbfbf;
+			}
+			.navbar[_ngcontent-c2] a[_ngcontent-c2]{
+				color:black;
+			}
+		}
+	}
+}
+.col-sm-10
+{
+	background : #f2f2f2;
+}
+.navbar
+{
+	background : #f2f2f2;
+	a
+	{	color : black;   }
+	
+	.navbar-brand
+	{
+		margin : 0px;
+		img
+		{	width : 65px;  }
+	}
+	.nav-link
+	{
+		margin-left : 13px;
+		padding : 3px;
+	}
+}
+.overflow-auto{
+	overflow : auto;
+}
+.dropdown-menu{
+	color:black;
+	font-weight: bold;
+}
+.navbar .logCol{
+	color:black;
+}

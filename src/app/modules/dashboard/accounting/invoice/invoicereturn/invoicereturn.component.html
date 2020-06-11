@@ -1,0 +1,132 @@
+	<h2 class="page-header pt-4 pb-2 border-bottom">Invoice Return</h2>	
+		<div *ngIf="!ds.formSubmitted" class="border p-2 pt-4">
+		<form class="needs-validation" method="post" #InvoiceRet="ngForm" >
+	
+	<div class="form-group row">
+				<div class = "col-sm-6 input-group">
+					<label for="selectParty" class="col-form-label text-right">Select Id </label>
+						<select class="custom-select form-control" [ngClass]="{'is-invalid' : invoiceId.touched && invoiceId.invalid, 'is-valid' : invoiceId.touched && invoiceId.valid }" id ="invoiceId" name="invoiceId" class="form-control" [(ngModel)]="invoice.id" #invoiceId="ngModel" placeholder="Invoice Id" (change)="getInvoicedetail(invoice.id)" required >
+							<option>Please Choose</option>
+							<option [value]="iId.id"  *ngFor="let iId of InId">{{iId.id}}</option>
+						</select>
+				
+					
+				</div>
+				<div class = "col-sm-6 input-group">
+					<label for="generatedate" class="col-form-label text-right">Return Date </label>
+						<input class="form-control" type="text" [ngClass]="{ 'is-invalid' : generatedate.touched && generatedate.invalid , 'is-valid' : generatedate.touched && generatedate.valid }" id="generatedate" name="generatedate"  [(ngModel)]="invoice.generatedate" #generatedate="ngModel" ngbDatepicker #d="ngbDatepicker" required />
+						<div class="input-group-append">
+							<button class="btn btn-outline-secondary" (click)="d.toggle()" type="button"><i class = "fas fa-calendar-alt"></i></button>
+						</div>
+				</div>
+			</div>
+			
+				<div class="form-group row">
+			
+				<div class="col-sm-2">
+				<input type="radio" name="TaxType"  id="scgst" [(ngModel)]="invoice.taxGType" value="scgst"  ><label for="scgst">SGST & CGST</label><br>
+				</div>
+				<div class="col-sm-1">
+				<input type="radio" id="igst"  name="TaxType" [(ngModel)]="invoice.taxGType" value="igst" [disabled]="dataadded==false" ><label for="igst">IGST</label><br>
+			</div>
+			
+			<div class = "col-sm-5">
+					<label for="selectParty" class="col-form-label text-right"> Party </label>
+			
+			
+					<input type="party" class="col-sm-10"  name="party" id="selectParty" [(ngModel)]="invoice.partyId" #selectParty="ngModel" readonly>
+			
+		</div>
+			<div class="col-md-4">
+					<label for="Invdate"  class="col-form-label text-right">Invoice Date</label>
+			
+		
+					<input type="gdate" name="generatedate"  id="Invdate" [ngModel]="invoice.generatedate | date:'MM/dd/yy' "   #gdate="ngModel" readonly>
+	
+			</div>
+			</div>
+			
+			
+			
+			<table class = "table">
+				<thead class = "thead-light">
+					<tr>
+						<th scope="col">Sr. No.</th>
+						<th scope="col">Particular Name</th>
+						<th scope="col">Price</th>
+						<th scope="col">Quantity</th>
+						<th scope="col">Subtotal</th>
+						<th *ngIf="sgst==true" scope="col">SGST</th>
+						<th *ngIf="sgst==true" scope="col">CGST</th>
+						<th *ngIf="igst==true" scope="col">IGST</th>
+							<th scope="col">Tax Subtotal</th>
+						<th scope="col">Total Amount</th>
+						<th scope="col">Manage</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr *ngFor="let item of invoice.particular; let i = index">
+						<td>{{ i + 1 }}</td>
+						<td>{{ item.productName }}</td>
+						<td>{{ item.price }}</td>
+						<td>{{ item.quantity}}</td>
+						<td>{{ item.subTotal }}</td>
+						<td *ngIf="sgst==true">{{ item.sgst }}</td>
+						<td *ngIf="sgst==true">{{ item.cgst }}</td>
+						<td *ngIf="igst==true">{{ item.igst }}</td>
+						<td>{{ item.taxSubTotal }}</td>
+						<td>{{ item.amount }}</td>
+						<td><i (click)="removeParticular(i)" class = "fas fa-times"></i></td>
+					</tr>
+					<tr></tr>
+					<tr style="font-weight:bold">
+					
+						<td ><span *ngIf="sgst==true">TOTAL SGST</span></td>
+						<td><span *ngIf="sgst==true">{{invoice.tsgst}}</span></td>
+						<td *ngIf="sgst==true"></td>
+						<td *ngIf="sgst==true"></td>
+						<td *ngIf="igst==true"></td>
+						<td *ngIf="igst==true"></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td>Total</td>
+						<td>{{ invoice.subTotal }}</td>
+						
+					</tr>
+					<tr style="font-weight:bold">
+						<td><span *ngIf="sgst==true">TOTAL CGST</span></td>
+						<td><span  *ngIf="sgst==true">{{invoice.tcgst}}</span></td>
+						<td *ngIf="sgst==true"></td>
+						<td *ngIf="sgst==true"></td>
+						<td *ngIf="igst==true"></td>
+						<td *ngIf="igst==true"></td>
+						<td></td>
+						<td></td>
+							<td></td>
+						<td></td>
+						<td>Total SERVICE TAX</td>
+						<td>{{ invoice.taxSubTotal }}</td>
+						
+					</tr>
+					<tr style="font-weight:bold;color:red">
+						<td><span *ngIf="igst==true">TOTAL IGST</span></td>
+						<td ><span *ngIf="igst==true">{{invoice.tigst}}</span></td>
+						<td *ngIf="igst==true"></td>
+						<td *ngIf="igst==true"></td>
+						<td *ngIf="sgst==true"></td>
+						<td *ngIf="sgst==true"></td><td></td><td></td>
+						<td></td>
+						<td></td>
+						<td>Total</td>
+						<td>{{ invoice.amount }}</td>
+					
+					</tr>
+				</tbody>
+			</table>			
+			
+			
+			
+		</form>
+		</div>

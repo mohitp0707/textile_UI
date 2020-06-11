@@ -1,0 +1,43 @@
+<h3 class="page-header pt-4 pb-2 border-bottom ">Packing List </h3>
+<div class="row">
+	<div class="col-md-2">Search</div>
+	<div class="col-md-10">
+	<input class="form-control" type="text" name="search" [(ngModel)]="searchText">
+	<p><p>
+ </div>
+</div>
+<div class="content table-responsive table-full-width">
+	<table class="table table-bordered table-sm">
+		<thead class = "thead-light">
+			<tr>
+        		<th>SR. No.</th>
+				<th>DATE</th>
+				<th>PARTY</th>
+				<th>Batch No</th>
+				<th>BALE No</th>
+				<th>PCS</th>
+				<th> MTR</th>
+				<th>GODOWN</th>
+				<th>Manage</th>
+			</tr>
+			</thead>
+			<tr *ngFor="let proc of process  | filter: {supp: searchText, Batch:searchText,dat: searchText,PCK_NO: searchText,PCK_BY: searchText,tpcs:searchText,tmtr:searchText }| paginate: { itemsPerPage: 20, currentPage: p }; let i = index">
+        		<td>{{ i + 1 }}</td>
+				<td>{{ proc.dat }}</td>
+				<td>{{ proc.supp }}</td>
+        		<td>{{ proc.PCK_Batch }}</td>
+				<td>{{ proc.PCK_NO }}</td>
+				<td>{{ proc.tpcs }}</td>
+				<td>{{ proc.tmtr}}</td>
+				<td>{{ proc.PCK_WH}}</td>
+				<td>
+				 
+         <a *ngIf="update && !buttonState(proc)" [routerLink]="['../packing', proc.id]"><button class="btn btn-primary" [disabled]="buttonState(proc)" ><i class="fas fa-pencil-alt" aria-hidden="true"></i></button> </a>
+         <button *ngIf="delete && !buttonState(proc)" class="btn btn-danger"  (click)="deletedata(proc.id, i)" > <i class="fas fa-trash-alt" aria-hidden="true" ></i> </button>
+					<button [routerLink]="['../../printing/packing', proc.id]" class="btn btn-danger"> <i class="fas fa-print" aria-hidden="true" ></i> </button>		
+				</td>
+			</tr>
+	</table>
+	<pagination-controls (pageChange)="p = $event"></pagination-controls>
+</div>
+

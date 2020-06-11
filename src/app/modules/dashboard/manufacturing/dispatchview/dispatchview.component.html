@@ -1,0 +1,50 @@
+<h3 class="page-header pt-4 pb-2 border-bottom ">DISPATCH VIEW</h3>
+<p></p>
+<div class="row">
+	<div class="col-md-6"></div>
+	<div class="col-md-2">Search</div>
+	<div class="col-md-4">
+	<input class="form-control" type="text" name="search" [(ngModel)]="searchText">
+	<p><p>
+ </div>
+</div>
+<div class="content table-responsive table-full-width">
+	<table class="table table-bordered table-sm">
+		<thead class = "thead-light">
+			<tr>
+        <th>SR.No.</th>
+        <th>DATE</th>
+				<th>PARTY</th>
+				<th>DC NO</th>
+				<th>LOT</th>
+				<th>PACKING</th>
+				<th>VEHICLE</th>
+				<th>EMPLOYEE</th>
+				<th>MTR</th>
+				<th>PCS</th>
+				<th>Manage</th>
+			</tr>
+			</thead>
+			<tr *ngFor="let product of dispatch | filter: {supp: searchText, dat:searchText,DSP_Batch: searchText,DSP_PackId: searchText,DSP_VHNO: searchText,emp: searchText} | paginate: { itemsPerPage: 20, currentPage: p } ; let i = index">
+				<td>{{ i + 1 }}</td>
+				<td>{{ product.dat }}</td>
+				<td>{{ product.supp }}</td>
+				<td>{{ product.DSP_DPNO }}</td>
+				<td>{{ product.DSP_Batch }}</td>
+				<td>{{ product.DSP_PackId }}</td>
+				<td>{{ product.DSP_VHNO }}</td>
+				<td>{{ product.emp }}</td>
+        <td>{{product.tmr}}</td>
+        <td>{{product.tpcs}}</td>
+				<td>
+					<a *ngIf="update && !buttonState(product)"  [routerLink]="['../dispatch', product.DSP_ID]"><button class="btn btn-primary " ><i class="fas fa-pencil-alt" aria-hidden="true"></i></button> </a> 
+
+					<button *ngIf="deleteright && !buttonState(product)"  class="btn btn-danger"  (click)="deletedata(product.DSP_ID, i)" > <i class="fas fa-trash-alt" aria-hidden="true" ></i> </button>
+					 <a [routerLink]="['../../printing/dispatch', product.DSP_ID]"> <button class="btn btn-danger"> <i class="fas fa-print" aria-hidden="true" ></i> </button>	</a>	
+				</td>
+			</tr>
+			
+	</table>
+	<pagination-controls (pageChange)="p = $event"></pagination-controls>
+</div>
+

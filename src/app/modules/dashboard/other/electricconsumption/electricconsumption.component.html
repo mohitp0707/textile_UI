@@ -1,0 +1,92 @@
+<h2 class="page-header pt-4 pb-2 border-bottom">ELECTRICITY CONSUMPTION</h2>
+<ngb-alert type="success" *ngIf="ds.formSubmitted" (close)="ds.formSubmitted = false">
+		{{ ds.submittedMessage }}
+	</ngb-alert>
+<form *ngIf="!ds.formSubmitted" class="needs-validation" method="post" #stockIn="ngForm" (ngSubmit)="saveForm(stockIn,invoice)">
+		<div class="form-group row">
+				<div class = "col-sm-2 input-group">
+						<label for="GR_Date" class=" text-right"> Date </label>
+					</div>
+				<div class = "col-sm-3 input-group">
+						<input class="form-control" type="date" [ngClass]="{ 'is-invalid' : GR_Date.touched && GR_Date.invalid , 'is-valid' : GR_Date.touched && GR_Date.valid }" id="GR_Date" name="GR_Date"  [(ngModel)]="invoice.GR_Date" #GR_Date="ngModel" ngbDatepicker #d="ngbDatepicker" required />
+						<div class="input-group-append">
+							<button class="btn btn-outline-secondary" (click)="d.toggle()" type="button"><i class = "fas fa-calendar-alt"></i></button>
+						</div>
+          </div>
+        <div class = "col-sm-1 input-group">
+					<label for="time" class=" text-right"> Time </label>
+				</div>
+				<div class = "col-sm-2 input-group">
+            <input   class="form-control" id="time"   type="time" name="readin" [(ngModel)]="invoice.time" required  />
+        </div>
+
+        <div class="col-sm-1">
+            <label for="dspby" class="col-form-label text-right">Employee</label>
+          </div>
+          <div class="col-sm-3">
+            <select *ngIf="isValid" class="custom-select form-control" [ngClass]="{'is-invalid' : dspby.touched && dspby.invalid, 'is-valid' : dspby.touched && dspby.valid }" id ="dspby" name="dspby" class="form-control" [(ngModel)]="invoice.emp" #dspby="ngModel" required  >
+              <option [ngValue]="emp.EM_ID"  *ngFor="let emp of emplist">{{emp.EM_NAME}}</option>		
+            </select>
+            <input *ngIf="!isValid" class="form-control" [disabled]="butDisabled"  type="text" name="emp" [(ngModel)]="invoice.emp" readonly />
+      </div>
+    </div>
+    <div class="form-group row">
+        <div class = "col-sm-2 input-group">
+            <label for="pkw" class=" text-right">LAST KW </label>
+          </div>
+          <div class = "col-sm-3 input-group">
+              <input   class="form-control" id="pkw"   type="text" name="pkw" [(ngModel)]="invoice.pkw"  readonly/>
+          </div>
+
+          <div class = "col-sm-2 input-group">
+              <label for="pkva" class=" text-right">LAST KVA </label>
+            </div>
+            <div class = "col-sm-3 input-group">
+                <input   class="form-control" id="pkva"   type="text" name="pkva" [(ngModel)]="invoice.pkva" readonly />
+            </div>
+    </div>
+
+    <div class="form-group row">
+        <div class = "col-sm-2 input-group">
+            <label for="kw" class=" text-right"> KW </label>
+          </div>
+          <div class = "col-sm-3 input-group">
+              <input   class="form-control" id="kw"   type="text" name="kw" [(ngModel)]="invoice.kw" required />
+          </div>
+
+          <div class = "col-sm-2 input-group">
+              <label for="kva" class=" text-right"> KVA </label>
+            </div>
+            <div class = "col-sm-3 input-group">
+                <input   class="form-control" id="kva"   type="text" name="kva" [(ngModel)]="invoice.kva" required  />
+            </div>
+    </div>
+
+    <div class="form-group row">
+        <div class = "col-sm-2 input-group">
+            <label for="mfactor" class=" text-right"> M.Factor </label>
+          </div>
+          <div class = "col-sm-3 input-group">
+              <input   class="form-control" id="mfactor"   type="text" name="mfactor" [(ngModel)]="invoice.mfactor"  required />
+          </div>
+
+          <div class = "col-sm-2 input-group">
+              <label for="unitrate" class=" text-right"> Unit Rate </label>
+            </div>
+            <div class = "col-sm-3 input-group">
+                <input   class="form-control" id="unitrate"   type="number" name="unitrate" [(ngModel)]="invoice.unitrate" required />
+            </div>
+    </div>
+    <div class="form-group row">
+        <div class = "col-sm-1 input-group">
+            <label for="remark" class="col-md-1 text-right" >Remark</label>
+        </div>
+      <div class="col-sm-10">
+              <textarea class="form-control" id="remark" rows="2" name="rmk" [(ngModel)]="invoice.rmk" ></textarea>
+      </div>
+    </div>
+
+    <button *ngIf="isValid" class="btn btn-primary mt-3">SAVE</button>
+	<button *ngIf="isValid" (click)="reset()" type="button" class="btn btn-primary mt-3">Reset</button>
+			
+</form>

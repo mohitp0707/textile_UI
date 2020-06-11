@@ -1,0 +1,37 @@
+<h2 class="page-header pt-4 pb-2 border-bottom">BROKER VIEW</h2>
+<p></p>
+<div class="row">
+	<div class="col-md-6"></div>
+	<div class="col-md-2 text-right">Search</div>
+	<div class="col-md-4">
+	<input class="form-control" type="text" name="search" [(ngModel)]="searchText">
+ </div>
+</div>
+<table class="table table-bordered mt-4">
+	<thead class = "thead-dark">
+		<tr>
+			<th>Sr. No.</th>
+			<th>Name</th>
+			<th>Mobile</th>
+			<th>Email</th>
+			<th>GST</th>
+			<th>PAN</th>
+			<th>Manage</th>
+		</tr>
+		<tr *ngFor = "let party of partyList|  filter: {PM_NAME: searchText, PM_MOBILE:searchText,PM_EMAIL: searchText,PM_GST: searchText,PM_PANNO: searchText , PM_PTYP: searchText}| paginate: { itemsPerPage: 10, currentPage: p } , let i=index">
+			<td>{{ i + 1}}</td>
+			<td>{{ party.PM_NAME }}</td>
+			<td>{{ party.PM_MOBILE }}</td>
+			<td>{{ party.PM_EMAIL }}</td>
+			<td>{{ party.PM_GST }}</td>
+			<td>{{ party.PM_PANNO }}</td>
+			<td>
+					<a *ngIf="update" [routerLink]="['../broker', party.PM_ID]"><button class="btn btn-primary"><i class="fas fa-pencil-alt" aria-hidden="true"></i></button> </a> 
+						
+					<!-- <button *ngIf="delete" class="btn btn-danger" (click)="deletedata(party.id, i)"> <i class="fas fa-trash-alt" aria-hidden="true" ></i> </button> -->
+							
+				</td>
+		</tr>
+	</thead>
+</table>
+<pagination-controls (pageChange)="p = $event"></pagination-controls>

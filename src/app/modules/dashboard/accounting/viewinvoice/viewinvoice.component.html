@@ -1,0 +1,43 @@
+<h2 class="page-header pt-4 pb-2 border-bottom">{{ issales == true ? 'Sales Invoice' : 'Purchase Invoice' }}</h2>
+<p></p>
+<div class="row">
+	<div class="col-md-2">Search</div>
+	<div class="col-md-10">
+	<input class="form-control" type="text" name="search" [(ngModel)]="searchText">
+	<p><p>
+ </div>
+
+<table class="table table-bordered mt-4">
+	<thead class = "thead-dark">
+		<tr>
+			<th>Sr. No.</th>
+			<th>Invoice No</th>
+			<th>Party Name</th>
+			<th>Date</th>
+			<th>Net Amount</th>
+			<th>Tax Amount</th>
+			<th>Total Amount</th>
+			<th>Manage</th>
+		</tr>
+	</thead>
+		<tr *ngFor = "let invoice of invoiceList| filter: {PI_PInvNo: searchText, supp:searchText,dat: searchText,NA: searchText,Tax: searchText,TA: searchText} | paginate: { itemsPerPage: 10, currentPage: p } ; let i = index">
+			<td>{{ i + 1}}</td>
+			<td>{{ invoice.PI_PInvNo }}</td>
+			<td>{{ invoice.supp }}</td>
+			<td>{{ invoice.dat }}</td>
+			<td>{{ invoice.NA}}</td>
+			<td>{{ invoice.Tax }}</td>
+			<td>{{ invoice.TA  }}</td>
+		
+			
+			<td>
+					<a *ngIf="issales==false" [routerLink]="['../add-invoice/purchase', invoice.PI_ID]"><button class="btn btn-primary"><i class="fas fa-pencil-alt" aria-hidden="true"></i></button> </a> 
+					<a *ngIf="issales==true" [routerLink]="['../add-invoice/salses', invoice.SI_ID]"><button class="btn btn-primary"><i class="fas fa-pencil-alt" aria-hidden="true"></i></button> </a>
+					<button *ngIf="issales==false" class="btn btn-danger" (click)="deletedata(invoice.PI_ID, i)"> <i class="fas fa-trash-alt" aria-hidden="true" ></i> </button>
+					<button *ngIf="issales==true" class="btn btn-danger" (click)="deletedata(invoice.SI_ID, i)"> <i class="fas fa-trash-alt" aria-hidden="true" ></i> </button>
+							
+				</td>
+		</tr>
+
+</table>
+<pagination-controls (pageChange)="p = $event"></pagination-controls>

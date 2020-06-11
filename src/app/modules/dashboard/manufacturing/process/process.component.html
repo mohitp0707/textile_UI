@@ -1,0 +1,298 @@
+<h2 class="page-header pt-4 pb-2 border-bottom">{{ isReProc == false ? 'PROCESS' : 'REPROCESS' }}</h2>
+
+<div  class="border p-2 pt-4">
+<form class="needs-validation" method="post" (ngSubmit)="saveForm(addInvoiceForm,invoice)" #addInvoiceForm="ngForm">
+	<div class="form-group row">
+		
+			<div class = "col-sm-1 input-group">
+				<label for="process" class="text-right">Process </label>
+			</div>
+			<div *ngIf="!isAdd" class = "col-sm-3 input-group">
+			<select class="custom-select form-control" [(ngModel)]="procss" (change)="invoice.PR_ID=procss.ProcsId;invoice.process=procss.Procs;getBatch(procss);  " [ngClass]="{'is-invalid' : process.touched && process.invalid, 'is-valid' : process.touched && process.valid }" id ="process" name="process" class="form-control"  placeholder="Process" required>
+				<option [ngValue]="procss" *ngFor="let procss of processList,let i=index">{{procss.Procs}}</option>
+			</select>
+			</div>	
+			<div *ngIf="isAdd" class="col-sm-3">
+				<input class="form-control" type="text" readonly name="process" [(ngModel)]="invoice.process" id="process">
+			</div>
+
+			<div class="col-sm-1 input-group">
+				<label for="Process" class="col-form-label text-right">TYPE</label>
+			</div>
+			<div class="col-sm-2 input-group">
+				<select *ngIf="!isAdd" class = "custom-select"  id ="ptype" name="ptype" class="form-control"  [(ngModel)]="invoice.ptype" (change)="jbtypeId()"   required >
+								<option value="TD" selected>TD</option>
+								<option value="PD">PD</option>
+								<option value="RF">R.F.</option>			
+				</select>
+				<input *ngIf="isAdd" class="form-control" type="text" readonly name="ptype" [(ngModel)]="invoice.ptype" >
+			</div>
+			
+			<div class="col-sm-1">
+				<label for="GRCHK_Batch" class="col-form-label">Batch</label>
+			</div>
+				<div *ngIf="!isAdd" class="col-sm-4">
+					<angular2-multiselect [data]="dropdownList" name="selectedItems" [(ngModel)]="selectedItems" 
+					[settings]="dropdownSettings" 
+					(onSelect)="onItemSelect($event)" 
+					(onDeSelect)="OnItemDeSelect($event)"
+					(onSelectAll)="onSelectAll($event)"
+					(onDeSelectAll)="onDeSelectAll($event)" required></angular2-multiselect>
+			</div>
+			<div *ngIf="isAdd" class="col-sm-4">
+				<input class="form-control" type="text" readonly name="Batch" [(ngModel)]="invoice.Batch" id="Batch">
+			</div>
+			
+	</div>
+	<div class="form-group row">	
+		<div class = "col-sm-1 input-group">
+			<label for="partyName" class="text-right">Party </label>
+		</div>
+		<div class = "col-sm-3 input-group">
+			<input class="form-control" type="text" readonly name="party" [(ngModel)]="invoice.partyName" id="partyName">
+		</div>
+	
+
+		<div class = "col-sm-2 input-group">
+			<label for="tpcs" class="text-right">Total Meter  </label>
+		</div>
+		<div class = "col-sm-2 input-group">
+			<input class="form-control" type="text"  name="tpcs" [(ngModel)]="invoice.tpcs" id="tpcs" readonly>
+		</div>
+		
+		<div class = "col-sm-2 input-group">
+			<label for="Tmeter" class="text-right">Total PCS </label>
+		</div>
+		<div class = "col-sm-2 input-group">
+			<input class="form-control" type="text"  name="Tmeter" [(ngModel)]="invoice.Tmeter" id="Tmeter" readonly>
+		</div>
+
+		
+	</div>
+
+
+	<div class="form-group row">
+
+	<div class = "col-sm-1 input-group">
+		<label for="process" class="text-right">Id </label>
+	</div>
+	<div class = "col-sm-3 input-group">
+			<input type="text" #pcode="ngModel"  id="PCode" name="PR_ID" class="form-control"  [(ngModel)]="invoice.PR_ID" readonly/>			
+	</div>	
+		
+		<div class = "col-sm-2 input-group">
+			<label for="quality" class="text-right">Quality </label>
+		</div>
+		<div class = "col-sm-2 input-group">
+			<input class="form-control" type="text"  name="quality" [(ngModel)]="invoice.quality" id="quality" readonly>
+		</div>
+		<div class = "col-sm-2 input-group">
+				<label for="shdNo" class="text-right">Shade No </label>
+		</div>
+		<div class = "col-sm-2 input-group">
+				<input class="form-control" type="text"  name="shadeNo" [(ngModel)]="invoice.shdNo" id="shdNo" readonly>
+		</div>
+
+	</div>
+
+	<div class="form-group row"> 
+			<div class="col-sm-1">
+					<label for="JDate" class="col-form-label text-right">Date</label>
+			</div>
+				<div class = "col-sm-3 input-group">
+						<input class="form-control" type="date"  id="JDate" name="JDate"  [(ngModel)]="invoice.JDate" #JDate="ngModel" ngbDatepicker #d="ngbDatepicker" required />
+				<div class="input-group-append">
+					<button class="btn btn-outline-secondary" (click)="d.toggle()" type="button"><i class = "fas fa-calendar-alt"></i></button>
+				</div>
+			</div>
+				<div class = "col-sm-2 input-group">
+						<label for="machine" class="text-right">Machine Name </label>
+				</div>
+				<div class = "col-sm-4 input-group">
+					<select *ngIf="!isAdd" class="custom-select form-control" [(ngModel)]="invoice.machine"  id ="machine" name="machine" class="form-control"  placeholder="Machine Name" required >
+							<option [ngValue]="product.id" *ngFor="let product of machine">{{product.Machine_name}}</option>	
+					</select>
+				<input *ngIf="isAdd" class="form-control" type="text" readonly name="machine" [(ngModel)]="invoice.machine" id="Batch">	
+			</div>
+	</div>
+	 
+	<div class="form-group row"> 
+			<div class="col-sm-1 input-group">
+				<label for="Godown" class="col-form-label text-right">Remark</label>
+			</div>
+			<div class="col-sm-4 input-group">
+				<textarea class="form-control" id="exampleFormControlTextarea1"  name="JPR_RMK" [(ngModel)]="invoice.JPR_RMK"></textarea>
+			</div>
+			<div class="col-sm-2">
+					<label for="jbrmk" class="col-form-label text-right">JobCard Remark</label>
+			</div>
+			<div class="col-sm-4">
+					<textarea type="textarea"  id="jbrmk" name="jbrmk" class="form-control" [(ngModel)]="invoice.jbrmk" placeholder="Job card Remark" readonly ></textarea>
+			</div>
+	</div>
+
+	<table class = "table mt-4">
+		<thead class = "thead-light">
+			<tr>
+				<th scope="col">Material Type</th>
+				<th scope="col">Material Name</th>
+				<th  scope="col">Unit</th>
+				<th scope="col">Quantity</th>
+				<th scope="col">Remark</th>
+				<th scope="col">Add</th>
+				</tr>
+			</thead>
+			<tr>
+				<td>
+					
+						<select class = "custom-select" id ="itemTyp" name="itemTyp" class="form-control"  [(ngModel)]="product" (change)="particular.IM_TYP=product;getProductName(product)" #itemTyp="ngModel" required >
+							<option value="">Please Select</option>	
+							<option [ngValue]="product" *ngFor="let product of finalresult">{{product}}</option>
+						</select>
+					
+					</td>
+				<td style="width:300px">
+<!-- 				
+					<select  (change)="particular.IM_ID=selectedProduct.IM_ID;particular.IM_NM=selectedProduct.IM_NM;getUnit(selectedProduct);  " [(ngModel)]="selectedProduct" #focusText #itemName="ngModel" required >
+						<option [ngValue]="product" *ngFor="let product of productName,let i=index">{{product.IM_NM}}</option>
+					</select> -->
+					<select size="1" #focusText    class="selectpicker custom-select form-control"  data-live-search="true" (change)="getItemDetails()"  placeholder="select Party" required  >
+						<option  value="">SELECT ITEM</option>
+						<option [value]="product.IM_ID"  *ngFor="let product of productName,let i=index">{{product.IM_NM}}</option>
+					</select>
+					<!-- <div  [ngClass]="itemName.touched && itemName.invalid ? 'invalid-feedback' : 'valid-feedback'" *ngIf="itemName.touched && itemName.invalid">
+						<span *ngIf="itemName.errors.required">Particular name </span>
+					</div> -->
+				</td>
+
+
+				<td style="width:100px">
+					<input type="text"  id ="unit" name="unit" class="form-control" [(ngModel)]="particular.unit" #unit="ngModel" readonly />
+					<div   [hidden]="unit.valid" class="alert alert-danger">Unit Require</div>	
+				</td>
+			
+				<td style="width:150px">
+					<input type="number" pattern="[0-9.\s]+" [ngClass]="{'is-invalid' : quantity.touched && quantity.invalid, 'is-valid' : quantity.touched && quantity.valid }" id ="quantity" name="quantity" class="form-control" [(ngModel)]="particular.quantity" (change)="check()"  #quantity="ngModel" required />
+					<div   [hidden]="quantity.valid" class="alert alert-danger">Please Enter Number Only</div>	
+				</td>
+				<td>
+					<input type="text"  id ="rmk" name="rmk" class="form-control" [(ngModel)]="particular.rmk" #rmk="ngModel" />
+				</td>
+				<td>
+					<button  type="button" class="btn btn-info" (click) = addParticular(particular)>+</button>
+				
+				</td>
+			</tr>
+	</table>
+	<div class="row">
+		<div class="col-md-4"></div>
+			<div class="col-md-8">
+				<div *ngIf="negtive" class="alert alert-primary" role="alert">
+					Stock is going in negaive.
+				</div>
+			</div>
+	</div>
+	<table class = "table">
+		<thead class = "thead-light">
+			<tr>
+				<th scope="col">Sr. No.</th>
+				<th scope="col">Particular Name</th>
+				<th scope="col">Unit</th>
+				<th scope="col">Quantity</th>
+				<th scope="col">Manage</th>
+				</tr>
+		</thead>
+		<tbody>
+			<tr *ngFor="let item of invoice.RecQtyList; let i = index">
+				<td>{{ i + 1 }}</td>
+				<td>{{ item.IM_NM }}</td>
+				<td>{{ item.unit }}</td>
+				<td>{{ item.quantity}}</td>
+					<td><i (click)="removeParticular(i)" class = "fas fa-times"></i></td>
+				</tr>
+			<!-- <tr style="font-weight:bold;color:red">
+				<td><span>TOTAL Qty</span></td>
+				<td >{{invoice.totalQty}}<span></span></td>
+			</tr> -->
+		</table>
+		<button [disabled]="isSaving" class="btn btn-primary mt-3">{{ isAdd == false ? 'SAVE' : 'ADD' }}</button>
+		<button [disabled]="isSaving" type="button" class="btn btn-primary mt-3" (click)="savPrint(addInvoiceForm,invoice)">{{ isAdd == false ? 'SAVE PRINT' : 'ADD PRINT' }}</button>
+		<button type="button" (click)="reset()" class="btn btn-primary mt-3">Reset</button>
+</form>
+</div>
+
+
+<button  type="button" class="btn btn-primary hidebut" id="butClick"   data-toggle="modal" data-target=".bd-example-modal-lg"></button>
+
+<div class="modal fade bd-example-modal-lg" id="print-section" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+		<div class="container">
+			<div class="row">
+		  	<div class="col-md-4"></div>
+	  		<div class="col-md-4">
+		  	<h2 class="head text-center">{{basicdatails.CO_CN}}</h2>
+		  	<h6 class="text-center text-justify"><b>Address:{{basicdatails.CO_Address}}</b> </h6>
+	  	</div> 
+	  	<div class="col-md-4"></div>  
+  	</div>   
+  	<h4 class="text-center">{{ isReProc == false ? 'PROCESS' : 'REPROCESS' }} </h4>
+  	<div class="container">
+	  <div class="row">
+	  <table class="table">
+				  <tr>
+					  <th>Supplier:{{basicdatails.party}}</th>
+					  <th>Date:{{basicdatails.dat}}</th>
+					  <th>Lot No:{{basicdatails.batch}}</th>
+					  <th>Machine:{{basicdatails.machine}}</th>
+				  </tr>
+				  <tr>
+					  <th>PC:{{basicdatails.tmtr  | number:'0.3'}}</th>
+					  <th>MTR:{{basicdatails.tpcs | number:'0.3'}}</th>
+					  <th>Process:{{basicdatails.procd}}</th>
+					  <!-- <th>Quality:{{basicdatails.JBC_Jbatch}}</th>
+					  <th>Width:{{basicdatails.JBC_Jbatch}}</th> -->
+		  </table>
+	  </div>  
+	  <div class="content table-responsive table-full-width">
+	 	 <table class="table  table-bordered table-sm">
+		  <thead class = "thead-light">
+			  <tr>
+		  		<th>Sr. No.</th>
+		  		<th>ITEM</th>
+				  <th>UNIT</th>
+				  <th>QTY</th>
+				  <th>RMK</th>
+  
+			  </tr>
+			  </thead>
+			  <tr  *ngFor="let proc of particularprint ; let i = index"   [ngClass]="getColor(proc)"  >
+				  <td>{{ i + 1 }}</td>
+				  <td>{{ proc.itm }}</td>
+		  			<td>{{ proc.JPRD_UNIT }}</td>
+		  			<td>{{ proc.qty | number:'0.3' }}</td>
+				  <td>{{ proc.JPRD_RMK }}</td>
+				
+			  </tr>
+			  <!-- <tr class="table-info1">ABC</tr> -->
+			 
+		</table>
+	</div>
+ 	 <div class="row mt-5">
+		  <div class="col-md-6">
+			  <p class="text-left"><b>Sign Store Keeper</b></p>
+		  </div>
+		  <div class="col-md-6">
+				  <p class="text-right"><b>Sign Prop. by</b></p>
+				  
+		  </div>
+  		</div>
+  		</div>
+		</div>	
+		
+		 <div class="modal-footer">
+			<button type="button" class="btn btn-secondary"  printSectionId="print-section" (click)="print()" >Print</button>
+			<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+		  </div>
+    </div>
+</div> 

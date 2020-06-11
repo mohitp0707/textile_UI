@@ -1,0 +1,146 @@
+<h3 class="page-header pt-4 pb-2 border-bottom ">Machine Wise Process Report</h3>
+<p></p><p></p>
+
+<div class="row">
+	<div class = "col-sm-1 input-group">
+		<label for="GR_Date" class="col-form-label text-right">From </label>
+		</div>
+		<div class = "col-sm-3 input-group">
+			<input class="form-control" type="date" id="GR_Fdat" name="GR_Fdat"  [(ngModel)]="invoice.GR_Fdat" ngbDatepicker #d="ngbDatepicker" required />
+			<div class="input-group-append">
+				<button class="btn btn-outline-secondary" (click)="d.toggle()" type="button"><i class = "fas fa-calendar-alt"></i></button>
+			</div>
+	</div>
+
+	<div class = "col-sm-1 input-group">
+		<label for="GR_Date" class="col-form-label text-right">TO </label>
+		</div>
+		<div class = "col-sm-3 input-group">
+			<input class="form-control" type="date" id="GR_Tdat" name="GR_Tdat"  [(ngModel)]="invoice.GR_Tdat"  ngbDatepicker #d1="ngbDatepicker" required />
+			<div class="input-group-append">
+				<button class="btn btn-outline-secondary" (click)="d1.toggle()" type="button"><i class = "fas fa-calendar-alt"></i></button>
+			</div>
+	</div>
+	<div class="col-sm-3"><button class="btn btn-info" (click)="getdata(invoice)">Show</button> </div>
+</div>
+
+<div class="content table-responsive table-full-width mt-4">
+	<table id="dattab" class="table tablefixed table-bordered table-sm">
+		<thead class = "thead-light">
+			<tr>
+				<th rowspan="2">Sr. No.</th>
+				<th rowspan="2" style="width:100px;">MACHINE</th>
+				<th rowspan="2" style="width:100px;">DATE</th>
+        <th rowspan="2" style="width:100px;">SHADE</th>
+        <th rowspan="2" style="width:100px;">BATCH</th>
+				<th rowspan="2" style="width:200px;">PARTY</th>
+        <th rowspan="2" style="width:100px;">PROCESS</th>
+        <th style="text-align: center;font-weight: bold" colspan="2">TD</th>
+        <th style="text-align: center;font-weight: bold" colspan="2">PD</th>
+        <th style="text-align: center;font-weight: bold" colspan="2">RF</th>
+				<th rowspan="2" style="width:100px;">TYPE</th>
+      </tr>
+      <tr>
+      <th>PCS</th>
+      <th>MTR</th>
+      <th>PCS</th>
+      <th>MTR</th>  
+      <th>PCS</th>
+      <th>MTR</th>
+    </tr>
+      
+      <tr>
+          <td></td>
+          <td style="width:100px;"><input class="form-control" type="text" name="search" [(ngModel)]="serMachine"> </td>
+          <td style="width:100px;"><input class="form-control" type="text" name="search1" [(ngModel)]="serDate" (input)="chanDat(serDate)"> </td>
+          <td style="width:100px;"><input class="form-control" type="text" name="search1" [(ngModel)]="serShde"> </td>
+          <td style="width:100px;"><input class="form-control" type="text" name="search1" [(ngModel)]="serBatch"> </td>
+          <td style="width:200px;"><input class="form-control" type="text" name="search1" [(ngModel)]="serParty"> </td>
+          <td style="width:100px;"><input class="form-control" type="text" name="search1" [(ngModel)]="serProc"> </td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td style="width:100px;"><input class="form-control" type="text" name="search1" [(ngModel)]="serprcotyp"></td>
+        </tr>
+      </thead>
+      <tbody>
+			<tr *ngFor="let product of details | filter: {machine: serMachine} | filter: {JPR_PRTYPE: serprcotyp} | filter: {party: serParty}  |  filter: {dat: serDate} | filter: {shade: serShde} | filter: {batch: serBatch} | filter: {process: serProc} | paginate: { itemsPerPage: 20, currentPage: p } ; let i = index">
+				<td>{{ i + 1 }}</td>
+				<td style="width:100px;">{{ product.machine }}</td>
+				<td style="width:100px;">{{ product.dat }}</td>
+				<td style="width:100px;">{{ product.shade }}</td>
+				<td style="width:100px;">{{ product.batch }}</td>
+        <td style="width:200px;">{{ product.party}}</td>
+        <td style="width:100px;">{{ product.process}}</td>
+        <td>{{ product.Ttmtr | number:'0.2'}}</td>
+        <td>{{ product.Ttpcs | number:'0.2'}}</td>
+        <td>{{ product.Ptmtr | number:'0.2'}}</td>
+        <td>{{ product.Ptpcs | number:'0.2'}}</td>
+        <td>{{ product.Rtpcs | number:'0.2'}}</td>
+        <td>{{ product.Rtmr | number:'0.2'}}</td>
+        <td style="width:100px;">{{ product.JPR_PRTYPE}}</td>
+      </tr>
+
+  </table>
+  <!-- <table class="table table-bordered table-sm">
+    <tr><td></td><td style="color:red;text-align: center;font-weight: bold" colspan="2" align="center">Total Process</td><td style="color:red;text-align: center;font-weight: bold" colspan="2" align="center">Total Re-Process</td></tr>
+    <tr><td style="color:red;text-align: center;font-weight: bold">TD</td><td>PCS :{{ PTPCS }}</td><td>MTR: {{PTMTR}}</td><td>PCS: {{RTPCS}}</td><td>MTR: {{RTMTR}}</td></tr>
+    <tr><td style="color:red;text-align: center;font-weight: bold">PD</td><td>PCS :{{ PPTPCS }}</td><td>MTR: {{PPTMTR}}</td><td>PCS: {{RPTPCS}}</td><td>MTR: {{RPTMTR}}</td></tr>
+  </table> -->
+
+
+<table id="dattab2" class="table table-bordered table-sm">
+
+  <tr>
+    <td><span style="font-weight: bold">Total</span></td>
+    <td><span style="font-weight: bold">PD(PCS)</span></td>
+    <td><span style="font-weight: bold">PD(MTR)</span></td>
+    <td><span style="font-weight: bold">TD(PCS)</span></td>
+    <td><span style="font-weight: bold">TD(MTR)</span></td>
+    <td><span style="font-weight: bold">RF(PCS)</span></td>
+    <td><span style="font-weight: bold">RF(MTR)</span></td>
+    <td><span style="font-weight: bold">RP(PCS)</span></td>
+    <td><span style="font-weight: bold">RP(MTR)</span></td>
+    <td><span style="font-weight: bold;color:red">TOTAL(PCS)</span></td>
+    <td><span style="font-weight: bold;color:red">TOTAL(MTR)</span></td>
+  </tr>
+  <tr>
+      <td><span style="font-weight: bold"> TO DAY</span></td>
+      <td><span style="font-weight: bold">{{ details  | filter: {machine: serMachine} | filter: {party: serParty}  | filter: {dat: today} | filter: {JPR_PRTYPE: serprcotyp} | filter: {JPR_PRTYPE: 'Process'}  | filter: {shade: serShde} | filter: {batch: serBatch} | filter: {party: serParty} | filter: {process: serProc} | filter :{JPR_PTYP:'PD'}  | sumpipe:'Ptmtr' | number:'0.2' }}</span></td>
+      <td><span style="font-weight: bold">{{ details | filter: {machine: serMachine} | filter: {party: serParty} | filter: {dat: today} | filter: {JPR_PRTYPE: serprcotyp} | filter: {JPR_PRTYPE: 'Process'} | filter: {shade: serShde} | filter: {batch: serBatch} | filter: {party: serParty} | filter: {process: serProc}  | filter :{JPR_PTYP:'PD'}   |   sumpipe:'Ptpcs' | number:'0.2' }}</span></td>
+      <td><span style="font-weight: bold">{{ details | filter: {machine: serMachine} | filter: {party: serParty} | filter: {dat: today} | filter: {JPR_PRTYPE: serprcotyp} | filter: {JPR_PRTYPE: 'Process'}  | filter: {shade: serShde} | filter: {batch: serBatch} | filter: {party: serParty} | filter: {process: serProc} | filter :{JPR_PTYP:'TD'}  | sumpipe:'Ttmtr' | number:'0.2' }}</span></td>
+      <td><span style="font-weight: bold">{{ details | filter: {machine: serMachine} | filter: {party: serParty} | filter: {dat: today} | filter: {JPR_PRTYPE: serprcotyp} | filter: {JPR_PRTYPE: 'Process'}  | filter: {shade: serShde} | filter: {batch: serBatch} | filter: {party: serParty} | filter: {process: serProc} | filter :{JPR_PTYP:'TD'}  |    sumpipe:'Ttpcs' | number:'0.2' }}</span></td>
+      <td><span style="font-weight: bold">{{ details | filter: {machine: serMachine} | filter: {party: serParty} | filter: {dat: today} | filter: {JPR_PRTYPE: serprcotyp} | filter: {JPR_PRTYPE: 'Process'}  | filter: {shade: serShde} | filter: {batch: serBatch} | filter: {party: serParty} | filter: {process: serProc} | filter :{JPR_PTYP:'RF'}  | sumpipe:'Rtmr' | number:'0.2' }}</span></td>
+      <td><span style="font-weight: bold">{{ details | filter: {machine: serMachine} | filter: {party: serParty} | filter: {dat: today} | filter: {JPR_PRTYPE: serprcotyp} | filter: {JPR_PRTYPE: 'Process'}  | filter: {shade: serShde} | filter: {batch: serBatch} | filter: {party: serParty} | filter: {process: serProc} | filter :{JPR_PTYP:'RF'}  |    sumpipe:'Rtpcs' | number:'0.2' }}</span></td>
+      <td><span style="font-weight: bold">{{ details | filter: {machine: serMachine} | filter: {party: serParty} | filter: {dat: today} | filter: {JPR_PRTYPE: serprcotyp} | filter: {JPR_PRTYPE: 'Re-Proces'}  | filter: {shade: serShde} | filter: {batch: serBatch} | filter: {party: serParty} | filter: {process: serProc}   | sumpipe:'JPR_TMtr' | number:'0.2' }}</span></td>
+      <td><span style="font-weight: bold">{{ details | filter: {machine: serMachine} | filter: {party: serParty} | filter: {dat: today} | filter: {JPR_PRTYPE: serprcotyp} | filter: {JPR_PRTYPE: 'Re-Proces'}  | filter: {shade: serShde} | filter: {batch: serBatch} | filter: {party: serParty} | filter: {process: serProc}   |   sumpipe:'JPR_TPCs' | number:'0.2' }}</span></td>
+      <td><span style="font-weight: bold;color:red">{{ details | filter: {machine: serMachine} | filter: {party: serParty} | filter: {dat: today}  | filter: {shade: serShde} | filter: {batch: serBatch} | filter: {JPR_PRTYPE: serprcotyp} | filter: {party: serParty} | filter: {process: serProc}  | sumpipe:'JPR_TMtr' | number:'0.2' }}</span></td>
+      <td><span style="font-weight: bold;color:red">{{ details | filter: {machine: serMachine} | filter: {party: serParty} | filter: {dat: today}  | filter: {shade: serShde} | filter: {batch: serBatch} | filter: {JPR_PRTYPE: serprcotyp} | filter: {party: serParty} | filter: {process: serProc}  | sumpipe:'JPR_TPCs'| number:'0.2'  }}</span></td>
+  </tr>
+  <tr>
+      
+      <td><span style="font-weight: bold">UP TO DATE</span></td>
+      <td><span style="font-weight: bold">{{ details | filter: {machine: serMachine} | filter: {party: serParty}  | filter: {shade: serShde} | filter: {JPR_PRTYPE: serprcotyp} | filter: {JPR_PRTYPE: 'Process'} | filter: {batch: serBatch} | filter: {party: serParty} | filter: {process: serProc} | filter :{JPR_PTYP:'PD'}  | sumpipe:'Ptmtr' | number:'0.2' }}</span></td>
+      <td><span style="font-weight: bold">{{ details | filter: {machine: serMachine} | filter: {party: serParty}  | filter: {shade: serShde} | filter: {JPR_PRTYPE: serprcotyp} | filter: {JPR_PRTYPE: 'Process'} | filter: {batch: serBatch} | filter: {party: serParty} | filter: {process: serProc} | filter :{JPR_PTYP:'PD'}  | sumpipe:'Ptpcs' | number:'0.2' }}</span></td>
+      <td><span style="font-weight: bold">{{ details | filter: {machine: serMachine} | filter: {party: serParty}  | filter: {shade: serShde} | filter: {JPR_PRTYPE: serprcotyp} | filter: {JPR_PRTYPE: 'Process'} | filter: {batch: serBatch} | filter: {party: serParty} | filter: {process: serProc} | filter :{JPR_PTYP:'TD'}  | sumpipe:'Ttmtr' | number:'0.2' }}</span></td>
+      <td><span style="font-weight: bold">{{ details | filter: {machine: serMachine} | filter: {party: serParty}  | filter: {shade: serShde} | filter: {JPR_PRTYPE: serprcotyp} | filter: {JPR_PRTYPE: 'Process'} | filter: {batch: serBatch} | filter: {party: serParty} | filter: {process: serProc} | filter :{JPR_PTYP:'TD'}  | sumpipe:'Ttpcs' | number:'0.2' }}</span></td>
+     
+      <td><span style="font-weight: bold">{{ details | filter: {machine: serMachine} | filter: {party: serParty}  | filter: {shade: serShde} | filter: {JPR_PRTYPE: serprcotyp} | filter: {JPR_PRTYPE: 'Process'} | filter: {batch: serBatch} | filter: {party: serParty} | filter: {process: serProc} | filter :{JPR_PTYP:'TD'}  | sumpipe:'Rtmr' | number:'0.2' }}</span></td>
+      <td><span style="font-weight: bold">{{ details | filter: {machine: serMachine} | filter: {party: serParty}  | filter: {shade: serShde} | filter: {JPR_PRTYPE: serprcotyp} | filter: {JPR_PRTYPE: 'Process'} | filter: {batch: serBatch} | filter: {party: serParty} | filter: {process: serProc} | filter :{JPR_PTYP:'TD'}  | sumpipe:'Rtpcs' | number:'0.2' }}</span></td>
+     
+      <td><span style="font-weight: bold">{{ details | filter: {machine: serMachine} | filter: {party: serParty}  | filter: {shade: serShde} | filter: {JPR_PRTYPE: serprcotyp} | filter: {JPR_PRTYPE: 'Re-Proces'} | filter: {batch: serBatch} | filter: {party: serParty} | filter: {process: serProc}     | sumpipe:'JPR_TMtr' | number:'0.2' }}</span></td>
+      <td><span style="font-weight: bold">{{ details | filter: {machine: serMachine} | filter: {party: serParty}  | filter: {shade: serShde} | filter: {JPR_PRTYPE: serprcotyp} | filter: {JPR_PRTYPE: 'Re-Proces'} | filter: {batch: serBatch} | filter: {party: serParty} | filter: {process: serProc}    | sumpipe:'JPR_TPCs' | number:'0.2' }}</span></td>
+      <td><span style="font-weight: bold;color:red">{{ details | filter: {machine: serMachine} | filter: {party: serParty}  | filter: {shade: serShde} | filter: {batch: serBatch} | filter: {party: serParty} | filter: {JPR_PRTYPE: serprcotyp} | filter: {process: serProc}  | sumpipe:'JPR_TMtr' | number:'0.2' }}</span></td>
+      <td><span style="font-weight: bold;color:red">{{ details | filter: {machine: serMachine} | filter: {party: serParty}  | filter: {shade: serShde} | filter: {batch: serBatch} | filter: {party: serParty} | filter: {JPR_PRTYPE: serprcotyp} | filter: {process: serProc}  | sumpipe:'JPR_TPCs' | number:'0.2' }}</span></td>
+
+  </tr>
+</tbody>
+</table>
+
+  <pagination-controls *ngIf="details.length>0" (pageChange)="p = $event"></pagination-controls>
+</div>
+
+<button *ngIf="details.length>0" class="btn btn-info" (click)="export()">Export Pdf</button>

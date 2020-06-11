@@ -1,0 +1,151 @@
+
+	<h2 class="page-header pt-4 pb-2 border-bottom">Add Income</h2>
+	<!-- <div *ngIf="invalidForm" class="alert alert-danger" role="alert">
+		Please fill out all fields.
+	</div> -->
+	
+	<ngb-alert paymentType="danger" *ngIf="ds.invalidForm" (close)="ds.invalidForm = false">
+		{{ds.errorMessage }}
+	</ngb-alert>
+	
+	<ngb-alert paymentType="success" *ngIf="ds.formSubmitted" (close)="ds.formSubmitted = false">
+		{{ ds.submittedMessage }}
+	</ngb-alert>
+	
+	<div *ngIf="!ds.formSubmitted" class="border p-2 pt-4">
+		<form class="needs-validation" method="post" #addIncomeForm="ngForm"  (ngSubmit)="submitForm(addIncomeForm,income)">
+			<div class="form-group row">
+				<label for="type" class="col-sm-2 col-form-label text-right">Type </label>
+				<div class="col-sm-9">
+					<select class="custom-select" [ngClass]="{'is-invalid' : type.touched && type.invalid, 'is-valid' : type.touched && type.valid }" id ="type" name="type" class="form-control" [(ngModel)]="income.type" #type="ngModel" placeholder="Type" required >
+						<option value="" selected>Select Type</option>
+						<option [value]="item.value" *ngFor="let item of transactionTypes">{{item.name}}</option>
+					</select>
+					<small class="invalid-feedback" *ngIf="type.touched && type.invalid">
+						<span *ngIf="type.errors.required">Type required</span>
+					</small>
+				</div>
+			</div>
+					
+			<div class="form-group row">
+				<label for="accountName" class="col-sm-2 col-form-label text-right">Account Name </label>
+				<div class="col-sm-9">
+					<select class = "custom-select" [ngClass]="{'is-invalid':accountName.touched && accountName.invalid, 'is-valid':accountName.touched && accountName.valid }" id="accountName" name="accountName" class="form-control" pattern="[A-Za-z]+" [(ngModel)]="income.account_id" #accountName="ngModel" placeholder="Account Name" required >
+						<option value = "" selected>Select account</option>
+						
+					</select>
+				</div>
+				<small class="invalid-feedback" *ngIf="accountName.touched && accountName.invalid">
+					<span *ngIf="accountName.errors.required">Account Name required</span>
+				</small>
+			</div>
+			
+			<div class="form-group row">
+				<label for="partyName" class="col-sm-2 col-form-label text-right">Party Name </label>
+				<div class="col-sm-9">
+					<select class = "custom-select" [ngClass]="{'is-invalid':partyName.touched && partyName.invalid, 'is-valid':partyName.touched && partyName.valid }" id="partyName" name="partyName" class="form-control" pattern="[A-Za-z]+" [(ngModel)]="income.party_id" #partyName="ngModel" required >
+						<option value = "" selected>Select party</option>
+						<option [value]="x.id" *ngFor="let x of partyList">{{ x.name }}</option>
+					</select>
+				</div>
+				<small class="invalid-feedback" *ngIf="accountName.touched && accountName.invalid">
+					<span *ngIf="accountName.errors.required">Party Name required</span>
+				</small>
+			</div>	
+			
+			<div class="form-group row">
+				<label for = "incomeDate" class="col-sm-2 col-form-label text-right">Date </label>
+				<div class="col-sm-9 input-group">
+					<input paymentType="incomeDate" [ngClass]="incomeDate.touched && incomeDate.invalid ? 'is-invalid' : 'is-valid'" id="incomeDate" name="incomeDate"  class="form-control" [(ngModel)]="income.incomeDate" #incomeDate="ngModel" ngbDatepicker #d1="ngbDatepicker" required />
+					<div class="input-group-append">
+						<button class="btn btn-outline-secondary" (click)="d1.toggle()" paymentType="button"><i class = "fa fa-calendar-alt"></i>
+						</button>
+					</div>
+					<small class="invalid-feedback" *ngIf="incomeDate.touched && incomeDate.invalid">
+					<span *ngIf="incomeDate.errors.required">Date is required!</span>
+					</small>			
+				</div>
+			</div>	
+					
+			<div class="form-group row">
+				<label for="paymentType" class="col-sm-2 col-form-label text-right">Payment Type </label>
+				<div class="col-sm-9">
+					<select class = "custom-select" [ngClass]="{ 'is-invalid' : paymentType.touched && paymentType.invalid , 'is-valid' : paymentType.touched && paymentType.valid }" id="paymentType" name="paymentType" class="form-control" [(ngModel)]="income.paymentType" #paymentType="ngModel"  required >
+						<option value="" selected>select</option>
+						<option value="cash">Cash</option>
+						<option value="cheque">Cheque</option>
+						<option value="dd">DD</option>
+						<option value="net banking">Net Banking</option>
+					</select>
+				</div>
+			</div>
+			
+			<div class="form-group row" *ngIf = "income.paymentType && income.paymentType != 'cash'">
+				<label for = "chequeNo" class="col-sm-2 col-form-label text-right">{{ income.paymentType | uppercase}} No.</label>
+				<div class="col-sm-9">
+					<input paymentType="text" [ngClass]="{'is-invalid':chequeNo.touched && chequeNo.invalid, 'is-valid':chequeNo.touched && chequeNo.valid }" id = "chequeNo" name="chequeNo" class="form-control"  [(ngModel)]="income.chequeNo" #chequeNo="ngModel" required />
+				</div>
+				<small class="invalid-feedback" *ngIf="chequeNo.touched && chequeNo.invalid">
+					<span *ngIf="chequeNo.errors.required">Ref Number is required!</span>
+				</small>
+			</div>
+			
+			<div class="form-group row" *ngIf = "income.paymentType && income.paymentType != 'cash'">
+				<label for = "date" class="col-sm-2 col-form-label text-right">Date </label>
+				<div class="col-sm-9 input-group">
+					<input paymentType="date" [ngClass]="date.touched && date.invalid ? 'is-invalid' : 'is-valid'" id="date" name="date"  class="form-control" [(ngModel)]="income.date" #date="ngModel" ngbDatepicker #d1="ngbDatepicker" required />
+					<div class="input-group-append">
+						<button class="btn btn-outline-secondary" (click)="d1.toggle()" paymentType="button"><i class = "fa fa-calendar-alt"></i>
+						</button>
+					</div>
+					<small class="invalid-feedback" *ngIf="date.touched && date.invalid">
+					<span *ngIf="date.errors.required">Date is required!</span>
+					</small>			
+				</div>
+			</div>
+			
+			<div class="form-group row" *ngIf = "income.paymentType && income.paymentType != 'cash'">
+				<label for = "bankName" class="col-sm-2 col-form-label text-right">Bank Name</label>
+				<div class="col-sm-9">
+					<input paymentType="text" [ngClass]="{'is-invalid':bankName.touched && bankName.invalid, 'is-valid':bankName.touched && bankName.valid }" id = "bankName" name="bankName" class="form-control"  [(ngModel)]="income.bankName" #bankName="ngModel" placeholder="Bank Name" required />
+				</div>
+				<small class="invalid-feedback" *ngIf="bankName.touched && bankName.invalid">
+					<span *ngIf="bankName.errors.required">Bank Name is required!</span>
+				</small>
+			</div>
+			
+			<div class="form-group row"  *ngIf = "income.paymentType && income.paymentType != 'cash'">
+				<label for = "branch" class="col-sm-2 col-form-label text-right">Branch </label>
+				<div class="col-sm-9">
+					<input paymentType="text" [ngClass]="{'is-invalid':branch.touched && branch.invalid, 'is-valid':branch.touched && branch.valid }" id = "branch" name="branch" class="form-control" [(ngModel)]="income.branch" #branch="ngModel" placeholder="Branch Name" required />
+				</div>
+				<small class="invalid-feedback" *ngIf="branch.touched && branch.invalid">
+					<span *ngIf="branch.errors.required">Branch Name is required!</span>
+				</small>
+			</div>
+			
+			<div class="form-group row">
+				<label for="amount" class="col-sm-2 col-form-label text-right">Amount </label>
+				<div class="col-sm-9">
+					<input paymentType="text" [ngClass]="{'is-invalid':amount.touched && amount.invalid, 'is-valid':amount.touched && amount.valid }" id="amount" name="amount" class="form-control" [(ngModel)]="income.amount" #amount="ngModel" placeholder="Amount" required />
+					<small class="invalid-feedback" *ngIf="amount.touched && amount.invalid">
+						<span *ngIf="amount.errors.required">Amount required</span>
+					</small>
+				</div>
+			</div>	
+			
+			<div class="form-group row">
+				<label for = "description" class="col-sm-2 col-form-label text-right">Description </label>
+				<div class="col-sm-9">
+					<textarea paymentType="text" [ngClass]="{'is-invalid':description.touched && description.invalid, 'is-valid':description.touched && description.valid }" rows = "4" id="description" name="description"  class="form-control" [(ngModel)]="income.description" #description="ngModel" placeholder="Description" required></textarea>
+				</div>
+				<small class="invalid-feedback" *ngIf="description.touched && description.invalid">
+					<span *ngIf="description.errors.required">Description is required!</span>
+				</small>
+			</div>
+			
+					
+			
+			<button class="btn btn-primary ml-auto mr-auto">Submit</button>
+	</form>
+</div>

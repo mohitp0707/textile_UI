@@ -1,0 +1,188 @@
+<h3 class="page-header pt-4 pb-2 border-bottom">GREY CHECKING</h3>
+
+<div  class="border p-2 pt-4">
+<form class="needs-validation" method="post" (keydown)="keyDownFunction($event)" (ngSubmit)="saveForm(addInvoiceForm,invoice,$event)" #addInvoiceForm="ngForm">
+	<div class="form-group row">
+				<div class = "col-sm-1 input-group">
+					<label for="selectParty" class="text-right">PARTY </label>
+				</div>
+				<div class = "col-sm-4 input-group">
+					<select *ngIf="isValid" class="selectpicker custom-select form-control" data-live-search="true"  (change)="getPartyDet()" [disabled]="dataadded==true" required>
+						<option  value="">Select Party</option>
+						<option [value]="party1.PM_ID"  *ngFor="let party1 of party">{{party1.PM_NAME}}</option>		
+					</select>
+					<input *ngIf="!isValid" class="form-control" [disabled]="butDisabled"  type="text" name="PM_NAME" [(ngModel)]="invoice.PM_NAME" />
+				</div>
+				<div class="col-sm-1">
+					<label for="BatchNo" class="col-form-label">LOT NO</label>
+				</div>
+				<div class="col-sm-2">
+					<select *ngIf="isValid" class="custom-select form-control" [ngClass]="{'is-invalid' : Batch.touched && Batch.invalid, 'is-valid' : Batch.touched && Batch.valid }" id ="Batch" name="Batch" class="form-control" [(ngModel)]="invoice.GR_Batch" #Batch="ngModel" placeholder="Batch" (change)="getDetails(invoice.GR_Batch)" [disabled]="dataadded==true" required >
+						<option [ngValue]="batch.GR_Batch"  *ngFor="let batch of partyBatch">{{batch.GR_Batch}}</option>	
+					</select>
+					<input *ngIf="!isValid" class="form-control" [disabled]="butDisabled"  type="text" name="GR_Batch" [(ngModel)]="invoice.GR_Batch" />
+				</div>
+				<div class="col-sm-1">
+						<label for="Godown" class="col-form-label text-right">GODOWN</label>
+				</div>
+				<div class="col-sm-3 input-group">
+						<select *ngIf="isValid" class="custom-select form-control" id ="Godown" required name="Godown" class="form-control" [(ngModel)]="invoice.GR_WH" #Godown="ngModel">
+							<option [ngValue]="Godown1.GM_Name"  *ngFor="let Godown1 of GodownArr" selected>{{Godown1.GM_Name}}</option>
+						</select>	
+						<input *ngIf="!isValid" class="form-control" [disabled]="butDisabled"  type="text" name="GR_WH" [(ngModel)]="invoice.GR_WH" />
+				</div>
+				
+	</div>
+	<div class="form-group row">	
+				<div class="col-sm-2">
+					<label for="challanNo" class="col-form-label text-right">CHALLAN NO</label></div>
+				<div class="col-sm-2">
+					<input type="text" [ngClass]="{'is-invalid':challanNo.touched && challanNo.invalid, 'is-valid':challanNo.touched && challanNo.valid }" id="challanNo" name="GR_ChallNo" class="form-control" [(ngModel)]="invoice.GR_ChallNo" #challanNo="ngModel"  placeholder="Challan Number" readonly />
+				</div>
+				<div class="col-sm-2 input-group">
+					<label for="challanDate" class="col-form-label text-right">CHALLAN DATE</label>
+				</div>
+				<div class="col-sm-2 input-group">
+					<input class="form-control" type="text" [ngClass]="{ 'is-invalid' : challanDate.touched && challanDate.invalid , 'is-valid' : challanDate.touched && challanDate.valid }" id="challanDate" name="GR_Chdate"  [(ngModel)]="invoice.GR_Chdate" #challanDate="ngModel" readonly />
+				</div>
+				<div class="col-sm-2 input-group">
+					<label for="challanNo" class="col-form-label text-right">REC DATE</label>
+				</div>
+				<div class="col-sm-2 input-group">
+					<input class="form-control" type="text" [ngClass]="{ 'is-invalid' : RecDate.touched && RecDate.invalid , 'is-valid' : RecDate.touched && RecDate.valid }" id="RecDate" name="RecDate"  [(ngModel)]="invoice.RecDate" #RecDate="ngModel" readonly />
+				</div>
+	</div>
+
+	<div class="form-group row">	
+		<div class="col-sm-2">
+				<label for="RecMeter" class="col-form-label text-right">REC MTR</label></div>
+		<div class="col-sm-2">
+			<input type="text"  id="RecMeter" name="GR_RecMeter" class="form-control" [(ngModel)]="invoice.GR_RecMeter"   readonly />
+		</div>
+		<div class="col-sm-2 input-group">
+			<label for="RecTPCS" class="col-form-label text-right">REC PCS</label>
+		</div>
+		<div class="col-sm-2 input-group">
+			<input class="form-control" type="text"  id="RecTPCS" name="RecTPCS"  [(ngModel)]="invoice.RecTPCS"  readonly />
+		</div>
+		<div class="col-sm-2">
+			<label for="PWDTH" class="col-form-label text-right">WIDTH</label></div>
+			<div class="col-sm-2">
+				<input type="text"  id="PWDTH" name="GRCHK_PWIDHT" class="form-control" [(ngModel)]="invoice.GRCHK_PWIDHT" />
+		</div>
+	</div>
+	<div class="form-group row">	
+		<div class="col-sm-2">
+			<label for="GRFLD" class="col-form-label text-right">GREY FOLD</label></div>
+		<div class="col-sm-2">
+			<input type="number"  id="GRFLD" name="GRCHK_GFLD" class="form-control" [(ngModel)]="invoice.GRCHK_GFLD" />
+		</div>
+
+		<div class="col-sm-2">
+			<label for="PCWGHT" class="col-form-label text-right">QUALITY WEIGHT</label></div>
+			<div class="col-sm-2">
+				<input type="text"  id="PCWGHT" name="GRCHK_PWGHT" class="form-control" [(ngModel)]="invoice.GRCHK_PWGHT"/>
+		</div>
+
+		<div class="col-sm-2">
+			<label for="counter" class="col-form-label text-right">PCS COUNTER</label>
+		</div>
+		<div class="col-sm-2 input-group">
+			<input type="text"  id="counter" name="counter" class="form-control" [(ngModel)]="invoice.counter" readonly />
+		</div>
+	
+	</div>
+
+<div class="form-group row">
+		<div class="col-sm-2 input-group">
+			<label for="rmk" class="col-form-label text-right">REMARK</label>
+		</div>
+		<div class="col-sm-10 input-group">
+			<textarea class="form-control" id="rmk" rows="3" name="GR_Rmk" [(ngModel)]="invoice.GRCHK_RMK"></textarea>
+		</div>
+
+	
+</div>
+			
+	<!-- <table class = "table mt-4">
+				<thead class = "thead-light">
+					<tr>
+						<th scope="col">PARTICULAR NAME</th>
+						<th scope="col">UNIT</th>
+						<th scope="col">CHALLAN QTY</th>
+						<th scope="col">REC QTY</th>
+						<th scope="col">ADD</th>
+						</tr>
+					</thead>
+					<tr>
+						<td>
+						{{particular.item}}
+						</td>
+						
+						<td>
+							{{particular.unit}}
+						</td>
+						
+					<td>
+							<input type="number" pattern="[0-9 .\s]+" [ngClass]="{'is-invalid' : cquantity.touched && cquantity.invalid, 'is-valid' : cquantity.touched && cquantity.valid }" id ="cquantity" name="cquantity" class="form-control" [(ngModel)]="particular.cquantity" #focusText  #cquantity="ngModel" required />
+							<div   [hidden]="cquantity.valid" class="alert alert-danger">Please Enter Number Only</div>	
+						</td>
+					
+						<td>
+							<input type="number" pattern="[0-9 .\s]+" [ngClass]="{'is-invalid' : quantity.touched && quantity.invalid, 'is-valid' : quantity.touched && quantity.valid }" id ="quantity" name="quantity" class="form-control" [(ngModel)]="particular.quantity" #quantity="ngModel" required />
+							<div   [hidden]="quantity.valid" class="alert alert-danger">Please Enter Number Only</div>	
+						</td>
+				
+							
+						<td>
+							<button type="button" class="btn btn-info" (click) = addParticular(particular)>+</button>
+	
+						</td>
+					</tr>
+			</table> -->
+			
+				<table class = "table">
+				<thead class = "thead-light">
+					<tr>
+						<th scope="col">SR NO</th>
+						<th scope="col">PARTICULAR NAME</th>
+						<th scope="col">UNIT</th>
+						<th scope="col">CHALLAN QTY</th>
+						<th scope="col">REC QTY</th>
+						<th scope="col">MANAGE</th>
+						</tr>
+				</thead>
+				<tbody>
+				
+					<tr *ngFor="let item of RecQtyList; let i = index">
+					
+						<td>{{ i + 1 }}</td>
+						<td>{{ item.item }}</td>
+						<td>{{ item.unit }}</td>
+						<td>{{ item.cquantity }}</td>
+						<td>
+							<input type="number" pattern="[0-9 .\s]+" [ngClass]="{'is-invalid' : quantity.touched && quantity.invalid, 'is-valid' : quantity.touched && quantity.valid }" id ="quantity" name="quantity-{{i}}" class="form-control" [(ngModel)]="item.quantity" (change)="calculation()" #quantity="ngModel" required />
+							<div   [hidden]="quantity.valid" class="alert alert-danger">Please Enter Number Only</div>	
+						</td>
+							<!-- <td><i (click)="removeParticular(i)" class = "fas fa-times"></i></td> -->
+						</tr>
+					<tr style="font-weight:bold;color:red">
+						<td><span>TOTAL Rec. Meter</span></td>
+						<td >{{invoice.TotQty}}<span></span></td>
+						<td><span>TOTAL Challan Meter</span></td>
+						<td >{{invoice.TotcQty}}<span></span></td>
+						<td><span>TOTAL Pieces</span></td>
+						<td >{{ invoice.Topcs }}<span></span></td>
+					</tr>
+					<tr style="font-weight:bold;color:green">
+						<td><span>TOTAL Meter Difference</span></td>
+						<td >{{invoice.diffMeter}}<span></span></td>
+						<td></td>
+						<td><span>TOTAL PCS Difference</span></td>
+						<td >{{invoice.diffPcs}}<span></span></td>
+					</tr>
+				</table>
+		<button [disabled]="isSaving" class="btn btn-primary mt-3">SUBMIT</button>
+		<button *ngIf="!isupdate" type="button" (click)="reset()" class="btn btn-primary mt-3">RESET</button>
+	</form>
+	</div>

@@ -1,0 +1,71 @@
+<h3 class="page-header pt-4 pb-2 border-bottom ">COAL CONSUMPTION REPORT</h3>
+<p></p>
+
+
+<div class="row">
+	<div class = "col-sm-1 input-group">
+		<label for="GR_Date" class="col-form-label text-right">From </label>
+		</div>
+		<div class = "col-sm-3 input-group">
+			<input class="form-control" type="date" id="GR_Fdat" name="GR_Fdat"  [(ngModel)]="invoice.GR_Fdat" ngbDatepicker #d="ngbDatepicker" required />
+			<div class="input-group-append">
+				<button class="btn btn-outline-secondary" (click)="d.toggle()" type="button"><i class = "fas fa-calendar-alt"></i></button>
+			</div>
+	</div>
+
+	<div class = "col-sm-1 input-group">
+		<label for="GR_Date" class="col-form-label text-right">TO </label>
+		</div>
+		<div class = "col-sm-3 input-group">
+			<input class="form-control" type="date" id="GR_Tdat" name="GR_Tdat"  [(ngModel)]="invoice.GR_Tdat"  ngbDatepicker #d1="ngbDatepicker" required />
+			<div class="input-group-append">
+				<button class="btn btn-outline-secondary" (click)="d1.toggle()" type="button"><i class = "fas fa-calendar-alt"></i></button>
+			</div>
+	</div>
+	<div class="col-sm-3"><button class="btn btn-info" (click)="getdata(invoice)">Show</button> </div>
+</div>
+
+<div class="content table-responsive table-full-width mt-4">
+	<table id="dattab" class="table tablefixed table-bordered table-sm">
+		<thead class = "thead-light">
+			<tr>
+        <th *ngIf="data">Sr No</th>
+				<th *ngFor="let tableHead of column">{{tableHead}}</th>
+      </tr>
+      
+    
+			</thead>
+			<!-- <tr>
+          <td></td>
+          <td><input class="form-control" type="text" name="search" [(ngModel)]="serdat"> </td>
+          <td><input class="form-control" type="text" name="search1" [(ngModel)]="serunit"> </td>
+          <td><input class="form-control" type="text" name="search1" [(ngModel)]="sertim"> </td>
+          <td><input class="form-control" type="text" name="search1" [(ngModel)]="serpf"> </td>
+          <td><input class="form-control" type="text" name="search1" [(ngModel)]="serrat"> </td>
+          <td><input class="form-control" type="text" name="search1" [(ngModel)]="seramt"> </td>
+				</tr> -->
+				<tbody>
+			<tr *ngFor="let product of stockData  | paginate: { itemsPerPage: 20, currentPage: p } ; let i = index">
+				<td>{{ i + 1 }}</td>
+				<td *ngFor="let tableHead1 of column">{{ product[tableHead1] }}</td>
+				<!-- <td>{{ product.unit }}</td>
+        <td>{{ product.ELE_TIME }}</td>
+        <td>{{ product.pf }}</td>
+        <td>{{product.rat}}</td>
+        <td>{{product.amt}}</td> -->
+      </tr>
+      <!-- <tr>
+        <td></td><td></td><td></td>
+        <td></td>
+        <td></td>
+        <td>Total</td>
+        <td style="color:red;font-weight: bold">{{amt}}</td>
+     
+			</tr> -->
+		</tbody>
+	</table>
+	<pagination-controls *ngIf="stockData.length>0" (pageChange)="p = $event"></pagination-controls>
+</div>
+
+
+<button *ngIf="stockData.length>0" class="btn btn-info" (click)="export()">Export Pdf</button>

@@ -1,0 +1,352 @@
+{
+	"transaction": {
+		"category": [{
+			"name": "Income",
+			"value": "income"
+		},
+		{
+			"name": "Expense",
+			"value": "expense"
+		},
+		{
+			"name": "Invoice Payment",
+			"value": "invoice_payment"
+		},
+		{
+			"name": "Transfer",
+			"value": "transfer"
+		}],
+		"type": [{
+			"name": "Agriculture",
+			"value": "agriculture",
+			"category": "expense"
+		},
+		{
+			"name": "Pets",
+			"value": "pets",
+			"category": "expense"
+		},
+		{
+			"name": "Building And Equipment",
+			"value": "building_and_equipment",
+			"category": "expense"
+		},
+		{
+			"name": "Household",
+			"value": "household",
+			"category": "expense"
+		},
+		{
+			"name": "Computers/Communications",
+			"value": "computers_or_communications",
+			"category": "expense"
+		},
+		{
+			"name": "Fees,charges&Subscription ",
+			"value": "fees_charges_and_subscription",
+			"category": "expense"
+		},
+		{
+			"name": "Insurance",
+			"value": "insurance",
+			"category": "expense"
+		},
+		{
+			"name": "Financial",
+			"value": "financial",
+			"category": "expense"
+		},
+		{
+			"name": "Non-Pofit",
+			"value": "no_profit",
+			"category": "expense"
+		},
+		{
+			"name": "Office",
+			"value": "office",
+			"category": "expense"
+		},
+		{
+			"name": "Other expenses",
+			"value": "other_expenses",
+			"category": "expense"
+		},
+		{
+			"name": "Donation and Gifts",
+			"value": "donation_and_gifts",
+			"category": "expense"
+		},
+		{
+			"name": "Other",
+			"value": "other",
+			"category": "expense"
+		},
+		{
+			"name": "Payroll",
+			"value": "payroll",
+			"category": "expense"
+		},
+		{
+			"name": "services",
+			"value": "services",
+			"category": "expense"
+		},
+		{
+			"name": "Taxes",
+			"value": "taxes",
+			"category": "expense"
+		},
+		{
+			"name": "Advance",
+			"value": "advance",
+			"category": "expense"
+		},
+		{
+			"name": "Against Bill",
+			"value": "against_bill",
+			"category": "expense"
+		},
+		{
+			"name": "Labour",
+			"value": "labour",
+			"category": "expense"
+		},
+		{
+			"name": "Office",
+			"value": "office",
+			"category": "expense"
+		},
+		{
+			"name": "Others",
+			"value": "others",
+			"category": "expense"
+		},
+		{
+			"name": "Advance",
+			"value": "advance",
+			"category": "income"
+		},
+		{
+			"name": "Against Bill",
+			"value": "against_bill",
+			"category": "income"
+		},
+		{
+			"name": "Labour",
+			"value": "labour",
+			"category": "income"
+		},
+		{
+			"name": "Office",
+			"value": "office",
+			"category": "income"
+		},
+		{
+			"name": "Others",
+			"value": "others",
+			"category": "income"
+		},
+		{
+			"name": "Licence Fees",
+			"value": "licence_fees",
+			"category": "income"
+		},
+		{
+			"name": "Agriculture",
+			"value": "agriculture",
+			"category": "income"
+		},
+		{
+			"name": "Commisions",
+			"value": "commisions",
+			"category": "income"
+		},
+		{
+			"name": "Fees and Charges",
+			"value": "fees_and_charges",
+			"category": "income"
+		},
+		{
+			"name": "Blank",
+			"value": "blank",
+			"category": "income"
+		},
+		{
+			"name": "Investments",
+			"value": "investments",
+			"category": "income"
+		},
+		{
+			"name": "No Profit",
+			"value": "no_profit",
+			"category": "income"
+		},
+		{
+			"name": "Other income",
+			"value": "other_income",
+			"category": "income"
+		},
+		{
+			"name": "Professional Services",
+			"value": "professional_services",
+			"category": "income"
+		},
+		{
+			"name": "Sales Products and Services",
+			"value": "sales_products_and_services",
+			"category": "income"
+		}],
+		"payment_types": [{
+			"name": "Cash",
+			"value": "cash"
+		},
+		{
+			"name": "Cheque",
+			"value": "cheque"
+		},
+		{
+			"name": "DD",
+			"value": "dd"
+		},
+		{
+			"name": "Net Banking",
+			"value": "net_banking"
+		}]
+	},
+	"account": {
+		"category": [{
+			"name": "Credit Account",
+			"value": "credit"
+		},
+		{
+			"name": "Debit Account",
+			"value": "debit"
+		}],
+		"type": [{
+			"name": "Bank Account",
+			"value": "bank",
+			"category": "debit"
+		},
+		{
+			"name": "Cash",
+			"value": "cash",
+			"category": "debit"
+		},
+		{
+			"name": "Loan",
+			"value": "loan",
+			"category": "credit"
+		},
+		{
+			"name": "Credit Card",
+			"value": "credit_card",
+			"category": "credit"
+		}]
+	},
+	"party": {
+		"category": [{
+			"name": "Vendor",
+			"value": "vendor"
+		},
+		{
+			"name": "Client",
+			"value": "client"
+		},
+		{
+			"name": "Staff",
+			"value": "staff"
+		}],
+		"type": [{
+			"name": "Vendor",
+			"value": "vendor",
+			"category": "vendor"
+		},{
+			"name": "Client",
+			"value": "client",
+			"category": "client"
+		},{
+			"name": "Trainer",
+			"value": "trainer",
+			"category": "staff"
+		},
+		{
+			"name": "Candidate",
+			"value": "candidate",
+			"category": "client"
+		}]
+	},
+	"invoice": {
+		"category": [{
+			"name": "Sale",
+			"value": "sale"
+		},
+		{
+			"name": "Purchase",
+			"value": "purchase"
+		},
+		{
+			"name": "Rent",
+			"value": "rent"
+		},
+		{
+			"name": "Service",
+			"value": "service"
+		}],
+		"type": [{
+			"name": "Sale",
+			"value": "sale",
+			"category": "sale"
+		},{
+			"name": "Purchase",
+			"value": "purchase",
+			"category": "purchase"
+		},{
+			"name": "Inward",
+			"value": "inward",
+			"category": "rent"
+		},{
+			"name": "Outward",
+			"value": "outward",
+			"category": "rent"
+		}],
+		"particular": [{
+			"name": "I phone",
+			"price": "30000",
+			"tax": "5%",
+			"unit": "pcs"
+		}]
+	},
+	"product":{
+	"tax":[{
+			"taxName":"Tax1",
+			"sgst":5,
+			"cgst":5,
+			"igst":10,
+			"value":"GST10"
+			},
+			{
+			"taxName":"Tax2",
+			"sgst":9,
+			"cgst":9,
+			"igst":18,
+			"value":"GST18"
+			}],
+	"category":[{
+			"name": "Sale",
+			"value": "sale"
+			},
+			{
+			"name": "Purchase",
+			"value": "purchase"
+			}],
+	"type": [{
+			"name": "saletype",
+			"value": "saletype",
+			"category": "sale"
+		},{
+			"name": "purchasetype",
+			"value": "purchasetype",
+			"category": "purchase"
+		}]
+}
+}

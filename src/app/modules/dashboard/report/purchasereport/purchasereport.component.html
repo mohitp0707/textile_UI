@@ -1,0 +1,118 @@
+
+<h3 class="page-header pt-4 pb-2 border-bottom ">PURCHASE REPORT</h3>
+<p></p>
+
+<div class="row">
+	<div class = "col-sm-1 input-group">
+		<label for="GR_Date" class="col-form-label text-right">From </label>
+		</div>
+		<div class = "col-sm-3 input-group">
+			<input class="form-control" type="date" id="GR_Fdat" name="GR_Fdat"  [(ngModel)]="invoice.GR_Fdat" ngbDatepicker #d="ngbDatepicker" required />
+			<div class="input-group-append">
+				<button class="btn btn-outline-secondary" (click)="d.toggle()" type="button"><i class = "fas fa-calendar-alt"></i></button>
+			</div>
+	</div>
+
+	<div class = "col-sm-1 input-group">
+		<label for="GR_Date" class="col-form-label text-right">TO </label>
+		</div>
+		<div class = "col-sm-3 input-group">
+			<input class="form-control" type="date" id="GR_Tdat" name="GR_Tdat"  [(ngModel)]="invoice.GR_Tdat"  ngbDatepicker #d1="ngbDatepicker" required />
+			<div class="input-group-append">
+				<button class="btn btn-outline-secondary" (click)="d1.toggle()" type="button"><i class = "fas fa-calendar-alt"></i></button>
+			</div>
+	</div>
+	<div class="col-sm-3"><button class="btn btn-info" (click)="getdata(invoice)">Show</button> </div>
+</div>
+
+
+<div class="content table-responsive table-full-width mt-4">
+	<table id="dattab" class="table tablefixed table-bordered table-sm">
+		<thead class = "thead-light">
+			<tr>
+				<th>SR.No</th>
+				<th style="width:150px">DATE</th>
+        <th>PARTY</th>
+        <th  style="width:100px">INV NO</th>
+				<th style="width:100px">GST TYPE</th>
+				<th>NET AMT</th>
+				<th>SGST</th>
+        <th>CGST</th>
+        <th>IGST</th>
+        <th>TOTAL</th>
+			</tr>
+			
+			<tr>
+					<td></td>
+          <td  style="width:150px"><input class="form-control" type="text" name="search1" [(ngModel)]="serDat"> </td>
+          <td><input class="form-control" type="text" name="search1" [(ngModel)]="setsupp"> </td>
+					<td style="width:100px"><input class="form-control" type="text" name="search1" [(ngModel)]="serDPNO"> </td>
+					<td  style="width:100px"><input class="form-control" type="text" name="search1" [(ngModel)]="sergstt"> </td>
+					<td></td>
+					<td> </td>
+					<td> </td>
+          <td> </td>
+          <td> </td>
+				</tr>
+			</thead>
+			<tbody>
+			<tr  style="cursor: pointer" (dblclick)="clickEven(product)" *ngFor="let product of jobIntake | filter: {Dat: serDat} | filter: {invNo: serDPNO}| filter: {supp: setsupp} | filter: {gstyp: sergstt}   | paginate: { itemsPerPage: 20, currentPage: p } ; let i = index">
+				<td>{{ i + 1 }}</td>
+				<td style="width:150px">{{ product.Dat  }}</td>
+        <td>{{ product.supp }}</td>
+        <td style="width:100px">{{ product.invNo }}</td>
+				<td  style="width:100px">{{ product.gstyp }}</td>
+				<td>{{ product.NA | number:'0.2' }}</td>
+				<td>{{ product.sgst | number:'0.2' }}</td>
+        <td>{{ product.cgst | number:'0.2' }}</td>
+        <td>{{ product.igst  | number:'0.2' }}</td>
+        <td>{{ product.total | number:'0.2' }}</td>
+      </tr>
+      <tr>
+        <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+        <td style="font-weight: bold;color: red">Total</td><td style="font-weight: bold;color: red">{{jobIntake | filter: {Dat: serDat} | filter: {invNo: serDPNO}| filter: {supp: setsupp} | filter: {gstyp: sergstt}   | sumpipe:'total' | number:'0.2'}}</td>
+      </tr>
+		</tbody>
+	</table>
+	<pagination-controls *ngIf="jobIntake.length>0" (pageChange)="p = $event"></pagination-controls>
+</div>
+
+<button *ngIf="jobIntake.length>0" class="btn btn-info" (click)="export()">Export Pdf</button>
+
+
+<div *ngIf="showdetraw" class="content table-responsive table-full-width mt-4">
+	<table id="dattab" class="table table-bordered table-sm">
+		<thead class = "thead-light">
+			<tr>
+				<th>SR.No.</th>
+				<th>ITEM</th>
+				<th>UNIT</th>
+				<th>QTY</th>
+				<th>RATE</th>
+				<th>SGST(%)</th>
+				<th>SGST</th>
+				<th>CGST(%)</th>
+				<th>CGST</th>
+				<th>IGST(%)</th>
+				<th>IGST</th>
+				<th>TAX</th>
+				<th>TOTAL</th>
+			</tr>
+			</thead>
+			<tr  *ngFor="let product of detaildata   ; let i = index">
+				<td>{{ i + 1 }}</td>
+				<td>{{ product.itm }}</td>
+				<td>{{ product.unit }}</td>
+				<td>{{ product.qty | number:'0.2' }}</td>
+				<td>{{ product.rate | number:'0.2' }}</td>
+				<td>{{ product.sgstp | number:'0.2' }}%</td>
+				<td>{{ product.sgst | number:'0.2' }}</td>
+				<td>{{ product.Cgstp  | number:'0.2' }}%</td>
+				<td>{{ product.cgst | number:'0.2' }}</td>
+				<td>{{ product.igstp | number:'0.2' }}%</td>
+				<td>{{ product.igst | number:'0.2' }}</td>
+				<td>{{ product.tottax | number:'0.2' }}</td>
+				<td>{{ product.total | number:'0.2' }}</td>
+			</tr>
+		</table>
+</div>

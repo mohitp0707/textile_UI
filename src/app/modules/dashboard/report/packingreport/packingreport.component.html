@@ -1,0 +1,117 @@
+
+<h3 class="page-header pt-4 pb-2 border-bottom ">Packing  Report</h3>
+<p></p>
+
+<div class="row">
+	<div class = "col-sm-1 input-group">
+		<label for="GR_Date" class="col-form-label text-right">From </label>
+		</div>
+		<div class = "col-sm-3 input-group">
+			<input class="form-control" type="date" id="GR_Fdat" name="GR_Fdat"  [(ngModel)]="invoice.GR_Fdat" ngbDatepicker #d="ngbDatepicker" required />
+			<div class="input-group-append">
+				<button class="btn btn-outline-secondary" (click)="d.toggle()" type="button"><i class = "fas fa-calendar-alt"></i></button>
+			</div>
+	</div>
+
+	<div class = "col-sm-1 input-group">
+		<label for="GR_Date" class="col-form-label text-right">TO </label>
+		</div>
+		<div class = "col-sm-3 input-group">
+			<input class="form-control" type="date" id="GR_Tdat" name="GR_Tdat"  [(ngModel)]="invoice.GR_Tdat"  ngbDatepicker #d1="ngbDatepicker" required />
+			<div class="input-group-append">
+				<button class="btn btn-outline-secondary" (click)="d1.toggle()" type="button"><i class = "fas fa-calendar-alt"></i></button>
+			</div>
+	</div>
+	<div class="col-sm-3"><button class="btn btn-info" (click)="getdata(invoice)">Show</button> </div>
+</div>
+
+
+<div class="content table-responsive table-full-width mt-4">
+	<table id="dattab" class="table tablefixed table-bordered table-sm">
+		<thead class = "thead-light">
+			<tr>
+        <th>SR.No.</th>
+        <th>DATE</th>
+				<th style="width:250px">Party</th>
+				<th>Batch</th>
+				<th colspan="2">BALE NO</th>
+				<th>Total PCS</th>
+				<th>Total Meter</th>
+				<th>GODWON</th>
+			</tr>
+			<tr>
+          <td></td>
+          <td><input class="form-control" type="text" name="search1" name="search1" [(ngModel)]="serDat" (input)="chanDat(serDate)"> </td>
+					<td style="width:250px"><input class="form-control" type="text" name="search1" [(ngModel)]="sersupp"> </td>
+					<td><input class="form-control" type="text" name="search1" [(ngModel)]="serBatch"> </td>
+					<td colspan="2"><input class="form-control" type="text" name="search1" [(ngModel)]="serBail"> </td>
+					<td><input class="form-control" type="text" name="search1" [(ngModel)]="serPcs"> </td>
+					<td><input class="form-control" type="text" name="search1" [(ngModel)]="serMtr"> </td>
+					<td><input class="form-control" type="text" name="search1" [(ngModel)]="serWH"> </td>
+				
+					
+			</tr>
+		</thead>
+		<tbody>
+			<tr *ngFor="let product of jobIntake |  filter: {PCK_No: serBail} |  filter: {PCK_WH: serWH} |  filter: {Dat: serDat} |  filter: {tPCS: serPcs} |  filter: {tmtr: serMtr}  | filter: {party: sersupp} | filter: {JBC_JBatch: serBatch}  | paginate: { itemsPerPage: 20, currentPage: p } ; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>{{ product.Dat }}</td>
+				<td style="width:250px">{{ product.party }}</td>
+				<td>{{ product.JBC_JBatch }}</td>
+				<td colspan="2">{{ product.PCK_No }}</td>
+				<td>{{ product.tPCS | number:'0.2' }}</td>
+				<td>{{ product.tmtr | number:'0.2' }}</td>
+				<td>{{ product.PCK_WH }}</td>
+			</tr>
+
+			<tr class="blank_row">  <td colspan="8"></td></tr>
+			
+			<tr>
+				<td><span style="font-weight: bold">Total</span></td>
+				<td><span style="font-weight: bold">TD(PCS)</span></td>
+				<td><span style="font-weight: bold">TD(MTR)</span></td>
+				
+				<td><span style="font-weight: bold">PD(PCS)</span></td>
+				<td><span style="font-weight: bold">PD(MTR)</span></td>
+				<td><span style="font-weight: bold">RF(PCS)</span></td>
+				<td><span style="font-weight: bold">RF(MTR)</span></td>
+				<td><span style="font-weight: bold;color:red">TOTAL(PCS)</span></td>
+				<td><span style="font-weight: bold;color:red">TOTAL(MTR)</span></td>
+			</tr>
+			<tr>
+					<td><span style="font-weight: bold"> TODAY</span></td>
+					
+				
+					<td><span style="font-weight: bold">{{ jobIntake |  filter: {PCK_No: serBail} |  filter: {PCK_WH: serWH} |  filter: {tPCS: serPcs} |  filter: {tmtr: serMtr}  | filter: {party: sersupp}  | filter: {JBC_JBatch: serBatch} | filter: {GR_Process: 'PD' } | sumpipe:'tPCS' | number:'0.2' }}</span></td>
+					<td><span style="font-weight: bold">{{ jobIntake |  filter: {PCK_No: serBail} |  filter: {PCK_WH: serWH} |  filter: {tPCS: serPcs} |  filter: {tmtr: serMtr}  | filter: {party: sersupp}  | filter: {JBC_JBatch: serBatch} | filter: {GR_Process: 'PD' } | sumpipe:'tmtr' | number:'0.2' }}</span></td>
+					<td><span style="font-weight: bold">{{ jobIntake |  filter: {PCK_No: serBail} |  filter: {PCK_WH: serWH} |  filter: {tPCS: serPcs} |  filter: {tmtr: serMtr}  | filter: {party: sersupp}  | filter: {JBC_JBatch: serBatch} | filter: {GR_Process: 'TD' } | sumpipe:'tPCS' | number:'0.2' }}</span></td>
+					<td><span style="font-weight: bold">{{ jobIntake |  filter: {PCK_No: serBail} |  filter: {PCK_WH: serWH} |  filter: {tPCS: serPcs} |  filter: {tmtr: serMtr}  | filter: {party: sersupp}  | filter: {JBC_JBatch: serBatch} | filter: {GR_Process: 'TD' } | sumpipe:'tmtr' | number:'0.2' }}</span></td>
+					<td><span style="font-weight: bold">{{ jobIntake |  filter: {PCK_No: serBail} |  filter: {PCK_WH: serWH} |  filter: {tPCS: serPcs} |  filter: {tmtr: serMtr}  | filter: {party: sersupp}  | filter: {JBC_JBatch: serBatch} | filter: {GR_Process: 'RF' } | sumpipe:'tPCS' | number:'0.2' }}</span></td>					
+					<td><span style="font-weight: bold">{{ jobIntake |  filter: {PCK_No: serBail} |  filter: {PCK_WH: serWH} |  filter: {tPCS: serPcs} |  filter: {tmtr: serMtr}  | filter: {party: sersupp}  | filter: {JBC_JBatch: serBatch} | filter: {GR_Process: 'RF' } | sumpipe:'tmtr' | number:'0.2' }}</span></td>
+					<td><span style="font-weight: bold;color:red">{{ jobIntake |  filter: {PCK_No: serBail} |  filter: {PCK_WH: serWH} |  filter: {tPCS: serPcs} |  filter: {tmtr: serMtr}  | filter: {party: sersupp}  | filter: {JBC_JBatch: serBatch}  | sumpipe:'tPCS' }}</span></td>
+					<td><span style="font-weight: bold;color:red">{{ jobIntake |  filter: {PCK_No: serBail} |  filter: {PCK_WH: serWH} |  filter: {tPCS: serPcs} |  filter: {tmtr: serMtr}  | filter: {party: sersupp}  | filter: {JBC_JBatch: serBatch} |  sumpipe:'tmtr' }}</span></td>
+        
+        </tr>
+        <tr>
+            <td><span style="font-weight: bold">UP TO DAY</span></td>
+            
+          
+            <td><span style="font-weight: bold">{{ jobIntake |  filter: {PCK_No: serBail} |  filter: {PCK_WH: serWH} |  filter: {tPCS: serPcs} |  filter: {tmtr: serMtr}  | filter: {party: sersupp} | filter: {JBC_JBatch: serBatch} | filter: {GR_Process: 'PD' } | sumpipe:'tPCS' | number:'0.2' }}</span></td>
+            <td><span style="font-weight: bold">{{ jobIntake |  filter: {PCK_No: serBail} |  filter: {PCK_WH: serWH} |  filter: {tPCS: serPcs} |  filter: {tmtr: serMtr}  | filter: {party: sersupp} | filter: {JBC_JBatch: serBatch} | filter: {GR_Process: 'TD' } | sumpipe:'tPCS' | number:'0.2' }}</span></td>
+            <td><span style="font-weight: bold">{{ jobIntake |  filter: {PCK_No: serBail} |  filter: {PCK_WH: serWH} |  filter: {tPCS: serPcs} |  filter: {tmtr: serMtr}  | filter: {party: sersupp}  | filter: {JBC_JBatch: serBatch} | filter: {GR_Process: 'RF' } | sumpipe:'tPCS' | number:'0.2' }}</span></td>
+            <td><span style="font-weight: bold;color:red">{{ jobIntake |  filter: {PCK_No: serBail} |  filter: {PCK_WH: serWH} |  filter: {tPCS: serPcs} |  filter: {tmtr: serMtr}  | filter: {party: sersupp}  | filter: {JBC_JBatch: serBatch}  | sumpipe:'tPCS' | number:'0.2' }}</span></td>
+  
+            <td><span style="font-weight: bold">{{ jobIntake |  filter: {PCK_No: serBail} |  filter: {PCK_WH: serWH} |  filter: {tPCS: serPcs} |  filter: {tmtr: serMtr}  | filter: {party: sersupp}  | filter: {JBC_JBatch: serBatch} | filter: {GR_Process: 'PD' } | sumpipe:'tmtr' | number:'0.2' }}</span></td>
+            <td><span style="font-weight: bold">{{ jobIntake |  filter: {PCK_No: serBail} |  filter: {PCK_WH: serWH} |  filter: {tPCS: serPcs} |  filter: {tmtr: serMtr}  | filter: {party: sersupp}  | filter: {JBC_JBatch: serBatch} | filter: {GR_Process: 'TD' } | sumpipe:'tmtr' | number:'0.2' }}</span></td>
+            <td><span style="font-weight: bold">{{ jobIntake |  filter: {PCK_No: serBail} |  filter: {PCK_WH: serWH} |  filter: {tPCS: serPcs} |  filter: {tmtr: serMtr}  | filter: {party: sersupp}  | filter: {JBC_JBatch: serBatch} | filter: {GR_Process: 'RF' } | sumpipe:'tmtr'  | number:'0.2'}}</span></td>
+            <td><span style="font-weight: bold;color:red">{{ jobIntake |  filter: {PCK_No: serBail} |  filter: {PCK_WH: serWH} |  filter: {tPCS: serPcs} |  filter: {tmtr: serMtr}  | filter: {party: sersupp}  | filter: {JBC_JBatch: serBatch} |  sumpipe:'tmtr' }}</span></td>
+          
+          </tr>
+
+		</tbody>
+	</table>
+	<pagination-controls *ngIf="jobIntake.length>0" (pageChange)="p = $event"></pagination-controls>
+</div>
+
+
+<button *ngIf="jobIntake.length>0" class="btn btn-info" (click)="export()">Export Pdf</button>

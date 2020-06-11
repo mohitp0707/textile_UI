@@ -1,0 +1,41 @@
+
+	<h2 class="page-header pt-4 pb-2 border-bottom">Add complaint</h2>
+	<!-- <div *ngIf="invalidForm" class="alert alert-danger" role="alert">
+		Please fill out all fields.
+	</div> -->
+	
+	<ngb-alert type="danger" *ngIf="ds.invalidForm" (close)="ds.invalidForm = false">
+		{{ ds.errorMessage }}
+	</ngb-alert>
+	
+	<ngb-alert type="success" *ngIf="ds.formSubmitted" (close)="ds.formSubmitted = false">
+	{{ ds.submittedMessage }}
+	</ngb-alert>
+	
+	<div *ngIf="!ds.formSubmitted" class="border p-2 pt-4">
+		<form class="needs-validation" method="post" #addComplaintForm="ngForm"  (ngSubmit)="submitForm(addComplaintForm,complaint)">
+					
+			<div class="form-group row">
+				<label for="category" class="col-sm-2 col-form-label text-right">Category</label>
+				<div class="col-sm-9">
+					<input type = "text" [ngClass]="{'is-invalid' : category.touched && category.invalid, 'is-valid' : category.touched && category.valid }" id ="category" name="category" class="form-control" [(ngModel)]="complaint.category" #category="ngModel" required />
+				</div>
+			</div>
+			
+			<div class="form-group row">
+				<label for="type" class="col-sm-2 col-form-label text-right">Type</label>
+				<div class="col-sm-9">
+					<input type = "text" [ngClass]="{'is-invalid' : type.touched && type.invalid, 'is-valid' : type.touched && type.valid }" id ="type" name="type" class="form-control" [(ngModel)]="complaint.type" #type="ngModel" required />
+				</div>
+			</div>
+			
+			<div class="form-group row">
+				<label for="description" class="col-sm-2 col-form-label text-right">Description </label>
+				<div class="col-sm-9">
+					<textarea type="text" [ngClass]="{'is-invalid' : description.touched && description.invalid, 'is-valid' : description.touched && description.valid }" rows = "4" maxlength = "256" id ="description" name="description" class="form-control" [(ngModel)]="complaint.description" #description="ngModel" placeholder="Description" required></textarea>
+				</div>
+			</div>
+			
+			<button class="btn mt-3">Submit</button>
+		</form>
+	</div>

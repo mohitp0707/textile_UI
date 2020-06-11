@@ -1,0 +1,133 @@
+<h2 class="page-header pt-4 pb-2 border-bottom">Stock/Godown In</h2>
+<ngb-alert type="success" *ngIf="ds.formSubmitted" (close)="ds.formSubmitted = false">
+		{{ ds.submittedMessage }}
+	</ngb-alert>
+<form *ngIf="!ds.formSubmitted" class="needs-validation" method="post" #stockIn="ngForm" (ngSubmit)="saveForm(stockIn,invoice)">
+		<div class="form-group row">
+				<div class = "col-sm-1 input-group">
+						<label for="GR_Date" class=" text-right"> Date </label>
+					</div>
+				<div class = "col-sm-3 input-group">
+					
+						<input class="form-control" type="date" [ngClass]="{ 'is-invalid' : GR_Date.touched && GR_Date.invalid , 'is-valid' : GR_Date.touched && GR_Date.valid }" id="GR_Date" name="GR_Date"  [(ngModel)]="invoice.GR_Date" #GR_Date="ngModel" ngbDatepicker #d="ngbDatepicker" required />
+						<div class="input-group-append">
+							<button class="btn btn-outline-secondary" (click)="d.toggle()" type="button"><i class = "fas fa-calendar-alt"></i></button>
+						</div>
+				</div>
+
+				<div class = "col-sm-1 input-group">
+						<label for="EM_NAME" class=" text-right">Employee </label>
+					</div>
+				<div class = "col-sm-3 input-group">
+					
+						<select *ngIf="isValid" class="custom-select form-control" [ngClass]="{'is-invalid' : pckby.touched && pckby.invalid, 'is-valid' : pckby.touched && pckby.valid }" id ="pckby" name="EM_NAME" class="form-control" [(ngModel)]="emp" #pckby="ngModel" required (change)="invoice.EM_NAME=emp.EM_ID">
+							<option [ngValue]="emp"  *ngFor="let emp of emplist">{{emp.EM_NAME}}</option>		
+						</select>
+						<input *ngIf="!isValid" class="form-control" [disabled]="butDisabled"  type="text" name="PM_NAME" [(ngModel)]="invoice.PM_NAME" />
+			
+				</div>
+
+
+				<div class = "col-sm-1 input-group">
+						<label for="Godown" class="col-form-label text-right">Godown</label>
+				</div>
+				<div class="col-sm-3 input-group">
+						
+						<select *ngIf="!retrive" class="custom-select form-control" id ="Godown" required name="Godown" class="form-control" [(ngModel)]="invoice.GR_WH" #Godown="ngModel">
+							<option [ngValue]="Godown1.GM_Name"  *ngFor="let Godown1 of GodownArr" selected>{{Godown1.GM_Name}}</option>
+						</select>	
+						<input *ngIf="retrive" type="text"   id="GR_WH" name="GR_WH" class="form-control" [(ngModel)]="invoice.GR_WH"  required readonly />
+				</div>
+	</div>
+		
+	<div class="form-group row">
+
+			<div  *ngIf="!retrive" class = "col-sm-1 input-group">
+					<label for="type" class="col-form-label text-right">TYPE</label>
+			</div>
+			<div class="col-sm-3 input-group">
+					
+					<select *ngIf="!retrive" class="custom-select form-control" id ="TYPE" required name="TYPE" class="form-control" [(ngModel)]="invoice.types">
+						<option value="OTHER" selected>OTHER</option>
+						<option value="OPENING">OPENING</option>
+					</select>	
+					<input *ngIf="retrive" type="TYPE"   id="GR_WH" name="TYPE" class="form-control" [(ngModel)]="invoice.types"  readonly />
+			</div>
+
+			<div class = "col-sm-1 input-group">
+					<label for="remark" class="col-md-1 text-right" >Remark</label>
+			</div>
+		<div class="col-sm-7">
+   				 <textarea class="form-control" id="remark" rows="2" name="rmk" [(ngModel)]="invoice.rmk" ></textarea>
+		</div>
+	</div>
+	<table class = "table mt-4">
+			<thead class = "thead-light">
+				<tr>
+					<th scope="col">Particular Name</th>
+					<th scope="col">Unit</th>
+					<th scope="col">Quantity</th>
+					<th scope="col">Rate</th>
+					<th scope="col">Add</th>
+					</tr>
+				</thead>
+				<tr>
+					<td style="width:600px">
+					<!-- {{ selectedProduct | json}} -->
+						<select class = "custom-select" [ngClass]="{'is-invalid' : itemName.touched && itemName.invalid, 'is-valid' : itemName.touched && itemName.valid }" id ="itemName" name="itemName" class="form-control" (change)="particular.IM_ID=selectedProduct.IM_ID;particular.IM_NM=selectedProduct.IM_NM;getUnit(selectedProduct.IM_UM);  " [(ngModel)]="selectedProduct" #itemName="ngModel" required >
+							<option [ngValue]="product" *ngFor="let product of productList,let i=index">{{product.IM_NM}}</option>
+						</select>
+						<div  [ngClass]="itemName.touched && itemName.invalid ? 'invalid-feedback' : 'valid-feedback'" *ngIf="itemName.touched && itemName.invalid">
+							<span *ngIf="itemName.errors.required">Particular name </span>
+						</div>
+					</td>
+					
+					<td>
+						<input type="text"  id ="unit" name="unit" class="form-control" [(ngModel)]="particular.unit" #unit="ngModel" readonly />
+						<div   [hidden]="unit.valid" class="alert alert-danger">Unit Require</div>	
+					</td>
+				
+					<td>
+						<input type="number" pattern="[0-9 .\s]+" [ngClass]="{'is-invalid' : quantity.touched && quantity.invalid, 'is-valid' : quantity.touched && quantity.valid }" id ="quantity" name="quantity" class="form-control" [(ngModel)]="particular.quantity" #quantity="ngModel" required />
+						<div   [hidden]="quantity.valid" class="alert alert-danger">Please Enter Number Only</div>	
+					</td>
+					<td>
+							<input type="number" pattern="[0-9 .\s]+" [ngClass]="{'is-invalid' : rate.touched && rate.invalid, 'is-valid' : rate.touched && rate.valid }" id ="rate" name="rate" class="form-control" [(ngModel)]="particular.rate" #rate="ngModel" required />
+							<div   [hidden]="rate.valid" class="alert alert-danger">Please Enter Number Only</div>	
+					</td>
+			
+						
+					<td>
+						<button [disabled]="isDisabled" type="button" class="btn btn-info" (click) = addParticular(particular)>+</button>
+						<!-- (click) = addParticular() -->
+					</td>
+				</tr>
+		</table>			
+			
+			
+			<table class = "table">
+				<thead class = "thead-light">
+					<tr>
+						<th scope="col">Sr. No.</th>
+						<th scope="col">ITEM NAME</th>
+						<th scope="col">UNIT</th>
+						<th scope="col">QUANTITY</th>
+						<th scope="col">RATE</th>
+						<th scope="col">Manage</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr *ngFor="let item of invoice.particular; let i = index">
+						<td>{{ i + 1 }}</td>
+						<td>{{ item.IM_NM }}</td>
+						<td>{{ item.unit }}</td>
+						<td>{{ item.quantity }}</td>
+						<td>{{ item.rate }}</td>
+						<td><i (click)="removeParticular(i)" class = "fas fa-times"></i></td>
+					</tr>
+					</table>
+		<!-- <button class="btn btn-primary mt-3">{{ isValid == true ? 'SAVE' : 'UPDATE' }}</button> -->
+		<button *ngIf="!retrive" class="btn btn-primary mt-3">SAVE</button>
+		<button type="button" class="btn btn-primary mt-3">Reset</button>
+			
+</form>

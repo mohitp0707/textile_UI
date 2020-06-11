@@ -1,0 +1,36 @@
+<h2 class="page-header pt-4 pb-2 border-bottom">View Employee</h2>
+<p></p>
+<div class="row">
+	<div class="col-md-2">Search</div>
+	<div class="col-md-10">
+	<input class="form-control" type="text" name="search" [(ngModel)]="searchText">
+	<p><p>
+ </div>
+</div>
+<table class="table table-bordered mt-4">
+	<thead class = "thead-dark">
+		<tr>
+			<th>Sr. No.</th>
+			<th>Name</th>
+			<th>Mobile</th>
+			<th>Email</th>
+			<th>Department</th>
+			<th>Designation</th>
+			<th>Manage</th>
+		</tr>
+		<tr *ngFor = "let party of employeeList|  filter: {PM_NAME: searchText, PM_MOBILE:searchText,PM_EMAIL: searchText,PM_GST: searchText,PM_PANNO: searchText}| paginate: { itemsPerPage: 10, currentPage: p } , let i=index">
+			<td>{{ i + 1}}</td>
+			<td>{{ party.EM_Name }}</td>
+			<td>{{ party.EM_Mob }}</td>
+			<td>{{ party.EM_mail }}</td>
+      		<td>{{ party.EM_Dep }}</td>
+      		<td>{{ party.EM_Des }}</td>
+			<td>
+					<a *ngIf="update" [routerLink]="['../employee', party.EM_ID]"><button class="btn btn-primary"><i class="fas fa-pencil-alt" aria-hidden="true"></i></button> </a> 
+					<button class="btn btn-danger" > <i class="fas fa-trash-alt" aria-hidden="true" ></i> </button>
+							
+				</td>
+		</tr>
+	</thead>
+</table>
+<pagination-controls (pageChange)="p = $event"></pagination-controls>

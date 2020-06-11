@@ -1,0 +1,76 @@
+<html>
+  <head>
+    <title>PACKING</title>
+  </head>
+  <div id="print-section">
+    <div class="row mt-3">
+        <div class="col-md-4">
+          <img src="../../../../../assets/img/tex-pro.png" class="img-avatar" />
+        </div>
+      <div class="col-md-4">
+        <h2 class="head text-center">{{basicdatails.CO_CN}}</h2>
+        <h6 class="text-justify"><b>Address:{{basicdatails.CO_Address}}</b> </h6>
+      </div> 
+      <div class="col-md-4"></div>  
+    </div>   
+    <h4 class="text-center" style="text-decoration: underline;font-weight: bold">PACKING SLIP</h4>
+    <div class="container">
+      <div class="row">
+      <table class="table">
+            <tr>
+              <th>DATE:&nbsp;&nbsp; {{basicdatails.dat}}</th>
+              <th>GREY WIDTH:&nbsp;&nbsp;{{basicdatails.grewidht}}</th>
+              <th>PACKING SLIP NO:&nbsp;&nbsp;{{basicdatails.PCK_No}}</th>
+            </tr>
+            <tr>
+              <td></td>
+              <th>FINISH WIDTH:&nbsp;&nbsp;{{basicdatails.fwidht }}</th>
+              <th>BATCH No:&nbsp;&nbsp;{{basicdatails.PCK_Batch}}</th>
+            </tr>
+
+            <tr>
+              <th colspan="2">Supplier:&nbsp;&nbsp;{{basicdatails.supp}}</th>
+              <th>GREY FOLD:&nbsp;&nbsp;{{basicdatails.gryfold}}</th>
+            </tr>         
+        </table>
+      </div>  
+      <div class="row">
+      <table class="table ">
+       <tr >
+            <th> Sr.No</th>
+            <th>BALE NO</th>
+            <th>MTR</th>
+            <th>SHRINKAGE(%)</th>
+            <th>GREY MTR</th>
+            <th>RMK</th>
+         </tr>    
+         <tr *ngFor="let product of details; let i = index">
+            <td>{{i+1}}</td>
+            <td>{{product.PCK_No}}</td>
+            <td>{{product.pkqty}}</td>
+            <td>{{product.shrink}}</td>
+            <td>{{product.qty}}</td>
+            <td>{{product.rmk}}</td>
+         </tr>
+      </table>
+      </div>
+      <div class="row">
+          <table class="table ">
+           <tr>
+                <th>Total Meter:{{basicdatails.tmtr}}</th>
+                <th>Total PCS:{{basicdatails.tpcs}}</th>
+             </tr>    
+          </table>
+          </div>
+        <div class="row">
+        <table class="table ">
+          <tr>
+              <th>Dept. Head Sign:</th>
+              <th>Packed By:</th>
+            </tr>    
+        </table>
+        </div>    
+     </div> 
+     </div>
+     <button type="button" class="btn btn-secondary"  printSectionId="print-section" (click)="print()" >Print</button>
+  </html>  

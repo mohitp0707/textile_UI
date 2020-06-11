@@ -1,0 +1,98 @@
+<h3 class="page-header pt-4 pb-2 border-bottom text-center">COST REPORT  </h3>
+<p></p>
+
+<div class="content table-responsive table-full-width">
+	<table id="dattab" class="table tablefixed table-bordered table-sm">
+		<thead class = "thead-light">
+			<tr>
+				<th>SR. NO.</th>
+				<th>DATE</th>
+				<th>PARTY</th>
+				<th>PROCESS TYPE</th>
+			 <th>SHADE</th> 
+				<th>BATCH</th>
+				<th>TYPE</th>
+				<th>PCS</th>
+        <th>MTR</th>
+        <th>COST</th>
+				<th>AMOUNT</th>
+			</tr>
+			<tr >
+					<td></td>
+					<td><input class="form-control" type="text" placeholder="search" name="search" [(ngModel)]="serDat"> </td>
+					<td><input class="form-control" type="text" placeholder="search" name="search" [(ngModel)]="sersupp"> </td>
+					<td><input class="form-control" type="text" placeholder="search"  name="search" [(ngModel)]="serproc"> </td>
+					 <td><input class="form-control" type="text" placeholder="search" name="search" [(ngModel)]="sershade"> </td> 
+					<td><input class="form-control" type="text" placeholder="search" name="search" [(ngModel)]="serbat"> </td>
+					<td><input class="form-control" type="text" placeholder="search" name="search" [(ngModel)]="setyp"> </td>
+          			<td><input class="form-control" type="text" placeholder="search" name="search" [(ngModel)]="serpcs"> </td>
+          			<td><input class="form-control" type="text" placeholder="search" name="search" [(ngModel)]="sermtr"> </td>
+          			<td><input class="form-control" type="text" placeholder="search" name="search" [(ngModel)]="sercst"> </td>
+          			<td><input class="form-control" type="text" placeholder="search" name="search" [(ngModel)]="seramt"> </td>
+				
+				</tr>
+			</thead>
+			<tbody>
+			<tr style="cursor: pointer" (dblclick)="clickEven(product)" *ngFor="let product of costData |filter: {shade: sershade} |filter: {prtyp: setyp}  |filter: {JPR_Date: serDat}|filter: {supp: sersupp} | filter: {cost: sercst} | filter: {amt: seramt} | filter: {pcs: serpcs}  | filter: {mtr: sermtr}   | filter: {procss: serproc} | filter: {batch: serbat}   | paginate: { itemsPerPage: 20, currentPage: p } ; let i = index">
+				<td>{{ i + 1 }}</td>
+				<td>{{ product.JPR_Date }}</td>
+        		<td>{{ product.supp }}</td>
+				<td>{{ product.procss }}</td>
+				 <td>{{ product.shade }}
+				<td>{{ product.batch }}</td>
+				<td>{{ product.prtyp }}</td>
+				<td>{{product.pcs | number:'0.2'  }}</td>
+        		<td>{{product.mtr | number:'0.2'}}</td>
+        		<td>{{ product.cost | number:'0.2' }}</td>
+        		<td>{{ product.amt | number:'0.2' }}</td>
+	  		</tr>
+	
+      <tr style="font-weight: bold;color:red">
+        <td></td><td></td><td></td>
+        <td></td><td></td><td></td><td></td><td></td>
+        <td>Total</td>
+        <td>{{ costData | filter: {supp: sersupp} |filter: {shade: sershade} |filter: {JPR_Date: serDat} |filter: {prtyp: setyp} | filter: {cost: sercst} | filter: {amt: seramt} | filter: {pcs: serpcs}  | filter: {mtr: sermtr}   | filter: {procss: serproc} | filter: {batch: serbat}   | paginate: { itemsPerPage: 20, currentPage: p} | sumpipe:'cost' | number: '0.2' }} </td>
+				<td>{{ costData |filter: {JPR_Date: serDat} |filter: {shade: sershade} | filter: {supp: sersupp} |filter: {prtyp: setyp} | filter: {cost: sercst} | filter: {amt: seramt} | filter: {pcs: serpcs}  | filter: {mtr: sermtr}   | filter: {procss: serproc} | filter: {batch: serbat}   | paginate: { itemsPerPage: 20, currentPage: p} | sumpipe:'amt' | number: '0.2' }} </td>
+				
+			</tr>
+		</tbody>
+	</table>
+</div>
+<div class="row">
+	<div class="col-md-6">
+		<button *ngIf="costData.length>0" class="btn btn-info" (click)="export()">Export Pdf</button>
+	</div>
+	<div class="col-md-6">
+			<pagination-controls (pageChange)="p = $event"></pagination-controls>
+	</div>
+</div>
+<div class="row">
+		<div class="col-md-2">
+				<label  *ngIf="showdetraw" for="batch" class="col-form-label text-right">For Batches </label>
+		</div>
+	<div class="col-md-8">
+		<input *ngIf="showdetraw" class="form-control" id="batch" type="batch" readonly name="batchdetails" [(ngModel)]="batchdetails">
+	</div>
+</div>
+<div *ngIf="showdetraw" class="content table-responsive table-full-width mt-4">
+	<table id="dattab" class="table table-bordered table-sm">
+		<thead class = "thead-light">
+			<tr>
+				<th>SR.No.</th>
+				<th>ITEM</th>
+				<th>UNIT</th>
+				<th>QTY</th>
+				<th>RATE</th>
+				<th>AMOUNT</th>
+			</tr>
+			</thead>
+			<tr  *ngFor="let product of detaildata ; let i = index">
+				<td>{{ i + 1 }}</td>
+				<td>{{ product.item }}</td>
+				<td>{{ product.JPRD_UNIT }}</td>
+				<td>{{ product.qty | number:'0.2'  }}</td>
+				<td>{{ product.rate | number:'0.2'  }}</td>
+				<td>{{ product.amt  | number:'0.2' }}</td>
+			</tr>
+		</table>
+</div>

@@ -1,0 +1,41 @@
+<h3 class="page-header pt-4 pb-2 border-bottom ">List of Product</h3>
+<div class="row">
+		<div class="col-md-6"></div>
+		<div class="col-md-2 text-right">Search</div>
+		<div class="col-md-4">
+		<input class="form-control" type="text" name="search" [(ngModel)]="searchText">
+	 </div>
+	</div>
+<div class="content table-responsive table-full-width">
+	<table class="table table-bordered table-sm">
+		<thead class = "thead-light">
+			<tr>
+				<th>Sr. No.</th>
+				<th>PRODUCT NAME</th>
+				<th>UNIT</th>
+				<th>CATEGORY</th>
+				<th>TYPE</th>
+				<th>HSN</th>
+				<th>TAX</th>
+				<th>MANAGE</th>
+			</tr>
+			</thead>
+			<tr *ngFor="let product of productList | filter: {IM_NM: searchText, IM_UM:searchText,IM_CAT: searchText,IM_TYP: searchText,IM_HSN: searchText , IM_TAX: searchText}| paginate: { itemsPerPage: 10, currentPage: p } ; let i = index">
+				<td>{{ i + 1 }}</td>
+				<td>{{ product.IM_NM }}</td>
+				<td>{{ product.IM_UM }}</td>
+				<td>{{ product.IM_CAT }}</td>
+				<td>{{ product.IM_TYP }}</td>
+				<td>{{ product.IM_HSN }}</td>
+				<td>{{ product.IM_TAX }}</td>
+				<td>
+					<a *ngIf="update" [routerLink]="['../AddProduct', product.IM_ID]"><button class="btn btn-primary " ><i class="fas fa-pencil-alt" aria-hidden="true"></i></button> </a> 
+						
+					<button  class="btn btn-danger" (click)="deletedata(product.IM_ID, i)" > <i class="fas fa-trash-alt" aria-hidden="true" ></i> </button>
+					<button class="btn btn-danger"> <i class="fas fa-print" aria-hidden="true" ></i> </button>		
+				</td>
+			</tr>
+	</table>
+</div>
+<pagination-controls (pageChange)="p = $event"></pagination-controls>
+

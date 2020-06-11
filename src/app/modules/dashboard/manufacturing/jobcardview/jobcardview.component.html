@@ -1,0 +1,46 @@
+<h3 class="page-header pt-4 pb-2 border-bottom ">Job Card View</h3>
+<p></p>
+<div class="row">
+	<div class="col-md-2">Search</div>
+	<div class="col-md-10">
+	<input class="form-control" type="text" name="search" [(ngModel)]="searchText">
+	<p><p>
+ </div>
+</div>
+<div class="content table-responsive table-full-width">
+	<table class="table table-bordered table-sm">
+		<thead class = "thead-light">
+			<tr>
+				<th>SR. NO.</th>
+				<th>DATE</th>
+				<th>PARTY</th>
+				<th>LOT NO</th>
+				<th>BATCH NO</th>
+				<th>PCS</th>
+        		<th>MTR</th>
+				<th>PROCESS</th>
+				<th style="width:200px">REMARK</th>
+				<th>MANAGE</th>
+			</tr>
+			</thead>
+			<tr *ngFor="let product of jobcardList  | filter: {process:searchText,dat: searchText, supp:searchText,batch: searchText,JBatch: searchText,tpcs: searchText,tmtr: searchText} | paginate: { itemsPerPage: 20, currentPage: p }; let i = index">
+				<td>{{ i + 1 }}</td>
+				<td>{{ product.dat }}</td>
+				<td>{{ product.supp }}</td>
+				<td>{{ product.batch }}</td>
+				<td>{{ product.JBatch }}</td>
+				<td>{{ product.tpcs }}</td>
+        		<td>{{product.tmtr}}</td>
+				<td>{{product.process}}</td>
+				<td >{{ product.JBC_RMK}}</td>
+				<td style="width:150px">
+					<a *ngIf="update && !buttonState(product)" [routerLink]="['../jobCard', product.JBC_ID]"><button class="btn btn-primary" [disabled]="buttonState(product)" ><i class="fas fa-pencil-alt" aria-hidden="true"></i></button> </a> 
+						
+					<button *ngIf="delete && !buttonState(product)" class="btn btn-danger"  (click)="deletedata(product.JBC_ID, i)" > <i class="fas fa-trash-alt" aria-hidden="true" ></i> </button>
+					<a [routerLink]="['../../printing/jobcardprint',product.JBC_ID]"><button class="btn btn-danger"> <i class="fas fa-print" aria-hidden="true" ></i> </button>	</a>		
+				</td>
+			</tr>
+	</table>
+	<pagination-controls (pageChange)="p = $event"></pagination-controls>
+</div>
+

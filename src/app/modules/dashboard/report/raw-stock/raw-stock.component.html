@@ -1,0 +1,57 @@
+<h3 class="page-header pt-4 pb-2 border-bottom text-center">Raw Stock Report</h3>
+<p></p>
+<div class="content table-responsive table-full-width">
+	<table id="dattab" class="table tablefixed table-bordered table-sm">
+		<thead class = "thead-light">
+			<tr>
+				<th>Sr. No.</th>
+				<th>ITEM NAME</th>
+				<th>UNIT</th>
+				<th>QTY</th>
+				<th>RATE</th>
+				<th>Amout</th>
+				<th>TYPE</th>
+				<th>WAREHOUSE</th>
+			</tr>
+			<tr>
+					<td></td>
+					<td><input class="form-control" type="text" name="search1" [(ngModel)]="serItm"> </td>
+					<td><input class="form-control" type="text" name="search1" [(ngModel)]="serunit"> </td>
+					<td><input class="form-control" type="text" name="search1" [(ngModel)]="serQty"> </td>
+					<td><input class="form-control" type="text" name="search1" [(ngModel)]="serRat"> </td>
+					<td><input class="form-control" type="text" name="search1" [(ngModel)]="seramt"> </td>
+					<td><input class="form-control" type="text" name="search1" [(ngModel)]="serTyp"> </td>
+					<td><input class="form-control" type="text" name="search1" [(ngModel)]="serWH"> </td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr *ngFor="let product of stockData| filter: {Item: serItm} | filter: {Unit: serunit} | filter: {PRATE: serRat} | filter: {AIMS_TYPE: serTyp} | filter: {amt: seramt} | filter: {Ware: serWH} | filter: {Qty: serQty}  | paginate: { itemsPerPage: 20, currentPage: p } ; let i = index" [ngClass]="getColor(product)">
+				<td>{{ i + 1 }}</td>
+				<td>{{ product.Item }}</td>
+				<td>{{ product.Unit }}</td>
+				<td>{{ product.Qty | number:'0.2' }}</td>
+				<td>{{ product.PRATE  | number:'0.2' }}</td>
+				<td>{{ product.amt  | number:'0.2' }}</td>
+				<td>{{ product.AIMS_TYPE }}</td>
+        		<td>{{product.Ware}}</td>
+      </tr>
+      <tr>
+		<td></td><td></td>
+		<td style="font-weight: bold;color:red">SUM</td>
+        <td style="font-weight: bold;color:red">{{ stockData  | filter: {Item: serItm} | filter: {Unit: serunit}  | filter: {PRATE: serRat} | filter: {AIMS_TYPE: serTyp} | filter: {amt: seramt} | filter: {Ware: serWH} | filter: {Qty: serQty}| sumpipe:'Qty' | number:'0.2'  }}</td>
+        <td style="font-weight: bold;color:red"></td>
+        <td style="font-weight: bold;color:red"> {{stockData  | filter: {Item: serItm}  | filter: {Unit: serunit} | filter: {PRATE: serRat} | filter: {AIMS_TYPE: serTyp} | filter: {amt: seramt} | filter: {Ware: serWH} | filter: {Qty: serQty}| sumpipe:'amt' | number:'0.2'}}</td>
+		<td></td><td></td>
+	  </tr>
+	</tbody>
+	</table>
+</div>
+<div class="row">
+	<div class="col-md-6">
+
+	</div>
+	<div class="col-md-6">
+			<pagination-controls  (pageChange)="p = $event"></pagination-controls>
+	</div>
+</div>
+<button  class="btn btn-info" (click)="export()">Export Pdf</button>

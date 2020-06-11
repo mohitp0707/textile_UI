@@ -1,0 +1,21 @@
+form
+{
+	background-color : #fcf7ff;
+	padding : 15px 0px 15px 15px;
+	label
+	{
+		font-weight : bold;
+	}
+	button
+	{
+		background-color : #b300b3;
+		color : #ffffff;
+		margin : 0px 450px 0px 450px;
+	}
+	.row
+	{
+		button{
+			margin : 0px;
+		}
+	}
+}

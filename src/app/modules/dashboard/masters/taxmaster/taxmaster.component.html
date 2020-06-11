@@ -1,0 +1,79 @@
+<h2 class="page-header pt-4 pb-2 border-bottom">Tax Master</h2>
+<ngb-alert type="success" *ngIf="ds.formSubmitted" (close)="ds.formSubmitted = false">
+		{{ ds.submittedMessage }}
+	</ngb-alert>
+
+
+<form class="needs-validation" *ngIf="!ds.formSubmitted" #taxForm="ngForm" (ngSubmit)="save(taxForm,tax)">
+
+	<div class="form-group row">
+	
+		<label for="storagename" class="col-sm-1 col-form-label text-right"> Tax Name </label>
+		<div class="col-sm-5">
+			<input type="text" #name="ngModel"    id="taxName" name="TAX_Name" class="form-control" placeholder="Name"  [(ngModel)]="tax.TAX_Name" [ngbTypeahead]="search"  required />	
+			
+			<div  class="col-sm-5" [hidden]="name.valid|| (name.pristine && name.untouched)" class="alert alert-danger">Please Enter name</div> 
+		</div>
+		
+	</div>
+	
+
+	
+	<div class="form-group row">
+    
+      <label for="sgst" class="col-sm-1 col-form-label text-right"> SGST </label>
+      <div class="col-sm-2">
+        <input type="text" #sgst="ngModel"    id="sgst" name="TAX_SGST" class="form-control" placeholder="SGST" (change)="getIgst()" pattern="[0-9.]+"   [(ngModel)]="tax.TAX_SGST"  required />	
+        
+        <div  class="col-sm-2" [hidden]="sgst.valid|| (sgst.pristine && sgst.untouched)" class="alert alert-danger">Please Enter number</div> 
+      </div>
+
+      <label for="cgst" class="col-sm-1 col-form-label text-right">CGST</label>
+      <div class="col-sm-2">
+        <input type="text" #cgst="ngModel"    id="cgst" name="TAX_CGST" class="form-control" placeholder="CGST" (change)="getIgst()" pattern="[0-9.]+"  [(ngModel)]="tax.TAX_CGST"  required />	
+        
+        <div  class="col-sm-2" [hidden]="cgst.valid|| (cgst.pristine && cgst.untouched)" class="alert alert-danger">Please Enter number</div> 
+      </div>
+
+      <label for="IGST" class="col-sm-1 col-form-label text-right">IGST </label>
+      <div class="col-sm-2">
+        <input type="text" #igst="ngModel"    id="IGST" name="TAX_IGST" class="form-control" placeholder="IGST" pattern="[0-9.]+" readonly [(ngModel)]="tax.TAX_IGST"  required />	
+        <div  class="col-sm-2" [hidden]="igst.valid|| (igst.pristine && igst.untouched)" class="alert alert-danger">Please Enter number</div> 
+      </div>
+
+
+	</div>
+	
+		
+	<div class="form-group row">
+    <div class="col-sm-1"></div>
+      <button  class="btn btn-success col-sm-1">{{ isupdate==false ? 'Save' : 'Update'}}</button>
+      
+			<button class="btn btn-primary col-sm-1">Clear</button>
+		</div>
+</form>
+<button type="button" class="btn btn-info" (click)="getDeatils()">Show List</button>
+<table *ngIf="show" class="table table-bordered mt-4">
+    <thead class = "thead-dark">
+      <tr>
+        <th>Sr. No.</th>
+        <th>Tax</th>
+        <th>SGST(%)</th>
+        <th>CGST(%)</th>
+        <th>IGST(%)</th>
+        <th>Manage</th>
+      </tr>
+      <tr *ngFor = "let tax of taxDetails, let i=index">
+        <td>{{ i + 1}}</td>
+        <td>{{ tax.TAX_Name }}</td>
+        <td>{{ tax.TAX_SGST }}</td>
+        <td>{{ tax.TAX_CGST }}</td>
+        <td>{{ tax.TAX_IGST }}</td>
+        <td>
+            <button class="btn btn-danger" (click)="getTax(tax.TAX_ID)" > <i class="fas fa-pencil-alt" aria-hidden="true" ></i> </button>
+            <button class="btn btn-danger" > <i class="fas fa-trash-alt" aria-hidden="true" ></i> </button>
+                
+          </td>
+      </tr>
+    </thead>
+  </table>

@@ -1,0 +1,71 @@
+<html>
+  <head>
+    <title>GREY CHECKING</title>
+  </head>
+  <div id="print-section">
+    <div class="row mt-3">
+        <div class="col-md-4">
+          <img src="../../../../../assets/img/tex-pro.png" class="img-avatar" />
+        </div>
+      <div class="col-md-4">
+        <h2 class="head text-center ">{{basicdatails.CO_CN}}</h2>
+        <h6 class="text-justify"><b>Address:{{basicdatails.CO_Address}}</b> </h6>
+      </div> 
+      <div class="col-md-4"></div>  
+    </div>   
+    <h4 class="text-center" style="text-decoration: underline;font-weight: bold">Grey Checking List </h4>
+    <div class="container">
+      <div class="row">
+      <table class="table">
+            <tr>
+              <th>Supplier:{{basicdatails.pm_name}}</th>
+              <th>Challan No:{{basicdatails.GR_ChallNo}}</th>
+              <th>Challan Date:{{basicdatails.GR_Chdate}}</th>
+            </tr>
+            <tr>
+              <td rowspan="2">
+                Add:{{basicdatails.pm_add}}
+              </td>
+              <th>Lot No:{{basicdatails.GR_Batch}}</th>
+              <th>Recieve Date:{{basicdatails.GRCHKD_DE}}</th>
+            </tr>
+            
+        </table>
+      </div>  
+      <div class="row">
+      <table class="table ">
+       <tr >
+            <th> Sr.No</th>
+            <th>Item</th>
+            <th>Challan Qty</th>
+            <th>Received Qty</th>
+         </tr>    
+         <tr *ngFor="let product of details; let i = index">
+            <td>{{i+1}}</td>
+            <td>{{product.product}}</td>
+            <td>{{product.grchkd_cqty}}</td>
+            <td>{{product.grchkd_rqty}}</td>
+         </tr>
+      </table>
+      </div>
+      <div class="row">
+          <table class="table ">
+           <tr>
+                <th>Total Received Meter:{{basicdatails.rmtr}}</th>
+                <th>Total Challan Meter:{{basicdatails.tmtr}}</th>
+                <th>Total Pieces:{{basicdatails.tpcs}}</th>
+             </tr>    
+          </table>
+          </div>
+      <div class="row">
+        <table class="table ">
+          <tr>
+              <th>Total Meter Difference:{{basicdatails.dmtr}}</th>
+              <th>Total PCS Difference:{{basicdatails.dpcs}}</th>
+            </tr>    
+        </table>
+        </div>    
+     </div> 
+    </div>
+    <button type="button" class="btn btn-secondary"  printSectionId="print-section" (click)="print()" >Print</button>
+  </html>  

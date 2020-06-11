@@ -1,0 +1,43 @@
+<h2 class="page-header pt-4 pb-2 border-bottom">{{ ispayment == true ? 'Payment View' : 'Receive View' }}</h2>
+<p></p>
+<div class="row">
+	<div class="col-md-2">Search</div>
+	<div class="col-md-10">
+	<input class="form-control" type="text" name="search" [(ngModel)]="searchText">
+	<p><p>
+ </div>
+
+<table class="table table-bordered mt-4">
+	<thead class = "thead-dark">
+		<tr>
+			<th>Sr. No.</th>
+			<th>Date</th>
+			<th>Payment typ</th>
+			<th>Account</th>
+			<th>Party</th>
+			<th>Amount</th>
+      <th>Remark</th>
+      <th>Manage</th>
+		</tr>
+	</thead>
+		<tr *ngFor = "let invoice of invoiceList| filter: {PI_PInvNo: searchText, supp:searchText,dat: searchText,NA: searchText,Tax: searchText,TA: searchText} | paginate: { itemsPerPage: 10, currentPage: p } ; let i = index">
+			<td>{{ i + 1}}</td>
+			<td>{{ invoice.dat }}</td>
+			<td>{{ invoice.PYTYP }}</td>
+			<td>{{ invoice.AC }}</td>
+			<td>{{ invoice.PAYEE}}</td>
+			<td>{{ invoice.amt }}</td>
+			<td>{{ invoice.rmk  }}</td>
+		
+			
+			<td>
+					<a *ngIf="ispayment==true" [routerLink]="['../voucher/payment', invoice.id]"><button class="btn btn-primary"><i class="fas fa-pencil-alt" aria-hidden="true"></i></button> </a> 
+					<a *ngIf="ispayment==false" [routerLink]="['../voucher/reciept', invoice.id]"><button class="btn btn-primary"><i class="fas fa-pencil-alt" aria-hidden="true"></i></button> </a>
+					<button *ngIf="ispayment==true" class="btn btn-danger" (click)="deletedata(invoice, i)"> <i class="fas fa-trash-alt" aria-hidden="true" ></i> </button>
+					<button *ngIf="ispayment==false" class="btn btn-danger" (click)="deletedata(invoice, i)"> <i class="fas fa-trash-alt" aria-hidden="true" ></i> </button>
+							
+				</td>
+		</tr>
+
+</table>
+<pagination-controls (pageChange)="p = $event"></pagination-controls>

@@ -1,0 +1,77 @@
+<h2 class="page-header pt-4 pb-2 border-bottom">Transfer</h2>
+	<!-- <div *ngIf="invalidForm" class="alert alert-danger" role="alert">
+		Please fill out all fields.
+	</div> -->
+	
+	<ngb-alert type="danger" *ngIf="ds.invalidForm" (close)="ds.invalidForm = false">
+		{{ds.errorMessage }}
+	</ngb-alert>
+	
+	<ngb-alert type="success" *ngIf="ds.formSubmitted" (close)="ds.formSubmitted = false">
+		{{ ds.submittedMessage }}
+	</ngb-alert>
+	
+	<div *ngIf="!ds.formSubmitted" class="border p-2 pt-4">
+		<form class="needs-validation" method="post" #transferForm="ngForm"  (ngSubmit)="submitForm(transferForm,transfer)">
+			<div class="form-group row">
+				<label for="transferFrom" class="col-sm-2 col-form-label text-right">Transfer from </label>
+				<div class="col-sm-9">
+					<select class="custom-select" [ngClass]="{'is-invalid' : transferFrom.touched && transferFrom.invalid, 'is-valid' : transferFrom.touched && transferFrom.valid }" id ="transferFrom" name="transferFrom" class="form-control" [(ngModel)]="transfer.transferFrom" #transferFrom="ngModel" placeholder="transferFrom" required >
+						<option selected>Credit</option>
+						<option value="1">Dedit</option>
+					</select>
+					<small class="invalid-feedback" *ngIf="transferFrom.touched && transferFrom.invalid">
+						<span *ngIf="transferFrom.errors.required">transferFrom required</span>
+					</small>
+				</div>
+			</div>
+			
+			<div class="form-group row">
+				<label for="transferTo" class="col-sm-2 col-form-label text-right">Transfer To </label>
+				<div class="col-sm-9">
+					<select class="custom-select" [ngClass]="{'is-invalid' : transferTo.touched && transferTo.invalid, 'is-valid' : transferTo.touched && transferTo.valid }" id ="transferTo" name="transferTo" class="form-control" [(ngModel)]="transfer.transferTo" #transferTo="ngModel" required >
+						<option selected>HDFC Bank</option>
+						<option selected>ICICI Bank</option>
+						<option selected>HDFC Bank</option>
+						<option selected>ICICI Bank</option>						
+					</select>
+					<small class="invalid-feedback" *ngIf="transferTo.touched && transferTo.invalid">
+						<span *ngIf="transferTo.errors.required">Transfer To required</span>
+					</small>
+				</div>
+			</div>
+			
+			<div class="form-group row">
+				<label for="transferAmount" class="col-sm-2 col-form-label text-right">Transfer amount </label>
+				<div class="col-sm-9">
+					<input class="custom-select" [ngClass]="{'is-invalid' : transferAmount.touched && transferAmount.invalid, 'is-valid' : transferAmount.touched && transferAmount.valid }" id ="transferAmount" name="transferAmount" class="form-control" [(ngModel)]="transfer.transferAmount" #transferAmount="ngModel" required />
+					<small class="invalid-feedback" *ngIf="transferAmount.touched && transferAmount.invalid">
+						<span *ngIf="transferAmount.errors.required">Transfer Amount required</span>
+					</small>
+				</div>
+			</div>
+			
+			<div class="form-group row">
+				<label for="transactionDate" class="col-sm-2 col-form-label text-right">Date </label>
+				<div class="col-sm-9 input-group">
+					<input type = "date" [ngClass]="{'is-invalid' : transactionDate.touched && transactionDate.invalid, 'is-valid' : transactionDate.touched && transactionDate.valid }" id ="transactionDate" name="transactionDate" class="form-control" [(ngModel)]="transfer.transactionDate" #transactionDate="ngModel" ngbDatepicker #d="ngbDatepicker" required />
+					<div class="input-group-append">
+						<button class="btn btn-outline-secondary" (click)="d.toggle()" type="button"><i class = "fa fa-calendar-alt"></i>					</button>
+					</div>
+				</div>
+			</div>
+			
+			<div class="form-group row">
+				<label for="description" class="col-sm-2 col-form-label text-right">Description </label>
+				<div class="col-sm-9">
+					<textarea type = "text" [ngClass]="{'is-invalid' : description.touched && description.invalid, 'is-valid' : description.touched && description.valid }" id ="description" name="description" class="form-control" [(ngModel)]="transfer.description" #description="ngModel" required></textarea>
+					<small class="invalid-feedback" *ngIf="description.touched && description.invalid">
+						<span *ngIf="description.errors.required">Description required</span>
+					</small>
+				</div>
+			</div>
+			
+			<button class="btn btn-primary ml-auto mr-auto">Submit</button>
+			
+		</form>
+	</div>

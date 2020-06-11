@@ -1,0 +1,113 @@
+<html>
+  <head>
+    <title>Printing formate</title>
+  </head>
+  <div id="print-section">
+    <div class="row mt-3">
+        <div class="col-md-4">
+          <img src="../../../../../assets/img/tex-pro.png" class="img-avatar" />
+        </div>
+      <div class="col-md-4">
+        <h2 class="head text-center ">{{basicdatails.co_cn}}</h2>
+        <h6 class="text-justify"><b>Address:</b> {{basicdatails.CO_Address}}</h6>
+      </div> 
+      <div class="col-md-4"></div>  
+    </div>   
+    <h4 class="text-center" style="text-decoration: underline;font-weight: bold">Grey Receive List </h4>
+    <div class="container">
+      <div class="row">
+      <!-- <table class="table">
+            <tr>
+              <th>Supplier:{{basicdatails.pm_name}}</th>
+              <th>Challan No:{{basicdatails.gr_challno}}</th>
+              <th>Challan Date:{{basicdatails.gr_chdate}}</th>
+            </tr>
+            <tr>
+              <td rowspan="2">
+                Add:{{basicdatails.PM_ADD}}
+              </td>
+              <th>Process:{{basicdatails.gr_process}}</th>
+              <th>Lot No:{{basicdatails.gr_batch}}</th>
+            </tr>
+            <tr>
+              <th>Godown:{{basicdatails.gr_wh}}</th>
+              <th>Vehicle No:{{basicdatails.gr_vehcile}}</th>
+            </tr>
+        </table> -->
+        <table class="table">
+            <tr>
+              <th>Supplier:&nbsp;&nbsp;{{basicdatails.pm_name}}</th>
+              <th>Lot No:&nbsp;&nbsp;{{basicdatails.gr_batch}}</th>
+              <th>QUALITY:&nbsp;&nbsp;{{basicdatails.quality}}</th>
+            </tr>
+            <tr>
+              <th>Challan No:&nbsp;&nbsp;{{basicdatails.gr_challno}}</th>
+              <th>PCS:&nbsp;&nbsp;{{basicdatails.tpcs}}</th>
+              <th>QUA.WEIGHT:&nbsp;&nbsp;</th>
+            </tr>
+            <tr>
+                <th>Challan Date:&nbsp;&nbsp;{{basicdatails.gr_chdate}}</th>
+                <th>MTR:&nbsp;&nbsp;{{basicdatails.tmtr }}</th>
+                <th>GREY FOLD:&nbsp;&nbsp;</th>
+            </tr>
+            <tr>
+              <th>Godown:&nbsp;&nbsp;{{basicdatails.gr_wh}}</th>
+              <th>RECEIVE WIDTH:&nbsp;&nbsp;{{basicdatails.width}}</th>
+              <th>CHECKING WIDHT:</th>
+            </tr>
+        </table>
+      </div>  
+      <div class="row">
+        <!-- <div class="col-md-6" *ngFor="let product of details; let j = index">
+           <table *ngIf="j<=1 && j>=0" class="table table-bordered">
+              <tr>
+                <th> Sr.No</th>
+                <th>METER</th>
+                <th>CHECK METER</th>
+              </tr>   
+              
+              <tr  *ngFor="let product of details; let i = index">
+                  <td>{{i+1}}</td>
+                  <td>{{product.qty}}</td>
+                  <td></td>
+              </tr>
+            </table>
+        </div> -->
+
+        <div class="col-md-6">
+            <table class="table table-bordered">
+               <tr>
+                 <th style="width:50px;"> Sr.No</th>
+                 <th style="width:100px;">METER</th>
+                 <th style="width:100px;">CHECK METER</th>
+                 <th>REMARK</th>
+               </tr>   
+               <tr  *ngFor="let product of firstArray; let i = index">
+                   <td>{{i+1}}</td>
+                   <td>{{product.qty}}</td>
+                   <td></td>
+                   <td></td>
+               </tr>
+             </table>
+         </div> 
+         <div class="col-md-6">
+            <table class="table table-bordered">
+               <tr>
+                <th style="width:50px;"> Sr.No</th>
+                 <th style="width:100px;">METER</th>
+                 <th style="width:100px;">CHECK METER</th>
+                 <th>REMARK</th>
+               </tr>   
+               <tr  *ngFor="let product of lastArray; let i = index">
+                   <td>{{i+1}}</td>
+                   <td>{{product.qty}}</td>
+                   <td></td>
+                   <td></td>
+               </tr>
+             </table>
+         </div> 
+      </div>
+     </div> 
+    </div>
+    <button type="button" class="btn btn-secondary"  printSectionId="print-section" (click)="print()" >Print</button>
+  </html>  

@@ -1,0 +1,67 @@
+
+<div class="container" id="print-section">
+
+  <div class="row mt-3">
+		<div class="col-md-4">
+			<img src="../../../../../assets/img/tex-pro.png" class="img-avatar" />
+		</div>
+	<div class="col-md-4">
+		<h2 class="head text-center">{{basicdatails.CO_CN}}</h2>
+		<h6 class="text-center text-justify"><b>Address:{{basicdatails.CO_Address}}</b> </h6>
+	</div> 
+	<div class="col-md-4"></div>  
+</div>   
+<h4 class="text-center" style="text-decoration: underline;font-weight: bold">Process </h4>
+<div class="container">
+	<div class="row">
+	<table class="table">
+				<tr>
+					<th>Supplier:&nbsp;{{basicdatails.party}}</th>
+					<th>Date:&nbsp;{{basicdatails.dat}}</th>
+					<th>Lot No:&nbsp;{{basicdatails.batch}}</th>
+					<th>Machine:&nbsp;{{basicdatails.machine}}</th>
+				</tr>
+				<tr>
+					<th>PC:&nbsp;{{basicdatails.tpcs  | number:'0.2' }}</th>
+					<th>MTR:&nbsp;{{basicdatails.tmtr | number:'0.2' }}</th>
+					<th>Process:&nbsp;{{basicdatails.procd}}</th>
+					<th>Shade:&nbsp;{{basicdatails.JPR_ShadNo}}</th>
+					 <!-- <th>Width:{{basicdatails.JBC_Jbatch}}</th>  -->
+		</table>
+	</div>  
+<div class="content table-responsive table-full-width">
+	<table class="table table-bordered table-sm">
+		<thead class = "thead-light">
+			<tr>
+       			 <th>Sr. No.</th>
+        		<th>ITEM</th>
+				<th>UNIT</th>
+				<th>QTY</th>
+				<th>RMK</th>
+				<th>TYPE</th>
+			</tr>
+			</thead>
+			<tr *ngFor="let proc of particular ; let i = index" [ngClass]="getColor(proc)">
+				<td>{{ i + 1 }}</td>
+				<td>{{ proc.itm }}</td>
+        		<td>{{ proc.JPRD_UNIT }}</td>
+        		<td>{{ proc.qty | number:'0.3' }}</td>
+				<td>{{ proc.JPRD_RMK }}</td>
+				<td>{{ proc.JPRD_ADDITION }}</td>
+			</tr>
+  </table>
+  </div>
+<div class="row mt-5">
+		<div class="col-md-6">
+			<p class="text-left"><b>Sign Store Keeper</b></p>
+		</div>
+		<div class="col-md-6">
+				<p class="text-right"><b>Sign Prep. by</b></p>
+				
+		</div>
+</div>
+<div class="modal-footer">
+		<button type="button" class="btn btn-secondary"  printSectionId="print-section" (click)="print()" >Print</button>
+		<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+	  </div>
+</div>

@@ -1,0 +1,151 @@
+<html >
+  <head>
+    <title>INVOICE</title>
+  </head>
+  <div id="print-section">
+    <div class="row mt-3">
+        <div class="col-md-4">
+          <img src="../../../../../assets/img/tex-pro.png" class="img-avatar" />
+        </div>
+      <div class="col-md-4">
+        <h2 class="head text-center ">{{basicdatails.CO_CN}}</h2>
+      </div> 
+      <div class="col-md-4"></div>  
+    </div>   
+    <h4 class="text-center" style="text-decoration: underline;font-weight: bold">INVOICE </h4>
+    <div class="container">
+      <div class="row">
+      <table class="table">
+            <tr>
+              <th>{{basicdatails.CO_Address}}</th>
+              <th>Bill NO: &nbsp;{{basicdatails.SI_InvNo}}</th>
+              <th>DATE: &nbsp;{{basicdatails.dat}}</th>
+            </tr>
+            <tr>
+              <th>CONTACT:&nbsp;{{basicdatails.CO_ConNo}} </th>
+              <th>CH No:&nbsp;{{basicdatails.SI_DCNO}}</th>
+              <th>DATE:&nbsp;{{basicdatails.dpdat}}</th>
+            </tr> 
+            <tr>
+                <th>GSTIN/UIN:&nbsp;{{basicdatails.CO_GST}} </th>
+                <th>TRANSPORTER:&nbsp;{{basicdatails.trans}}</th>
+            </tr> 
+            <tr>
+                <th>STATE:&nbsp;{{basicdatails.CO_STATE}} </th>
+                <th>LR NO:&nbsp;{{basicdatails.SI_LRNo}}</th>
+                <th>DATE:&nbsp;{{basicdatails.lrdat}}</th>
+            </tr> 
+            <tr>
+                <th>EMAIL:&nbsp;{{basicdatails.CO_EC}} </th>
+                <th>WEBSITE:&nbsp;{{basicdatails.CO_Web}}</th>
+                <th>BROKER:&nbsp;{{basicdatails.brokr}}</th>
+            </tr> 
+            </table>
+            <table class="table">
+            <tr>
+                <th>PARTY:&nbsp;{{basicdatails.party}} </th>
+                <th colspan="2">ADDRESS:&nbsp;{{basicdatails.PM_ADD}}</th>
+                
+            </tr> 
+            <tr>
+                <th colspan="2">CONTACT:&nbsp;{{basicdatails.PM_MOBILE}} </th>
+                <th >GST:&nbsp;{{basicdatails.PM_GST}}</th>
+          
+            </tr> 
+        </table>
+      </div>  
+      <div class="row">
+      <table class="table ">
+       <tr >
+            <th> Sr.No</th>
+            <th>QUALITY</th>
+            <th>PROCESS</th>
+            <th>BATCH</th>
+            <th>PCS</th>
+            <th>MTR</th>
+            <th>RATE</th>
+            <th>AMOUNT</th>
+         </tr>    
+         <tr *ngFor="let product of details; let i = index">
+            <td>{{i+1}}</td>
+            <td>{{product.GR_Quality}}</td>
+            <td>{{product.prc}}</td>
+            <td>{{product.batch}}</td>
+            <td>{{product.pcs}}</td>
+            <td>{{product.mtr}}</td>
+            <td>{{product.rat  | number:'0.2'}}</td>
+            <td>{{product.amt  | number:'0.2'}}</td>
+         </tr>
+         <tr *ngIf="deailsproc.length>0" style="text-align: center;font-weight: bold"><td colspan="8">ADDITIONAL PROCESS CHARGES</td></tr>
+         <tr *ngFor="let product1 of deailsproc; let i = index">
+            <td>{{i+1}}</td>
+            <td  colspan="3">{{product1.process}}</td>
+            <td colspan="2">{{product1.batch}}</td>
+            <td>{{product1.rat | number:'0.2'}}</td>
+            <td>{{product1.amt | number:'0.2'}}</td>
+         </tr>
+         <tr *ngIf="othrchrg.length>0" style="text-align: center;font-weight: bold"><td colspan="8">OTHER CHARGES</td></tr>
+         <tr *ngFor="let product2 of othrchrg; let i = index">
+            <td>{{i+1}}</td>
+            <td colspan="3">{{product2.othchrg}}</td>
+            <td colspan="2"></td>
+            <td>{{product2.rat | number:'0.2'}}</td>
+            <td>{{product2.amt | number:'0.2'}}</td>
+         </tr>
+         <tr></tr>
+         <!-- <tr>
+          <td colspan="6"></td>
+           <td >OTHER CHARGES</td><td>{{basicdatails.oth | number:'0.2'}}</td>
+         </tr> -->
+         <tr>
+            <td colspan="6"></td>
+
+            <td>DISCOUNT AMOUNT</td><td>{{basicdatails.disAmt | number:'0.2'}}</td>
+          </tr>
+          <tr>
+              <td colspan="1"></td>
+              <td>GST(%)</td><td>{{basicdatails.taxp | number:'0.2'}} %</td>
+              <td colspan="3"></td>
+              <td>NET AMOUNT</td><td>{{basicdatails.na | number:'0.2'}}</td>
+          </tr>
+          <!-- <tr>
+              <td colspan="2"></td>
+            <td>GST(%)</td><td>{{basicdatails.taxp | number:'0.2'}}</td>
+        </tr>
+        <tr *ngIf="basicdatails.taxtyp!='igst'">
+            <td colspan="2"></td>
+          <td>SGST</td><td>{{basicdatails.sgst | number:'0.2'}}</td>
+        </tr>
+        <tr *ngIf="basicdatails.taxtyp!='igst'">
+          <td colspan="2"></td>
+            <td>CGST</td><td>{{basicdatails.cgst | number:'0.2'}}</td>
+        </tr>
+        <tr *ngIf="basicdatails.taxtyp=='igst'">
+        <td colspan="2"></td>
+           <td>IGST</td><td>{{basicdatails.igst | number:'0.2'}}</td>
+        </tr> -->
+          <tr>
+              <td colspan="1"></td>
+              <td *ngIf="basicdatails.taxtyp!='igst'">SGST</td><td *ngIf="basicdatails.taxtyp!='igst'">{{basicdatails.sgst | number:'0.2'}}</td>
+              <td *ngIf="basicdatails.taxtyp!='igst'">CGST</td><td *ngIf="basicdatails.taxtyp!='igst'">{{basicdatails.cgst | number:'0.2'}}</td>
+              <td *ngIf="basicdatails.taxtyp=='igst'">IGST</td><td *ngIf="basicdatails.taxtyp=='igst'">{{basicdatails.igst | number:'0.2'}}</td>
+              <td *ngIf="basicdatails.taxtyp=='igst'" colspan="3"></td>
+              <td *ngIf="basicdatails.taxtyp!='igst'" colspan="1"></td>
+              <td>GST TOTAL</td><td>{{basicdatails.tax | number:'0.2'}}</td>
+          </tr>
+          <tr>
+                <td colspan="6"></td>
+              <td>ROUND OFF</td><td>{{basicdatails.roundoff | number:'0.2'}}</td>
+          </tr>
+          <tr>
+                <td colspan="6"></td>
+              <td>TOTAL</td><td>{{basicdatails.famt | number:'0.2'}}</td>
+          </tr>
+      </table>
+      </div>
+         
+     </div> 
+   
+    </div>
+    <button type="button" class="btn btn-secondary"  printSectionId="print-section" (click)="print()" >Print</button>
+  </html>  

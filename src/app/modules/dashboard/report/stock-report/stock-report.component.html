@@ -1,0 +1,162 @@
+<h3 class="page-header pt-4 pb-2 border-bottom text-center">Grey Stock Report  </h3>
+<p></p>
+
+<div class="content table-responsive table-full-width">
+	<table  id="dattab" class="table tablefixed table-bordered table-sm">
+		<thead class = "thead-light sticky-top">
+			<tr>
+				<th>SR. NO.</th>
+				<th>PARTY</th>
+				<th>CHALLAN NO</th>
+				<th>LOT NO</th>
+				<th>PCS</th>
+				<th>METER</th>
+				<th>GODOWN</th>
+			</tr>
+			<tr class="sticky-top">
+					<td></td>
+					<td><input class="form-control" type="text" name="search1" [(ngModel)]="sersupp"> </td>
+					<td><input class="form-control" type="text" name="search1" [(ngModel)]="serchal"> </td>
+					<td><input class="form-control" type="text" name="search1" [(ngModel)]="serBatch"> </td>
+					<td><input class="form-control" type="text" name="search1" [(ngModel)]="serPC"> </td>
+					<td><input class="form-control" type="text" name="search1" [(ngModel)]="sermtr"> </td>
+					<td><input class="form-control" type="text" name="search1" [(ngModel)]="serwar"> </td>
+			</tr>
+			</thead>
+			<tbody>
+			<tr *ngFor="let product of stockData|filter: {Supp: sersupp} | filter: {GR_ChallNo: serchal} | filter: {Ware: serwar} | filter: {AIMS_Batch: serBatch} |  filter: {Ware: serWH} | filter: {Qty: sermtr} | filter: {Tpcs: serPC} | paginate: { id: 'foo' ,itemsPerPage: 20, currentPage: p } ; let i = index">
+				<td>{{ i + 1 }}</td>
+				<td>{{ product.Supp }}</td>
+				<td>{{ product.GR_ChallNo }}</td>
+				<td>{{ product.AIMS_Batch }}</td>
+				<td>{{product.Tpcs | number:'0.2'}}</td>
+       			 <td>{{product.Qty | number:'0.2'}}</td>
+				<td>{{ product.Ware }}</td>
+      </tr>
+      <tr>
+        <td></td><td></td><td></td>
+        <td>Total</td>
+        <td>{{Tpcs}}</td>
+				<td>{{TMeter}} </td>
+				<td></td>
+			</tr>
+			<tr class="blank_row">  <td colspan="7"></td></tr>
+			
+			<tr>
+				<td><span style="font-weight: bold">Total</span></td>
+				<td><span style="font-weight: bold">TD(PCS)</span></td>
+				<td><span style="font-weight: bold">TD(MTR)</span></td>
+				<td><span style="font-weight: bold">PD(PCS)</span></td>
+				<td><span style="font-weight: bold">PD(MTR)</span></td>
+				<td><span style="font-weight: bold">RF(PCS)</span></td>
+				<td><span style="font-weight: bold">RF(MTR)</span></td>
+				<td><span style="font-weight: bold;color:red">TOTAL(PCS)</span></td>
+				<td><span style="font-weight: bold;color:red">TOTAL(MTR)</span></td>
+			</tr>
+			<tr>
+					<td><span style="font-weight: bold"></span></td>
+					
+				
+					<td><span style="font-weight: bold">{{ stockData|filter: {Supp: sersupp} | filter: {GR_ChallNo: serchal} | filter: {Ware: serwar} | filter: {AIMS_Batch: serBatch} |  filter: {Ware: serWH} | filter: {Qty: sermtr} | filter: {Tpcs: serPC} | filter: {GR_PROCESS:'TD' } | sumpipe:'Tpcs' | number:'0.2' }}</span></td>
+					<td><span style="font-weight: bold">{{ stockData|filter: {Supp: sersupp} | filter: {GR_ChallNo: serchal} | filter: {Ware: serwar} | filter: {AIMS_Batch: serBatch} |  filter: {Ware: serWH} | filter: {Qty: sermtr} | filter: {Tpcs: serPC} | filter: {GR_PROCESS:'TD' } | sumpipe:'Qty' | number:'0.2' }}</span></td>
+					<td><span style="font-weight: bold">{{ stockData|filter: {Supp: sersupp} | filter: {GR_ChallNo: serchal} | filter: {Ware: serwar} | filter: {AIMS_Batch: serBatch} |  filter: {Ware: serWH} | filter: {Qty: sermtr} | filter: {Tpcs: serPC} | filter: {GR_PROCESS:'PD' } | sumpipe:'Tpcs' | number:'0.2' }}</span></td>
+					<td><span style="font-weight: bold">{{ stockData|filter: {Supp: sersupp} | filter: {GR_ChallNo: serchal} | filter: {Ware: serwar} | filter: {AIMS_Batch: serBatch} |  filter: {Ware: serWH} | filter: {Qty: sermtr} | filter: {Tpcs: serPC} | filter: {GR_PROCESS:'PD' } | sumpipe:'Qty' | number:'0.2' }}</span></td>
+					<td><span style="font-weight: bold">{{ stockData|filter: {Supp: sersupp} | filter: {GR_ChallNo: serchal} | filter: {Ware: serwar} | filter: {AIMS_Batch: serBatch} |  filter: {Ware: serWH} | filter: {Qty: sermtr} | filter: {Tpcs: serPC} | filter: {GR_PROCESS:'RF' } | sumpipe:'Tpcs' | number:'0.2' }}</span></td>					
+					<td><span style="font-weight: bold">{{ stockData|filter: {Supp: sersupp} | filter: {GR_ChallNo: serchal} | filter: {Ware: serwar} | filter: {AIMS_Batch: serBatch} |  filter: {Ware: serWH} | filter: {Qty: sermtr} | filter: {Tpcs: serPC} | filter: {GR_PROCESS:'RF' } | sumpipe:'Qty' | number:'0.2' }}</span></td>
+					<td><span style="font-weight: bold;color:red">{{ stockData|filter: {Supp: sersupp} | filter: {GR_ChallNo: serchal} | filter: {Ware: serwar} | filter: {AIMS_Batch: serBatch} |  filter: {Ware: serWH} | filter: {Qty: sermtr} | filter: {Tpcs: serPC}  | sumpipe:'Tpcs' | number:'0.2' }}</span></td>
+					<td><span style="font-weight: bold;color:red">{{ stockData|filter: {Supp: sersupp} | filter: {GR_ChallNo: serchal} | filter: {Ware: serwar} | filter: {AIMS_Batch: serBatch} |  filter: {Ware: serWH} | filter: {Qty: sermtr} | filter: {Tpcs: serPC}  | sumpipe:'Qty' | number:'0.2' }}</span></td>
+				</tr>
+			</tbody>
+	</table>
+</div>
+<div class="row">
+	<div class="col-md-6">
+		<button *ngIf="stockData.length>0" class="btn btn-info" (click)="export()">Export Pdf</button>
+	</div>
+	<div class="col-md-6">
+			<pagination-controls id='foo' *ngIf="stockData.length>0" (pageChange)="p = $event"></pagination-controls>
+	</div>
+</div>
+
+
+
+
+<h3 class="page-header pt-4 pb-2 border-bottom text-center">Grey Stock Report(Uncheked)  </h3>
+<p></p>
+
+<div class="content table-responsive table-full-width">
+	<table id="dattab2" class="table tablefixed table-bordered table-sm">
+		<thead class = "thead-light sticky-top">
+			<tr>
+				<th>SR. NO.</th>
+				<th>PARTY</th>
+				<th>CHALLAN NO</th>
+				<th>LOT NO</th>
+				<th>PCS</th>
+				<th>METER</th>
+				<th>GODOWN</th>
+			</tr>
+			<tr class="sticky-top">
+					<td></td>
+					<td><input class="form-control" type="text" name="search1" [(ngModel)]="sersupp1"> </td>
+					<td><input class="form-control" type="text" name="search1" [(ngModel)]="serchal1"> </td>
+					<td><input class="form-control" type="text" name="search1" [(ngModel)]="serBatch1"> </td>
+					<td><input class="form-control" type="text" name="search1" [(ngModel)]="serPC1"> </td>
+					<td><input class="form-control" type="text" name="search1" [(ngModel)]="sermtr1"> </td>
+					<td><input class="form-control" type="text" name="search1" [(ngModel)]="serwar1"> </td>
+			</tr>
+			</thead>
+			<tbody>
+			<tr *ngFor="let product of unchekedstockData|filter: {sup: sersupp1} | filter: {challno: serchal1} | filter: {Ware: serwar} | filter: {lot: serBatch1} |  filter: {war: serwar1} | filter: {mtr: sermtr1} | filter: {pcs: serPC1} | paginate: { itemsPerPage: 20, currentPage: p1 } ; let i = index">
+				<td>{{ i + 1 }}</td>
+				<td>{{ product.sup }}</td>
+				<td>{{ product.challno }}</td>
+				<td>{{ product.lot }}</td>
+				<td>{{product.pcs | number:'0.2'}}</td>
+       			 <td>{{product.mtr | number:'0.2'}}</td>
+				<td>{{ product.war }}</td>
+      </tr>
+      <tr>
+        <td></td><td></td><td></td>
+        <td>Total</td>
+        <td>{{Tpcs}}</td>
+				<td>{{TMeter}} </td>
+				<td></td>
+			</tr>
+			<tr class="blank_row">  <td colspan="7"></td></tr>
+			
+			<tr>
+				<td><span style="font-weight: bold">Total</span></td>
+				<td><span style="font-weight: bold">TD(PCS)</span></td>
+				<td><span style="font-weight: bold">TD(MTR)</span></td>
+				<td><span style="font-weight: bold">PD(PCS)</span></td>
+				<td><span style="font-weight: bold">PD(MTR)</span></td>
+				<td><span style="font-weight: bold">RF(PCS)</span></td>
+				<td><span style="font-weight: bold">RF(MTR)</span></td>
+				<td><span style="font-weight: bold;color:red">TOTAL(PCS)</span></td>
+				<td><span style="font-weight: bold;color:red">TOTAL(MTR)</span></td>
+			</tr>
+			<tr>
+					<td><span style="font-weight: bold"></span></td>
+					
+				
+					<td><span style="font-weight: bold">{{ unchekedstockData|filter: {sup: sersupp1} | filter: {challno: serchal1} | filter: {Ware: serwar} | filter: {lot: serBatch1} |  filter: {war: serwar1} | filter: {mtr: sermtr1} | filter: {pcs: serPC1} | filter: {GR_PROCESS:'TD' } | sumpipe:'pcs' | number:'0.2' }}</span></td>
+					<td><span style="font-weight: bold">{{ unchekedstockData|filter: {sup: sersupp1} | filter: {challno: serchal1} | filter: {Ware: serwar} | filter: {lot: serBatch1} |  filter: {war: serwar1} | filter: {mtr: sermtr1} | filter: {pcs: serPC1} | filter: {GR_PROCESS:'TD' } | sumpipe:'mtr' | number:'0.2' }}</span></td>
+					<td><span style="font-weight: bold">{{ unchekedstockData|filter: {sup: sersupp1} | filter: {challno: serchal1} | filter: {Ware: serwar} | filter: {lot: serBatch1} |  filter: {war: serwar1} | filter: {mtr: sermtr1} | filter: {pcs: serPC1} | filter: {GR_PROCESS:'PD' } | sumpipe:'pcs' | number:'0.2' }}</span></td>
+					<td><span style="font-weight: bold">{{ unchekedstockData|filter: {sup: sersupp1} | filter: {challno: serchal1} | filter: {Ware: serwar} | filter: {lot: serBatch1} |  filter: {war: serwar1} | filter: {mtr: sermtr1} | filter: {pcs: serPC1} | filter: {GR_PROCESS:'PD' } | sumpipe:'mtr' | number:'0.2' }}</span></td>
+					<td><span style="font-weight: bold">{{ unchekedstockData|filter: {sup: sersupp1} | filter: {challno: serchal1} | filter: {Ware: serwar} | filter: {lot: serBatch1} |  filter: {war: serwar1} | filter: {mtr: sermtr1} | filter: {pcs: serPC1} | filter: {GR_PROCESS:'RF' } | sumpipe:'pcs' | number:'0.2' }}</span></td>					
+					<td><span style="font-weight: bold">{{ unchekedstockData|filter: {sup: sersupp1} | filter: {challno: serchal1} | filter: {Ware: serwar} | filter: {lot: serBatch1} |  filter: {war: serwar1} | filter: {mtr: sermtr1} | filter: {pcs: serPC1} | filter: {GR_PROCESS:'RF' } | sumpipe:'mtr' | number:'0.2' }}</span></td>
+					<td><span style="font-weight: bold;color:red">{{ unchekedstockData|filter: {sup: sersupp1} | filter: {challno: serchal1} | filter: {Ware: serwar} | filter: {lot: serBatch1} |  filter: {war: serwar1} | filter: {mtr: sermtr1} | filter: {pcs: serPC1}  | sumpipe:'pcs' | number:'0.2' }}</span></td>
+					<td><span style="font-weight: bold;color:red">{{ unchekedstockData|filter: {sup: sersupp1} | filter: {challno: serchal1} | filter: {Ware: serwar} | filter: {lot: serBatch1} |  filter: {war: serwar1} | filter: {mtr: sermtr1} | filter: {pcs: serPC1}  | sumpipe:'mtr' | number:'0.2' }}</span></td>
+				</tr>
+			</tbody>
+	</table>
+</div>
+<div class="row">
+	<div class="col-md-6">
+		<button *ngIf="unchekedstockData.length>0" class="btn btn-info" (click)="export2()">Export Pdf</button>
+	</div>
+	<div class="col-md-6">
+			<pagination-controls  (pageChange)="p1 = $event"></pagination-controls>
+	</div>
+</div>

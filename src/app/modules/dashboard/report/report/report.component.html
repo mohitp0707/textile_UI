@@ -1,0 +1,24 @@
+<h1 class = "page-header pt-4 pb-2 border-bottom"><i class="fas fa-pen-square fa-1x mr-3"></i>Report</h1>
+
+<div class="row">
+		<div *ngFor="let cart of ViewRoles;let index = index" class="col-lg-3">
+		<div class = "card mt-4">
+			<div class="card-title mb-0 pb-2 pt-2 pl-1 bg-warning">
+				<div class = "row">
+					<div class = "col-xs-3 ml-2">
+						<i class="fas fa-store-alt text-info fa-4x ml-2"></i>
+					</div>
+					<div class = "col-xs-7 mt-3 ml-2" ><b>{{cart.USR_FRM}}</b></div>
+				</div>					
+			</div>
+			<a routerLink="{{cart.USR_RLINK}}">
+				<div class = "card-footer">
+					<span class = "text-left" >{{cart.USR_FRM}}</span>
+				</div>
+			</a>
+		</div>
+	</div>
+</div>
+	
+	
+	

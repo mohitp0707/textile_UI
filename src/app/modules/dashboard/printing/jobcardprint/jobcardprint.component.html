@@ -1,0 +1,75 @@
+<html>
+  <head>
+    <title>Printing formate</title>
+  </head>
+  <div id="print-section">
+    <div class="row mt-3">
+        <div class="col-md-4">
+          <img src="../../../../../assets/img/tex-pro.png" class="img-avatar" />
+        </div>
+      <div class="col-md-4">
+        <h2 class="head text-center ">{{basicdatails.co_cn}}</h2>
+        <h6 class="text-justify"><b>Address:{{basicdatails.co_address}}</b> </h6>
+      </div> 
+      <div class="col-md-4"></div>  
+    </div>   
+    <h4 class="text-center" style="text-decoration: underline;font-weight: bold">Job Card </h4>
+    <div class="container">
+      <div class="row">
+      <table class="table">
+            <tr>
+              <th>Supplier:{{basicdatails.pm_name}}</th>
+              <th>Date:{{basicdatails.JBC_DATE}}</th>
+              <th>Challan No:{{basicdatails.JBC_CHNO}}</th>
+              <th>Challan Date:{{basicdatails.GR_Challdate}}</th>
+            </tr>
+            <tr>
+              <td>
+                Add:{{basicdatails.pm_add}}
+              </td>
+              <td>Process:{{basicdatails.JBC_PROCESS}}</td>
+              <td>Batch_no:{{basicdatails.JBC_Pbatch}}</td>
+              <td>Lot No:{{basicdatails.JBC_Jbatch}}</td>
+            </tr>
+            <tr>
+              <td>
+                GREY FOLD:{{basicdatails.GRCHK_GFLD}}
+              </td>
+              <td>Fixed Cost Process:{{basicdatails.cosffix}}</td>
+              <td>PC WEIGHT:{{basicdatails.GRCHK_PWGHT}}</td>
+              <td>WIDTH:{{basicdatails.GRCHK_PWIDHT}}</td>
+             
+            </tr>
+
+        </table>
+      </div>  
+      <div class="row">
+      <table class="table ">
+       <tr >
+            <th> Sr.No</th>
+            <th>Item</th>
+            <th>Unit</th>
+            <th>Qty</th>
+            <th>Jobcard</th>
+         </tr>    
+         <tr *ngFor="let product of details; let i = index">
+          <td>{{i+1}}</td>
+          <td>{{product.product}}</td>
+          <td>{{product.JBCD_UNIT}}</td>
+          <td>{{product.JBCD_QTY}}</td>
+            <td></td>
+         </tr>
+      </table>
+      </div>
+      <div class="row">
+          <table class="table ">
+           <tr>
+                <th>Total pices:{{basicdatails.JBC_TPCS}}</th>
+                 <th>Total Meter:{{basicdatails.JBC_TMTR}}</th>
+             </tr>    
+          </table>
+          </div>
+     </div> 
+    </div>
+     <button type="button" class="btn btn-secondary"  printSectionId="print-section" (click)="print()" >Print</button>
+  </html>  

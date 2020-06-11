@@ -1,0 +1,282 @@
+
+	<h1 class = "page-header pt-4 pb-2 border-bottom">Dashboard</h1>
+
+
+
+	<div class = "row mt-4">
+		<div class = "col-lg-3">
+			<div class = "card mb-4">
+				<div class="card-title mb-0 pb-2 pt-2 pl-1 bg-warning">
+					<div class = "row">
+						<div class = "col-xs-3">
+							<i class="fa fa-shopping-cart fa-4x ml-4"></i>
+						</div>
+						<div class = "col-xs-9"><h5 class = "ml-4 mt-3">GREY RECIEVE</h5></div>
+					</div>					
+				</div>
+			
+					<div class = "card-footer">
+						<span class = "text-left">100</span>
+					</div>
+			</div>
+		</div>
+		<div class = "col-lg-3">
+			<div class = "card mb-4">
+				<div class="card-title mb-0 pb-2 pt-2 pl-1 bg-info">
+					<div class = "row">
+						<div class = "col-xs-3">
+							<i class="fas fa-comments fa-4x ml-4"></i>
+						</div>
+						<div class = "col-xs-9"><h5 class = "ml-4 mt-3">Meeting</h5></div>
+					</div>					
+				</div>
+				<a routerLink = "society/meeting">
+					<div class = "card-footer">
+						<span class = "text-left">Meeting</span>
+					</div>
+				</a>
+			</div>
+		</div>
+		<div class = "col-lg-3">
+			<div class = "card mb-4">
+				<div class="card-title mb-0 pb-2 pt-2 pl-1 bg-danger">
+					<div class = "row">
+						<div class = "col-xs-3">
+							<i class="fa fa-list-ul fa-4x ml-4"></i>
+						</div>
+						<div class = "col-xs-9"><h5 class = "ml-4 mt-3">Complaints</h5></div>
+					</div>					
+				</div>
+				<a routerLink = "society/complaint">
+					<div class = "card-footer">
+						<span class = "text-left">Complaints</span>
+					</div>
+				</a>
+			</div>
+		</div>
+	
+		<div class = "col-lg-3">
+			<div class = "card mb-4">
+				<div class="card-title mb-0 pb-2 pt-2 pl-1 bg-danger">
+					<div class = "row">
+						<div class = "col-xs-3">
+							<i class="fas fa-cogs fa-5x ml-4"></i>
+						</div>
+						<div class = "col-xs-9"><h5 class = "ml-4 mt-3">Settings</h5></div>
+					</div>					
+				</div>
+				<a routerLink = "dashboard/settings">
+					<div class = "card-footer">
+						<span class = "text-left">Settings</span>
+					</div>
+				</a>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-8">
+				<div id="chartdiv4"></div>	
+		</div>
+
+		<div class="col-md-4">
+			<div class = "card">
+						<div class = "card-title border-bottom p-2">
+							<span class = "mr-2"><i class = "fas fa-chart-area"></i></span>MONTH WISE SALE
+						</div>
+						<div class = "card-body">
+							<table class = "table table-bordered table-sm">
+								<thead>
+								<tr>
+									<th scope="col">Sr No.</th>
+									<th scope="col">MONTH</th>
+									<th scope="col">SALE</th>
+								</tr>
+								</thead>
+								<tbody>
+									<tr *ngFor="let proc of saledata; let i = index">
+										<td>{{ i + 1 }}</td>
+										<td>{{ proc.MONTH }}</td>
+										<td>{{ proc.SALE }}</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+			</div>
+		</div>
+				
+		
+	</div>
+
+	<div class = "row">
+		<div class="col-md-8">
+			<div class="card cartchart"> 
+				<h4 style="text-align:center"><u><b>TOP 10 MINIMUM RAW MATERIAL STOCK</b></u></h4>
+				<div class="card-body">
+					<div id="chartdiv2"></div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-4">
+			<div class = "card">
+						<div class = "card-title border-bottom p-2">
+							<span class = "mr-2"><i class = "fas fa-chart-area"></i></span>Minium Stock
+						</div>
+						<div class = "card-body">
+							<table class = "table table-bordered table-sm">
+								<thead>
+								<tr>
+									<th scope="col">Sr No.</th>
+									<th scope="col">ITEM</th>
+									<th scope="col">QTY</th>
+								</tr>
+								</thead>
+								<tbody>
+									<tr *ngFor="let proc of minumdata; let i = index">
+										<td>{{ i + 1 }}</td>
+										<td>{{ proc.country }}</td>
+										<td>{{ proc.visits }}</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+			</div>
+		</div>
+	</div>
+	<div class="row mt-3">
+			<div class="col-md-4">
+					<div class = "card">
+							<div class = "card-title border-bottom p-2">
+								<span class = "mr-2"><i class = "fas fa-chart-area"></i></span>Process Count
+							</div>
+							<div class = "card-body">
+								<table class = "table table-bordered table-sm">
+									<thead>
+									<tr>
+										<th scope="col">Sr No.</th>
+										<th scope="col">Process</th>
+										<th scope="col">Count</th>
+									</tr>
+									</thead>
+									<tbody>
+										<tr *ngFor="let proc of procdata; let i = index">
+											<td>{{ i + 1 }}</td>
+											<td>{{ proc.country }}</td>
+											<td>{{ proc.visits }}</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+					</div>
+			</div>
+
+		<div class="col-md-8">
+			<div class="card cartchart"> 
+					<h4 style="text-align:center"><u><b>Today's Total Process</b></u></h4>
+					<div class="card-body">
+						<div id="chartdiv3"></div>
+					</div>
+				</div>
+			</div>
+	</div>
+
+	<div class = "row mt-3">
+		<div class = "col-sm-9">
+			<div class = "row">
+				<div class = "col-sm-6">
+					<div class = "card">
+						<div class = "card-title border-bottom p-2">
+							<span class = "mr-2"><i class = "fas fa-chart-area"></i></span>Process Time
+						</div>
+						<div class = "card-body">
+							<table class = "table">
+								<thead>
+								<tr>
+									<th scope="col">Id</th>
+									<th scope="col">Date</th>
+									<th scope="col">Time</th>
+								</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>1</td>
+										<td>10/21/2015</td>
+										<td>7:00 AM</td>
+									</tr>
+									<tr>
+										<td>2</td>
+										<td>10/21/2015</td>
+										<td>11:30 AM</td>
+									</tr>
+									<tr>
+										<td>3</td>
+										<td>10/21/2015</td>
+										<td>5:00 PM</td>
+									</tr>
+									<tr>
+										<td>4</td>
+										<td>10/21/2015</td>
+										<td>7:00 PM</td>
+									</tr>
+									<tr>
+										<td>5</td>
+										<td>10/21/2015</td>
+										<td>9:00 PM</td>
+									</tr>
+									<tr>
+										<td>6</td>
+										<td>10/21/2015</td>
+										<td>11:45 PM</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+				<div class = "col-sm-6">
+					<div class = "card">
+						<div class = "card-title mh-100 border-bottom p-2">
+							<span class = "mr-2"><i class = "fas fa-chart-area"></i></span>Stock Chart
+						</div>
+						<div class = "card-body">
+							<img class="card-img-top" src="../../../../assets/img/graph.png" height="25%">
+						</div>
+					</div>
+				</div>
+			</div>
+			
+		</div>
+		<div class = "col-sm-3">
+			<div class = "card">
+				<div class = "card-title border-bottom p-2 d-inline">
+					<span class = "mr-2 mb-0"><i class = "fas fa-bell"></i></span>Notifications Panel
+				</div>
+				
+				<div class="list-group mt-0">
+					<a routerLink = "#" class="list-group-item">
+						<i class = "fas fa-comments mr-3"></i>Upcoming Meetings
+						<span class = "text-muted small ml-1"><em>2</em></span>
+					</a>
+					<a routerLink = "#" class="list-group-item">
+						<i class = "fas fa-pen-square mr-3"></i>Complaints
+						<span class = "text-muted small ml-5"><em>2</em></span>
+					</a>
+					<a routerLink = "#" class="list-group-item">
+						<i class = "fas fa-sticky-note mr-3"></i>General notices
+						<span class = "text-muted small ml-5"><em>2</em></span>
+					</a>
+					<a routerLink = "#" class="list-group-item">
+						<i class = "fas fa-sticky-note mr-3"></i>General notices
+						<span class = "text-muted small ml-5"><em>2</em></span>
+					</a>
+					<a routerLink = "#" class="list-group-item">
+						<i class = "fas fa-sticky-note mr-3"></i>General notices
+						<span class = "text-muted small ml-5"><em>2</em></span>
+					</a>					
+				</div>
+				
+				<!-- <div class = "card-body">
+					<img class="card-img-top" src="../../../../assets/img/notifications.jpg" height="100%">
+				</div> -->
+			</div>
+		</div>
+	</div>

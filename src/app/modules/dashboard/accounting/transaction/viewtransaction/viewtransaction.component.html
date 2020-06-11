@@ -1,0 +1,29 @@
+<h2 class="page-header pt-4 pb-2 border-bottom">List of Transactions</h2>
+<table class="table table-bordered mt-4">
+	<thead class = "thead-dark">
+		<tr>
+			<th>Sr. No.</th>
+			<th>Category</th>
+			<th>Type</th>
+			<th>Date</th>
+			<th>Credit Amount</th>
+			<th>Debit Amount</th>
+			<th>Manage</th>			
+		</tr>
+		
+		<tr *ngFor = "let account of accountData ; let i=index">
+			<td>{{ i + 1}}</td>
+			<td>{{ account.category }}</td>
+			<td>{{ account.type }}</td>
+			<td>{{ account.date }}</td>
+			<td>{{ account.amount }}</td>
+			
+			<td>
+					<a [routerLink]="['../add-account', account.id]"><button class="btn btn-primary" ><i class="fas fa-pencil-alt" aria-hidden="true"></i></button> </a> 
+						
+					<button class="btn btn-danger" (click)="deletedata(account)"> <i class="fas fa-trash-alt" aria-hidden="true" ></i> </button>
+							
+				</td>
+		</tr>
+	</thead>
+</table>

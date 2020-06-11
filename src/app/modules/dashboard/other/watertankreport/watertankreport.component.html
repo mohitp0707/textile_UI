@@ -1,0 +1,84 @@
+<h3 class="page-header pt-4 pb-2 border-bottom ">WATER TANK REPORT</h3>
+<p></p>
+
+
+<div class="row">
+	<div class = "col-sm-1 input-group">
+		<label for="GR_Date" class="col-form-label text-right">From </label>
+		</div>
+		<div class = "col-sm-3 input-group">
+			<input class="form-control" type="date" id="GR_Fdat" name="GR_Fdat"  [(ngModel)]="invoice.GR_Fdat" ngbDatepicker #d="ngbDatepicker" required />
+			<div class="input-group-append">
+				<button class="btn btn-outline-secondary" (click)="d.toggle()" type="button"><i class = "fas fa-calendar-alt"></i></button>
+			</div>
+	</div>
+
+	<div class = "col-sm-1 input-group">
+		<label for="GR_Date" class="col-form-label text-right">TO </label>
+		</div>
+		<div class = "col-sm-3 input-group">
+			<input class="form-control" type="date" id="GR_Tdat" name="GR_Tdat"  [(ngModel)]="invoice.GR_Tdat"  ngbDatepicker #d1="ngbDatepicker" required />
+			<div class="input-group-append">
+				<button class="btn btn-outline-secondary" (click)="d1.toggle()" type="button"><i class = "fas fa-calendar-alt"></i></button>
+			</div>
+	</div>
+	<div class="col-sm-3"><button class="btn btn-info" (click)="getdata(invoice)">Show</button> </div>
+</div>
+
+<div class="content table-responsive table-full-width mt-4">
+	<table id="dattab" class="table tablefixed table-bordered table-sm">
+		<thead class = "thead-light">
+			<tr>
+				<th>Sr. No.</th>
+        <th>DATE</th>
+        <th>Supplier</th>
+        <th>VEHICLE</th>
+        <th>CAPACITY</th>
+        <th>READING</th>
+        <th>TDS</th>
+        <th>QTY</th>
+        <th>RATE</th>
+        <th>AMOUNT</th>
+			</tr>
+			<tr>
+          <td></td>
+          <td><input class="form-control" type="text" name="search" [(ngModel)]="serdat"> </td>
+          <td><input class="form-control" type="text" name="search1" [(ngModel)]="sersupp"> </td>
+          <td><input class="form-control" type="text" name="search1" [(ngModel)]="serveh"> </td>
+          <td><input class="form-control" type="text" name="search1" [(ngModel)]="sercap"> </td>
+          <td><input class="form-control" type="text" name="search1" [(ngModel)]="serred"> </td>
+          <td><input class="form-control" type="text" name="search1" [(ngModel)]="sertds"> </td>
+          <td><input class="form-control" type="text" name="search1" [(ngModel)]="serQty"> </td>
+          <td><input class="form-control" type="text" name="search1" [(ngModel)]="serrate"> </td>
+          <td><input class="form-control" type="text" name="search1" [(ngModel)]="seramt"> </td>
+        </tr>
+      </thead>
+      <tbody>
+			<tr *ngFor="let product of stockData | filter: {dat: serdat} | filter: {qty: serQty} | filter: {supp: sersupp} | filter: {vhno: serveh} | filter: {cap: sercap} | filter: {red: serred} | filter: {Tds: sertds}| filter: {rat: serrate}| filter: {amt: seramt} | paginate: { itemsPerPage: 20, currentPage: p } ; let i = index">
+				<td>{{ i + 1 }}</td>
+				<td>{{ product.dat }}</td>
+				<td>{{ product.supp }}</td>
+        <td>{{ product.vhno }}</td>
+        <td>{{ product.cap }}</td>
+        <td>{{product.red}}</td>
+        <td>{{product.Tds}}</td>
+        <td>{{product.qty | number:'0.2' }}</td>
+        <td>{{product.rat | number:'0.2' }}</td>
+        <td>{{product.amt | number:'0.2'}}</td>
+      </tr>
+      <tr>
+        <td></td><td></td><td></td><td></td><td></td>
+        <td></td>
+       
+        <td>Total</td>
+        <td style="color:red;font-weight: bold">{{stockData | filter: {dat: serdat} | filter: {qty: serQty} | filter: {supp: sersupp} | filter: {vhno: serveh} | filter: {cap: sercap} | filter: {red: serred} | filter: {Tds: sertds}| filter: {rat: serrate}| filter: {amt: seramt} | sumpipe:'qty' | number:'0.2' }}</td>
+        <td></td> <td style="color:red;font-weight: bold">{{stockData | filter: {dat: serdat} | filter: {qty: serQty} | filter: {supp: sersupp} | filter: {vhno: serveh} | filter: {cap: sercap} | filter: {red: serred} | filter: {Tds: sertds}| filter: {rat: serrate}| filter: {amt: seramt} | sumpipe:'amt' | number:'0.2'}}</td>
+     
+      </tr>
+    </tbody>
+	</table>
+	<pagination-controls *ngIf="stockData.length>0" (pageChange)="p = $event"></pagination-controls>
+</div>
+
+
+<button *ngIf="stockData.length>0" class="btn btn-info" (click)="export()">Export Pdf</button>

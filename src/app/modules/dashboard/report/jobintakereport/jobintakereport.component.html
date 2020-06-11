@@ -1,0 +1,112 @@
+<h3 class="page-header pt-4 pb-2 border-bottom ">INTAKE REPORT</h3>
+<p></p>
+
+
+<div class="row">
+	<div class = "col-sm-1 input-group">
+		<label for="GR_Date" class="col-form-label text-right">From </label>
+		</div>
+		<div class = "col-sm-3 input-group">
+			<input class="form-control" type="date" id="GR_Fdat" name="GR_Fdat"  [(ngModel)]="invoice.GR_Fdat" ngbDatepicker #d="ngbDatepicker" required />
+			<div class="input-group-append">
+				<button class="btn btn-outline-secondary" (click)="d.toggle()" type="button"><i class = "fas fa-calendar-alt"></i></button>
+			</div>
+	</div>
+
+	<div class = "col-sm-1 input-group">
+		<label for="GR_Date" class="col-form-label text-right">TO </label>
+		</div>
+		<div class = "col-sm-3 input-group">
+			<input class="form-control" type="date" id="GR_Tdat" name="GR_Tdat"  [(ngModel)]="invoice.GR_Tdat"  ngbDatepicker #d1="ngbDatepicker" required />
+			<div class="input-group-append">
+				<button class="btn btn-outline-secondary" (click)="d1.toggle()" type="button"><i class = "fas fa-calendar-alt"></i></button>
+			</div>
+	</div>
+	<div class="col-sm-3"><button class="btn btn-info" (click)="getdata(invoice)">Show</button> </div>
+</div>
+
+<div class="content table-responsive table-full-width mt-5">
+	<table id="dattab" class="table tablefixed table-bordered table-sm">
+		<thead class = "thead-light">
+			<tr>
+				<th>Sr. No.</th>
+				<th>DATE</th>
+				<th>PARTY</th>
+				<th>BATCH</th>
+				<th>Total PCS</th>
+				<th>Total MTR</th>
+			</tr>
+			<tr>
+				<td></td>
+				
+				<td><input class="form-control" type="text" name="search1" [(ngModel)]="serDat" (input)="chanDat(serDat)"> </td>
+				<td><input class="form-control" type="text" name="search1" [(ngModel)]="sersupp" > </td>
+				<td><input class="form-control" type="text" name="search1" [(ngModel)]="serBatch"> </td>
+				<td><input class="form-control" type="text" name="search1" [(ngModel)]="serqty"> </td>
+				<td><input class="form-control" type="text" name="search1" [(ngModel)]="serTMTR"> </td>
+			</tr>
+			</thead>
+			<tbody>
+			<tr *ngFor="let product of greyRecive | filter: {Supp: sersupp} | filter: {Dat: serDat} | filter: {GR_Batch: serBatch}  | filter: {TQTY: serqty} | filter: {TMTR: serTMTR}   | paginate: { itemsPerPage: 20, currentPage: p } ; let i = index">
+				<td>{{ i + 1 }}</td>
+				<td>{{ product.Dat  }}</td>
+				<td>{{ product.Supp }}</td>
+				<td>{{ product.GR_Batch }}</td>
+				<td>{{ product.TQTY | number:'0.2' }}</td>
+				<td>{{ product.TMTR | number:'0.2'  }}</td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td><span style="font-weight: bold">Total</span></td>
+				<td><span style="font-weight: bold">{{ greyRecive | filter: {Supp: sersupp} | filter: {Dat: serDat} | filter: {GR_Batch: serBatch}  | filter: {TQTY: serqty}     | sumpipe:'TQTY' | number:'0.2' }}</span></td>
+				<td><span style="font-weight: bold">{{ greyRecive | filter: {Supp: sersupp} | filter: {Dat: serDat} | filter: {GR_Batch: serBatch}  | filter: {TQTY: serqty}     | sumpipe:'TMTR' | number:'0.2' }}</span></td>
+			
+			</tr>
+			<tr class="blank_row">  <td colspan="8"></td></tr>
+			
+			<tr>
+				<td><span style="font-weight: bold">Total</span></td>
+				<td><span style="font-weight: bold">TD(PCS)</span></td>
+				<td><span style="font-weight: bold">TD(MTR)</span></td>
+				<td><span style="font-weight: bold">PD(PCS)</span></td>
+				<td><span style="font-weight: bold">PD(MTR)</span></td>
+				<td><span style="font-weight: bold">RF(PCS)</span></td>
+				<td><span style="font-weight: bold">RF(MTR)</span></td>
+				<td><span style="font-weight: bold;color:red">TOTAL(PCS)</span></td>
+				<td><span style="font-weight: bold;color:red">TOTAL(MTR)</span></td>
+			</tr>
+			<tr>
+					<td><span style="font-weight: bold"> TODAY {{today}}</span></td>
+					
+				
+					<td><span style="font-weight: bold">{{ greyRecive | filter: {Supp: sersupp} | filter: {Dat: today} | filter: {GR_Batch: serBatch}  | filter: {TQTY: serqty} | filter: {GR_PROCESS:'TD' }     | sumpipe:'TQTY' | number:'0.2' }}</span></td>
+					<td><span style="font-weight: bold">{{ greyRecive | filter: {Supp: sersupp} | filter: {Dat: today} | filter: {GR_Batch: serBatch} | filter: {TQTY: serqty} | filter: {GR_PROCESS:'TD' }    | sumpipe:'TMTR' | number:'0.2' }}</span></td>
+					<td><span style="font-weight: bold">{{ greyRecive | filter: {Supp: sersupp} | filter: {Dat: today} | filter: {GR_Batch: serBatch}  | filter: {TQTY: serqty} | filter: {GR_PROCESS:'PD' }  | sumpipe:'TQTY' | number:'0.2' }}</span></td>
+					<td><span style="font-weight: bold">{{ greyRecive | filter: {Supp: sersupp} | filter: {Dat: today} | filter: {GR_Batch: serBatch}  | filter: {TQTY: serqty} | filter: {GR_PROCESS:'PD' }     | sumpipe:'TMTR' | number:'0.2' }}</span></td>
+					<td><span style="font-weight: bold">{{ greyRecive | filter: {Supp: sersupp} | filter: {Dat: today} | filter: {GR_Batch: serBatch}  | filter: {TQTY: serqty} | filter: {GR_PROCESS:'RF' }    | sumpipe:'TQTY' | number:'0.2' }}</span></td>
+					<td><span style="font-weight: bold">{{ greyRecive | filter: {Supp: sersupp} | filter: {Dat: today} | filter: {GR_Batch: serBatch}  | filter: {TQTY: serqty} | filter: {GR_PROCESS:'RF' }   | sumpipe:'TMTR' | number:'0.2' }}</span></td>
+					<td><span style="font-weight: bold;color:red">{{ greyRecive | filter: {Supp: sersupp} | filter: {Dat: today} | filter: {GR_Batch: serBatch}  | filter: {TQTY: serqty}    | sumpipe:'TQTY' | number:'0.2' }}</span></td>
+					<td><span style="font-weight: bold;color:red">{{ greyRecive | filter: {Supp: sersupp} | filter: {Dat: today} | filter: {GR_Batch: serBatch}  | filter: {TQTY: serqty}     | sumpipe:'TMTR' | number:'0.2' }}</span></td>
+				</tr>
+			<tr>
+					<td><span style="font-weight: bold">UP TO DATE</span></td>
+					<td><span style="font-weight: bold">{{ greyRecive | filter: {Supp: sersupp}  | filter: {GR_Batch: serBatch}  | filter: {TQTY: serqty} | filter: {GR_PROCESS:'TD' }      | sumpipe:'TQTY' | number:'0.2' }}</span></td>
+					<td><span style="font-weight: bold">{{ greyRecive | filter: {Supp: sersupp}  | filter: {GR_Batch: serBatch}  | filter: {TQTY: serqty} | filter: {GR_PROCESS:'TD' }      | sumpipe:'TMTR' | number:'0.2' }}</span></td>
+					<td><span style="font-weight: bold">{{ greyRecive | filter: {Supp: sersupp}  | filter: {GR_Batch: serBatch}  | filter: {TQTY: serqty} | filter: {GR_PROCESS:'PD' }      | sumpipe:'TQTY' | number:'0.2' }}</span></td>
+					<td><span style="font-weight: bold">{{ greyRecive | filter: {Supp: sersupp}  | filter: {GR_Batch: serBatch}  | filter: {TQTY: serqty} | filter: {GR_PROCESS:'PD' }    | sumpipe:'TMTR' | number:'0.2' }}</span></td>
+					<td><span style="font-weight: bold">{{ greyRecive | filter: {Supp: sersupp} | filter: {GR_Batch: serBatch}  | filter: {TQTY: serqty} | filter: {GR_PROCESS:'RF' }   | sumpipe:'TQTY' | number:'0.2' }}</span></td>
+					<td><span style="font-weight: bold">{{ greyRecive | filter: {Supp: sersupp}  | filter: {GR_Batch: serBatch} | filter: {TQTY: serqty} | filter: {GR_PROCESS:'RF' }     | sumpipe:'TMTR' | number:'0.2' }}</span></td>
+					<td><span style="font-weight: bold;color:red">{{ greyRecive | filter: {Supp: sersupp}  | filter: {GR_Batch: serBatch} | filter: {TQTY: serqty}      | sumpipe:'TQTY' | number:'0.2' }}</span></td>
+					<td><span style="font-weight: bold;color:red">{{ greyRecive | filter: {Supp: sersupp}  | filter: {GR_Batch: serBatch}  | filter: {TQTY: serqty}       | sumpipe:'TMTR' | number:'0.2' }}</span></td>
+			</tr>
+		</tbody>
+	</table>
+	<pagination-controls *ngIf="greyRecive.length>0" (pageChange)="p = $event"></pagination-controls>
+</div>
+
+
+
+<button *ngIf="greyRecive.length>0" class="btn btn-info" (click)="export()">Export Pdf</button>
+<!-- <button class="btn btn-info" (click)="exportExcel()">Export Excel</button> -->

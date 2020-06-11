@@ -1,0 +1,44 @@
+<h3 class="page-header pt-4 pb-2 border-bottom ">Grey Checking List</h3>
+<p></p>
+<div class="row">
+	<div class="col-md-2">Search</div>
+	<div class="col-md-10">
+	<input class="form-control" type="text" name="search" [(ngModel)]="searchText">
+	<p><p>
+ </div>
+</div>
+<div class="content table-responsive table-full-width">
+	<table class="table table-bordered table-sm">
+		<thead class = "thead-light">
+			<tr>
+				<th>Sr. No.</th>
+				<th>Date</th>
+				<th>Supplier NAME</th>
+				<th>Lot No</th>
+				<th>Recieve PCS</th>
+				<th>Receive Meter</th>
+				<th>Challan Meter</th>
+				<th>Difference(Meter)</th>
+				<th>Manage</th>
+			</tr>
+			</thead>
+			<tr *ngFor="let product of greyChecking  | filter: {Supp: searchText,Dat: searchText , GRCHK_Batch:searchText,RPCS: searchText,Tmeter: searchText,Rmtr: searchText,Dmtr: searchText} | paginate: { itemsPerPage: 20, currentPage: p } ; let i = index">
+				<td>{{ i + 1 }}</td>
+				<td>{{ product.Dat }}</td>
+				<td>{{ product.Supp }}</td>
+				<td>{{ product.GRCHK_Batch }}</td>
+				<td>{{ product.RPCS }}</td>
+				<td>{{ product.Rmtr }}</td>
+				<td>{{ product.Tmeter }}</td>
+				<td>{{ product.Dmtr }}</td>
+				<td>
+					<a *ngIf="update && !buttonState(product)" [routerLink]="['../greyCheking', product.GRCHK_ID]"><button class="btn btn-primary" [disabled]="buttonState(product)" ><i class="fas fa-pencil-alt" aria-hidden="true"></i></button> </a> 
+						
+					<button  class="btn btn-danger" *ngIf="delete && !buttonState(product)" (click)="deletedata(product.GRCHK_ID, i)" > <i class="fas fa-trash-alt" aria-hidden="true" ></i> </button>
+					<a [routerLink]="['../../printing/grcprint', product.GRCHK_ID]"><button class="btn btn-danger"> <i class="fas fa-print" aria-hidden="true" ></i> </button>	</a>
+				</td>
+			</tr>
+	</table>
+	<pagination-controls (pageChange)="p = $event"></pagination-controls>
+</div>
+

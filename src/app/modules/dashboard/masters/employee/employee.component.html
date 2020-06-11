@@ -1,0 +1,222 @@
+
+
+	<h2 class="page-header pt-4 pb-2 border-bottom">Add Employee</h2>
+	<!-- <div *ngIf="invalidForm" class="alert alert-danger" role="alert">
+		Please fill out all fields.
+	</div> -->
+	
+	<ngb-alert type="danger" *ngIf="ds.invalidForm" (close)="ds.invalidForm = false">
+		{{ ds.errorMessage }}
+	</ngb-alert>
+	
+	<ngb-alert type="success" *ngIf="ds.formSubmitted" (close)="ds.formSubmitted = false">
+	{{ ds.submittedMessage }}
+	</ngb-alert>
+	
+	<div *ngIf="!ds.formSubmitted" class="border p-2 pt-4">
+    <form class="needs-validation" method="post" #addPartyForm="ngForm"  (ngSubmit)="submitForm(addPartyForm,party)">
+      <div class="form-group row">
+       
+        <label  for="EM_Name" class="col-sm-2 col-form-label text-right">EmployeeName:</label>
+          <div class="col-sm-4">
+            <input id="name" name="EM_Name"  [ngClass]="{'is-invalid' : name.touched && name.invalid, 'is-valid' : name.touched && name.valid }" type="text" #name="ngModel" class="form-control"  pattern="[A-Za-z\s]+" [ngbTypeahead]="search"  [(ngModel)]="party.EM_Name" required>
+            <small class="form-text text-muted">Enter alphabets only.</small>
+            <div  [ngClass]="name.touched && name.invalid ? 'invalid-feedback' : 'valid-feedback'" *ngIf="name.touched && name.invalid">
+              <span *ngIf="name.errors.required">Full Name required</span>
+              <span *ngIf="name.errors.pattern">Full Name not valid only alphabets insert</span>
+            </div>
+         
+          </div> 
+
+          <label class="col-sm-2  col-form-label text-right">Status:</label>
+          <div class="col-sm-4">
+            <select id ="Staus"  name="EM_St" class="form-control"   [(ngModel)]="party.EM_St" class="form-control" >
+              <option value="Active" selected>Active</option>
+              <option value="In-Active">In-Active</option>
+          </select>
+          </div>
+    
+      </div>
+      <div class="form-group row">
+          <label class="col-sm-2 col-form-label text-right">Email:</label>
+            <div class="col-sm-4">
+              	<input type="email" [ngClass]="email.touched && email.invalid ? 'is-invalid' : 'is-valid'" name="EM_mail"  class="form-control" [(ngModel)]="party.EM_mail" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" #email="ngModel" placeholder="Email ID">
+					      <div [ngClass]="email.touched && email.invalid ? 'is-invalid' : 'is-valid'" *ngIf="email.touched && email.invalid">
+						      <span *ngIf="email.errors.required">Email ID is required!</span>
+						      <span *ngIf="email.errors.pattern">Invalid Email ID.</span>
+					</div>
+            </div> 
+          <label class="col-sm-2 col-form-label text-right">Mobile:</label>
+            <div class="col-sm-4">
+                <input type="text" [ngClass]="{ 'is-invalid' : mobile.touched && mobile.invalid, 'is-valid': mobile.touched && mobile.valid }" id = "mobile" name="EM_Mob" class="form-control"  [(ngModel)]="party.EM_Mob" #mobile="ngModel" placeholder="Mobile no" required>
+					<div [ngClass]="mobile.touched && mobile.invalid ? 'is-invalid' : 'is-valid'" *ngIf="mobile.touched && mobile.invalid">
+						<span *ngIf="mobile.errors.required">mobile Number is required!</span>
+						<span *ngIf="mobile.errors.pattern">Invalid mobile number.</span>
+					</div>
+            </div>      
+        </div>
+        <div class="form-group row">
+            <label for="date" class="col-sm-2 col-form-label text-right">DOB:</label>
+            <div class="col-sm-4 input-group">
+                <input type="date" [ngClass]="{ 'is-invalid' : date.touched && date.invalid , 'is-valid' : date.touched && date.valid }" id="date" name="EM_Dob" class="form-control" [(ngModel)]="party.EM_Dob" #date="ngModel" ngbDatepicker #d1="ngbDatepicker" />
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary" (click)="d1.toggle()" type="button"><i class = "fa fa-calendar-alt"></i>	</button>
+                </div>
+            </div>
+            <label for="EM_Add" class="col-sm-2 col-form-label text-right">Address:</label>
+              <div class="col-sm-4">
+                <input  type="text" name="EM_Add" id="EM_Add" [(ngModel)]="party.EM_Add" class="form-control">
+              </div> 
+        </div>
+        <div class="form-group row"> 
+            <label for="EM_CITY" class="col-sm-2 col-form-label text-right">City:</label>
+              <div class="col-sm-4">
+                <input type="text" name="EM_CITY" id="EM_CITY" [(ngModel)]="party.EM_CITY" class="form-control">
+              </div>  
+            <label for="EM_Dist" class="col-sm-2 col-form-label text-right">Dist:</label>
+              <div class="col-sm-4">
+                  <input type="text" name="EM_Dist" id="EM_Dist" [(ngModel)]="party.EM_Dist" class="form-control">
+              </div>    
+          </div>
+          <div class="form-group row">
+              <label for="EM_State" class="col-sm-2 col-form-label text-right">State:</label>
+                <div class="col-sm-4">
+                    <input type="text" name="EM_State" id="EM_State" [(ngModel)]="party.EM_State" class="form-control">
+                </div>
+                <label for="EM_PIN" class="col-sm-2 col-form-label text-right">Pin:</label>
+                <div class="col-sm-4">
+                    <input type="text" name="EM_PIN" id="EM_PIN" [(ngModel)]="party.EM_PIN" class="form-control">
+                </div>
+          </div> 
+          <div class="form-group row"> 
+              <label for="EM_Gender" class="col-sm-2 col-form-label  text-right ">Gender:</label>
+                <div class="col-sm-4 pt-3">
+                    <label><input type="radio" name="gender" [(ngModel)]="party.EM_Gender" value="male"></label>Male
+                    <label><input type="radio" name="gender" [(ngModel)]="party.EM_Gender" value="Female"></label>Female
+                </div> 
+              <label for="qual" class="col-sm-2 col-form-label text-right">Quali:</label>
+                <div class="col-sm-4">
+                        <input type="text" id="qual" name="qual"  [(ngModel)]="party.EM_Qualification" class="form-control">
+
+                </div>      
+            </div>
+            <div class="form-group row">
+                <label for="EM_HomePH" class="col-sm-2 col-form-label text-right">Home Phone:</label>
+                <div class="col-sm-4">
+                    <input type="text" name="EM_HomePH" id="EM_HomePH" [(ngModel)]="party.EM_HomePH" class="form-control">
+                </div> 
+
+                <label for="EM_Adhar" class="col-sm-2 col-form-label text-right">Aadhar No:</label>
+                  <div class="col-sm-4">
+                      <input type="text" name="EM_Adhar" id="EM_Adhar" [(ngModel)]="party.EM_Adhar" class="form-control">
+                  </div>      
+              </div>
+              <div class="form-group row">
+                  <label for="EM_Blood" class="col-sm-2 col-form-label text-right">Blood Group:</label>
+                    <div class="col-sm-4">
+                        <input type="text" name="EM_Blood" id="EM_Blood" [(ngModel)]="party.EM_Blood" class="form-control">
+                    </div> 
+                  <label for="EM_LocAdd" class="col-sm-2 col-form-label text-right">Local Add:</label>
+                    <div class="col-sm-4">
+                        <!-- <label><input type="checkbox">Same as Address</label> -->
+                        <input type="text" name="EM_LocAdd" id="EM_LocAdd" [(ngModel)]="party.EM_LocAdd" class="form-control">
+                    </div> 
+                    
+                <!-- <label for="EM_PHOT" class="col-sm-2 col-form-label text-right">Photo:</label>
+                  <div class="col-sm-4">
+                      <input type="text" name="EM_Photo" id="EM_PHOT" [(ngModel)]="party.EM_Photo" class="form-control">
+                  </div>  -->
+
+                </div>
+
+   
+      <h4 class="text-left border-top" style="padding: 10px 0px">Company Details:</h4>
+        <div class="form-group row">
+          <label class="col-sm-2  col-form-label text-right">Joining Date:</label>
+          <div class="col-sm-4 input-group">
+              <input type="date" [ngClass]="{ 'is-invalid' : date1.touched && date1.invalid , 'is-valid' : date1.touched && date1.valid }" id="date1" name="EM_JDate" class="form-control" [(ngModel)]="party.EM_JDate" #date1="ngModel" ngbDatepicker #d="ngbDatepicker" />
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button"><i class = "fa fa-calendar-alt"></i>	</button>
+              </div>
+          </div>
+     
+          <label for="EM_CMail" class="col-sm-2  col-form-label text-right">Company email :</label>
+          <div class="col-sm-4">
+              <input type="text" name="EM_CMail" id="EM_CMail" [(ngModel)]="party.EM_CMail" class="form-control">
+          </div>
+        </div>
+        <div class="form-group row">
+         
+
+          <label for="EM_Dep" class="col-sm-2  col-form-label text-right">Dept:</label>
+          <div class="col-sm-4">
+              <input type="text" name="EM_Dep" id="EM_Dep" [(ngModel)]="party.EM_Dep" class="form-control">
+          </div>
+          <label  for="EM_Des" class="col-sm-2  col-form-label text-right">Designation:</label>
+          <div class="col-sm-4">
+              <input type="text" name="EM_Des" id="EM_Des" [(ngModel)]="party.EM_Des" class="form-control">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="EM_ESIC" class="col-sm-2  col-form-label text-right">ESI No:</label>
+          <div class="col-sm-2">
+              <input type="text" name="EM_ESIC" id="EM_ESIC" [(ngModel)]="party.EM_ESIC" class="form-control">
+          </div>
+     
+          <label for="EM_PF" class="col-sm-2  col-form-label text-right">PF.No:</label>
+          <div class="col-sm-2">
+              <input type="text" name="EM_PF" id="EM_PF" [(ngModel)]="party.EM_PF" class="form-control">
+          </div>
+          <label for="EM_Salary" class="col-sm-2  col-form-label text-right">Salary:</label>
+          <div class="col-sm-2">
+              <input type="text" pattern="[0-9 .\s]+" name="EM_Salary" id="EM_Salary" [(ngModel)]="party.EM_Salary" class="form-control">
+          </div>
+       
+        </div>
+
+        <h4 class="text-left border-top" style="padding: 10px 0px">Account Details:</h4>
+        <div class="form-group row">
+          <label for="EM_Bank" class="col-sm-2  col-form-label text-right">Bank Name:</label>
+          <div class="col-sm-2">
+              <input type="text" name="EM_Bank" id="EM_Bank" [(ngModel)]="party.EM_Bank" class="form-control">
+          </div>
+          <label for="EM_Branch"  class="col-sm-2  col-form-label text-right">Branch:</label>
+          <div class="col-sm-2">
+              <input type="text" name="EM_Branch" id="EM_Branch" [(ngModel)]="party.EM_Branch" class="form-control">
+          </div>
+          <label for="EM_BACT" class="col-sm-2  col-form-label text-right">Account type:</label>
+            <div class="col-sm-2">
+                <select class="form-control" id="EM_BACT" name="EM_BACT" [(ngModel)]="party.EM_BACT" >
+                    <option value="Saving">Saving</option>
+                    <option value="Current">Current</option>
+                    
+                </select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="EM_BACC" class="col-sm-2  col-form-label text-right">Account Number:</label>
+            <div class="col-sm-2">
+                <input type="text" name="EM_BACC" id="EM_BACC" [(ngModel)]="party.EM_BACC" class="form-control">
+            </div>
+            <label class="col-sm-2  col-form-label text-right">IFSC CODE:</label>
+            <div class="col-sm-2">
+                <input type="text" name="EM_IFSC" id="EM_IFSC" [(ngModel)]="party.EM_IFSC" class="form-control">
+            </div>
+        </div> 
+        <div class="row" style="margin: 50px"> 
+          <div class="col-sm-6 text-right">
+            <button class="btn btn-success col-sm-3"> {{ update == false ? 'Submit' : 'Update' }} </button>
+          </div>
+          <div class="col-sm-6 text-left">
+           <button class="btn btn-danger col-sm-3">Cancel</button>
+          </div>
+        
+        </div>
+          
+        
+      </form>
+    </div>
+
+
+  
+  

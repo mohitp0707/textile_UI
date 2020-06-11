@@ -1,0 +1,112 @@
+<h2 class="page-header pt-4 pb-2 border-bottom">{{ ispayment == true ? 'Voucher Payment' : 'Voucher Receipt' }}</h2>
+<form class="needs-validation" method="post" #addInvoiceForm="ngForm"  (ngSubmit)="submitForm()">
+  <div class="form-group row">
+    <div class = "col-sm-4 input-group">
+      <label for="generatedate" class="col-sm-3 col-form-label text-right">Date </label>
+        <input [disabled]="disable" class="form-control" type="text" [ngClass]="{ 'is-invalid' : generatedate.touched && generatedate.invalid , 'is-valid' : generatedate.touched && generatedate.valid }" id="generatedate" name="generatedate"  [(ngModel)]="invoice.generatedate" #generatedate="ngModel" ngbDatepicker #d="ngbDatepicker" required />
+        <div class="input-group-append">
+          <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button"><i class = "fas fa-calendar-alt"></i></button>
+        </div>
+    </div>
+    <div class = "col-sm-4 input-group">
+      <label for="status" class="col-sm-2 col-form-label text-right">TYPE </label>
+
+        <select [disabled]="disable" id ="Pay_typ" #Pay_typ="ngModel" name="Pay_typ" class="form-control"  placeholder="Selct TYPE"  [(ngModel)]="invoice.Pay_typ">
+          <option value="bank" selected>BANK PAYMENT</option>
+          <option value="cash" >CASH PAYMENT</option>
+        </select>
+    </div>
+    <div class = "col-sm-4 input-group">
+      <label for="status" class="col-sm-3 col-form-label text-right">Party </label>
+        <select id ="party" #party="ngModel" name="party" class="form-control"  placeholder="Selct Party"  [(ngModel)]="invoice.party">
+          <option disabled value='disable' selected>Select</option>
+          <option [ngValue]="party"  *ngFor="let party of partylist">{{party.PM_NAME}}</option>
+        </select>
+    </div>
+  </div>
+  <div class="form-group row" *ngIf="invoice.Pay_typ=='bank'">
+    <div class = "col-sm-4 input-group">
+      <label for="accname" class="col-sm-3 col-form-label text-right">Name </label>
+        <select [disabled]="disable" id ="Staus" #accname="ngModel" name="accname" class="form-control"  placeholder="Selct TYPE"  [(ngModel)]="invoice.accname">
+          <option disabled value='disable' selected>Select</option>
+          <option [value]="account.AM_ID"  *ngFor="let account of accountlistbank">{{account.AM_AN}}</option>
+        </select>
+    </div>
+    <div class = "col-sm-4 input-group">
+      <label for="status" class="col-sm-2 col-form-label text-right"> TYPE</label>
+        <select [disabled]="disable"  id ="Staus" #bankPay_typ="ngModel" name="bankPay_typ" class="form-control"  placeholder="Selct TYPE"  [(ngModel)]="invoice.bankPay_typ">
+          <option value='online'  selected>ONLINE</option>
+          <option value='cheque' >CHEQUE</option>
+        </select>
+    </div>
+    <div class = "col-sm-2 input-group" *ngIf="invoice.bankPay_typ=='cheque'">
+      <input type="text"   id="chequeno" placeholder="chequeno" name="chequeno" class="form-control" [(ngModel)]="invoice.chequeno"  required  />
+    </div>
+    <div class = "col-sm-2 input-group" *ngIf="invoice.bankPay_typ=='cheque'">
+      <input class="form-control" type="text" placeholder="cheque Date" [ngClass]="{ 'is-invalid' : chequdedate.touched && chequdedate.invalid , 'is-valid' : chequdedate.touched && chequdedate.valid }" id="chequdedate" name="chequdedate"  [(ngModel)]="invoice.chequdedate" #chequdedate="ngModel" ngbDatepicker #d1="ngbDatepicker" required />
+        <div class="input-group-append">
+            <button class="btn btn-outline-secondary" (click)="d1.toggle()" type="button"><i class = "fas fa-calendar-alt"></i></button>
+        </div>
+    </div>
+  </div>
+    <div class="form-group row" *ngIf="invoice.Pay_typ=='bank'">
+    <div class="col-md-4 input-group">
+      <label for="amount" class="col-sm-3 col-form-label text-right">Amount </label>
+      <input type="number"   id="amount" name="amount" class="form-control" [(ngModel)]="invoice.amount" #amount="ngModel"  required  />
+    </div>
+    <div class="col-md-4 input-group">
+      <input type="text"   id="rmk" name="rmk" placeholder="remark" class="form-control" [(ngModel)]="invoice.remark" #amount="ngModel"   />
+    </div>
+    <div class = "col-sm-2 input-group">
+      <button type="button" class="btn" (click) = addParticular()>+</button>
+    </div>
+  </div>
+  <div class="form-group row" *ngIf="invoice.Pay_typ=='cash'">
+    <div class = "col-sm-4 input-group">
+      <label for="accname" class="col-sm-3 col-form-label text-right">Name </label>
+        <select id ="Staus" #accname="ngModel" name="accname" class="form-control"  placeholder="Selct TYPE"  [(ngModel)]="invoice.accname">
+          <option disabled value='disable' selected>Select</option>
+          <option [value]="account.AM_ID"  *ngFor="let account of accountlistcash">{{account.AM_AN}}</option>
+        </select>
+    </div>
+    <div class="col-md-4 input-group">
+      <label for="amount" class="col-sm-3 col-form-label text-right">Amount </label>
+      <input type="number"   id="amount" name="amount" class="form-control" [(ngModel)]="invoice.amount" #amount="ngModel"  required  />
+    </div>
+    <div class="col-md-3 input-group">
+      <input type="text"   id="rmk" name="rmk" placeholder="remark" class="form-control" [(ngModel)]="invoice.remark" #amount="ngModel"   />
+    </div>
+    <div class = "col-sm-1 input-group">
+      <button type="button" class="btn" (click) = addParticular()>+</button>
+    </div>
+  </div>
+
+  <table class = "table mt-4">
+    <thead class = "thead-light">
+      <tr>
+        <th>Sr. No.</th>
+        <th>Party Name</th>
+        <th>TYPE</th>
+        <th *ngIf="invoice.bankPay_typ=='cheque'">Cheque No</th>
+        <th *ngIf="invoice.bankPay_typ=='cheque'">Cheque Date</th>
+        <th>Amount</th>
+        <th>Rmk</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of invoice.particular; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>{{ item.partyname }}</td>
+        <td>{{ item.bankpaytype }}</td>
+        <td *ngIf="invoice.bankPay_typ=='cheque'">{{ item.chequeno }}</td>
+        <td *ngIf="invoice.bankPay_typ=='cheque'">{{ item.chequdedate }}</td>
+        <td>{{ item.amount }}</td>
+        <td>{{ item.rmk }}</td>
+        <td><i (click)="removeParticular(i)" class = "fas fa-times"></i></td>
+      </tr>
+    </tbody>
+  </table>
+  <button *ngIf="!Retrieve" [disabled]="isSaving" class="btn btn-primary mt-3">Submit</button>
+  <button type="button"(click)="resetForm()" class="btn btn-primary mt-3">Reset</button>
+</form>

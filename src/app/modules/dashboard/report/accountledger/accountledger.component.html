@@ -1,0 +1,71 @@
+<h3 class="page-header pt-4 pb-2 border-bottom ">Account Ledger</h3>
+<p></p>
+<div class="container"  style="height: 300px;">
+<div class="row">
+	<div class = "col-sm-3 input-group">
+		<label for="Party" class="col-form-label text-right">Party </label>&nbsp;
+      <select size="1" id="Party" class="selectpicker custom-select form-control"  data-live-search="true" (change)="getPartyDet()"   placeholder="select Party" required  >
+        <option disabled value="">Select Party</option>
+        <option [value]="party.AM_ID"  *ngFor="let party of party">{{party.AM_AN}}</option>
+      </select>
+      <input type="text"    id="party" name="party" class="form-control" [(ngModel)]="invoice.supp" readonly />
+  </div>
+	<div class = "col-sm-1 input-group">
+		<label for="GR_Date" class="col-form-label text-right">From </label>
+		</div>
+		<div class = "col-sm-3 input-group">
+			<input class="form-control" type="date" id="GR_Fdat" name="GR_Fdat"  [(ngModel)]="invoice.GR_Fdat" ngbDatepicker #d="ngbDatepicker" required />
+			<div class="input-group-append">
+				<button class="btn btn-outline-secondary" (click)="d.toggle()" type="button"><i class = "fas fa-calendar-alt"></i></button>
+			</div>
+	</div>
+
+	<div class = "col-sm-1 input-group">
+		<label for="GR_Date" class="col-form-label text-right">TO </label>
+		</div>
+		<div class = "col-sm-3 input-group">
+			<input class="form-control" type="date" id="GR_Tdat" name="GR_Tdat"  [(ngModel)]="invoice.GR_Tdat"  ngbDatepicker #d1="ngbDatepicker" required />
+			<div class="input-group-append">
+				<button class="btn btn-outline-secondary" (click)="d1.toggle()" type="button"><i class = "fas fa-calendar-alt"></i></button>
+			</div>
+	</div>
+	<div class="col-sm-1"><button class="btn btn-info" (click)="getdata(invoice)">Show</button> </div>
+</div>
+
+
+	<table *ngIf="datalist.length>0" id="dattab" class="table table-bordered table-sm mt-5">
+		<thead class = "thead-light">
+			<tr>
+				<th>SR.No.</th>
+				<th>Date</th>
+				<th>No</th>
+				<th>TYPE</th>
+				<th>Account</th>
+        <th>Debit</th>
+        <th>Credit</th>
+        <th>Balance</th>
+        <th>Type</th>
+			</tr>
+			</thead>
+			<!-- <tr>
+				<td></td>
+				<td><input class="form-control" type="text" name="search1" [(ngModel)]="serdetdate"> </td>
+				<td><input class="form-control" type="text" name="search1" [(ngModel)]="serdetitem"></td>
+				<td><input class="form-control" type="text" name="search1" [(ngModel)]="serdettyp"> </td>
+				<td></td>
+				<td><input class="form-control" type="text" name="search1" [(ngModel)]="serdetinout"> </td>
+			</tr> -->
+				  
+			<tr  *ngFor="let product of datalist     ; let i = index">
+				<td>{{ i + 1 }}</td>
+				<td>{{product.TransactionDate}}</td>
+				<td>{{ product.TransactionNo }}</td>
+				<td>{{ product.TransactionType }}</td>
+				<td>{{ product.ChildAccount }}</td>
+        <td>{{ product.Debit }}</td>
+        <td>{{ product.Credit }}</td>
+        <td>{{ product.BalanceAmt }}</td>
+        <td>{{ product.Accounttype }}</td>
+			</tr>
+    </table>
+  </div>

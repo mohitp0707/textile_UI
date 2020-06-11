@@ -1,0 +1,67 @@
+
+	<h2 class="page-header pt-4 pb-2 border-bottom">Add User</h2>
+	<!-- <div *ngIf="invalidForm" class="alert alert-danger" role="alert">
+		Please fill out all fields.
+	</div> -->
+	
+	<!-- <ngb-alert type="danger" *ngIf="ds.invalidForm" (close)="ds.invalidForm = false">
+		{{ ds.errorMessage }}
+	</ngb-alert>
+	
+	<ngb-alert type="success" *ngIf="ds.formSubmitted" (close)="ds.formSubmitted = false">
+	{{ ds.submittedMessage }}
+	</ngb-alert> -->
+	
+	<div  class="border p-2 pt-4">
+		<form class="needs-validation" method="post" #addUserForm="ngForm"  (ngSubmit)="submitForm(addUserForm,user)">
+			<div class="form-group row">
+				<label for="name" class="col-sm-2 col-form-label text-right">User Name : </label>
+				<div class="col-sm-9">
+					<input type="text" [ngClass]="{'is-invalid' : name.touched && name.invalid, 'is-valid' : name.touched && name.valid }" id ="name" name="name" class="form-control" pattern="[a-zA-Z\s]+" [(ngModel)]="user.name" #name="ngModel" placeholder="Full Name" required>
+					<small class="form-text text-muted">Enter alphabets only.</small>
+					<div  [ngClass]="name.touched && name.invalid ? 'invalid-feedback' : 'valid-feedback'" *ngIf="name.touched && name.invalid">
+						<span *ngIf="name.errors.required">User Name required</span>
+						<span *ngIf="name.errors.pattern">User Name not valid</span>
+					</div>
+				</div>
+			</div>
+			
+			<div class="form-group row">
+				<label for="password" class="col-sm-2 col-form-label text-right">Password</label>
+				<div class="col-sm-9">
+					<input type="password" [ngClass]="{'is-invalid' : password.touched && password.invalid, 'is-valid' : password.touched && password.valid }" id ="password" name="password" class="form-control"  pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\S+$).{8,}$" [(ngModel)]="user.password" #password="ngModel" placeholder="Password" required>
+					<small class="form-text text-muted">Password contains one capital one number and one special character.E.g. Usr@12</small>
+					<div  [ngClass]="password.touched && password.invalid ? 'invalid-feedback' : 'valid-feedback'" *ngIf="password.touched && password.invalid">
+						<span *ngIf="password.errors.required">Password required</span>
+						<span *ngIf="password.errors.pattern">Password not valid</span>
+					</div>
+				</div>
+			</div>
+			
+			<div class="form-group row">
+				<label for="confirmPassword" class="col-sm-2 col-form-label text-right">Confirm Password </label>
+				<div class="col-sm-9">
+					<input type="password" [ngClass]="{'is-invalid' : confirmPassword.touched && confirmPassword.invalid, 'is-valid' : confirmPassword.touched && confirmPassword.valid }" id ="confirmPassword" name="confirmPassword" class="form-control" (focusout)="passmatch(user)" pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\S+$).{8,}$" [(ngModel)]="user.confirmPassword" #confirmPassword="ngModel" placeholder="ConfirmPassword" required>
+					
+					<!-- <small class="form-text text-muted">Enter alphabets only.</small> -->
+					<div  [ngClass]="confirmPassword.touched && confirmPassword.invalid ? 'invalid-feedback' : 'valid-feedback'" *ngIf="confirmPassword.touched && confirmPassword.invalid">
+						<span *ngIf="confirmPassword.errors.required">Confirm Password required</span>
+						<span *ngIf="confirmPassword.errors.pattern">Confirm Password not valid</span>
+					</div>
+				</div>
+			</div>
+			<div class="form-group row">
+					  <label for="confirmPassword" class="col-sm-2 col-form-label text-right">Employee </label>
+					<div class="col-sm-6">
+					  <select class="custom-select form-control" [ngClass]="{'is-invalid' : dspby.touched && dspby.invalid, 'is-valid' : dspby.touched && dspby.valid }" id ="dspby" name="dspby" class="form-control"  [(ngModel)]="user.emp" #dspby="ngModel"  >
+						<option [ngValue]="emp.EM_ID"  *ngFor="let emp of emplist">{{emp.EM_NAME}}</option>		
+					  </select>
+					</div>
+			</div>
+			
+	
+			
+		
+			<button class="btn btn-primary mt-3">Submit</button>
+		</form>
+	</div>

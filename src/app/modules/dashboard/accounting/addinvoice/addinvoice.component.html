@@ -1,0 +1,271 @@
+
+<h2 class="page-header pt-4 pb-2 border-bottom">{{ issales == true ? 'Sales Invoice' : 'Purchase Invoice' }}</h2>
+	<!-- <div *ngIf="invalidForm" class="alert alert-danger" role="alert">
+		Please fill out all fields.
+	</div> -->
+	
+	<!-- <ngb-alert type="danger" *ngIf="ds.invalidForm" (close)="ds.invalidForm = false">
+		{{ ds.errorMessage }}
+	</ngb-alert>
+	
+	<ngb-alert type="success" *ngIf="ds.formSubmitted" (close)="ds.formSubmitted = false">
+	{{ ds.submittedMessage }}
+	</ngb-alert> -->
+	
+	<div  class="border p-2 pt-4">
+		<form class="needs-validation" method="post" #addInvoiceForm="ngForm"  (ngSubmit)="submitForm(addInvoiceForm,invoice)">
+			<div class="form-group row">
+				<div class = "col-sm-5 input-group">
+					<label for="selectParty" class="col-form-label text-right">Select Party </label>
+						<!-- <select *ngIf="!Retrieve" class="custom-select form-control" [ngClass]="{'is-invalid' : selectParty.touched && selectParty.invalid, 'is-valid' : selectParty.touched && selectParty.valid }" id ="selectParty" name="selectParty" class="form-control" [(ngModel)]="invoice.partyId" #selectParty="ngModel" placeholder="selectParty" required >
+							<option [value]="party.PM_ID"  *ngFor="let party of party">{{party.PM_NAME}}</option>
+						</select> -->
+						<select size="1"   *ngIf="!Retrieve"   class="selectpicker custom-select form-control" [disabled]="butDisabled" data-live-search="true" (change)="getPartyDet()"  placeholder="select Party" required  >
+							<option disabled value="">Select Party</option>
+							<option [value]="party.PM_ID"  *ngFor="let party of party">{{party.PM_NAME}}</option>
+						</select>
+						<input type="text" *ngIf="Retrieve"   id="party" name="party" class="form-control" [(ngModel)]="invoice.supp" readonly />
+						<!-- <div class="input-group-append">
+						<button class="btn btn-outline-secondary" type="button" data-toggle="tooltip" title="Add Party" data-placement="top"><i class = "fas fa-plus-square"></i></button>
+						</div> -->
+						<!-- <button class = "btn btn-outline-primary ml-auto">Add party</button> -->
+				</div>
+				<div class = "col-sm-4 input-group">
+					<label for="generatedate" class="col-form-label text-right">Generate Date </label>
+						<input class="form-control" type="text" [ngClass]="{ 'is-invalid' : generatedate.touched && generatedate.invalid , 'is-valid' : generatedate.touched && generatedate.valid }" id="generatedate" name="generatedate"  [(ngModel)]="invoice.generatedate" #generatedate="ngModel" ngbDatepicker #d="ngbDatepicker" required />
+						<div class="input-group-append">
+							<button class="btn btn-outline-secondary" (click)="d.toggle()" type="button"><i class = "fas fa-calendar-alt"></i></button>
+						</div>
+				</div>
+
+				<div class="col-sm-3 input-group">
+					<label for="Godown" class="col-form-label text-right">Godown</label>
+					<select *ngIf="!Retrieve" class="custom-select form-control" id ="Godown" required name="Godown" class="form-control" [(ngModel)]="invoice.GR_WH" #Godown="ngModel">
+						<option [ngValue]="Godown1.GM_Name"  *ngFor="let Godown1 of GodownArr" selected>{{Godown1.GM_Name}}</option>
+					</select>	
+					<input type="text" *ngIf="Retrieve"   id="Godown" name="Godown" class="form-control" [(ngModel)]="invoice.GR_WH" readonly />
+				</div>
+			</div>
+				<div class="form-group row">
+					<div class="col-sm-1">
+				</div>
+				<div class="col-sm-2">
+					<input type="radio" name="TaxType"  id="scgst" [(ngModel)]="invoice.taxGType" value="scgst" (change)="calculateAmt(particular)" ><label for="scgst">SGST & CGST</label><br>
+				</div>
+				<div class="col-sm-2">
+					<input type="radio" id="igst"  name="TaxType" [(ngModel)]="invoice.taxGType" value="igst" (change)="calculateAmt(particular)" [disabled]="dataadded==false"><label for="igst">IGST</label><br>
+				</div>
+
+				<div class = "col-sm-4 input-group">
+					<label for="invNo" class="col-form-label text-right">Party Invoice No </label>
+					<input type="text"   id="invNo" name="invNo" class="form-control" [(ngModel)]="invoice.invNo" #invNo="ngModel"  required  />
+				</div>
+
+				<div class = "col-sm-3 input-group">
+					<label for="chalNo" class="col-form-label text-right">Challan No </label>
+					<input type="text"   id="chalNo" name="chalNo" class="form-control" [(ngModel)]="invoice.chalNo" #chalNo="ngModel"  required  />
+				</div>
+
+
+			</div>
+			
+			
+			<table class = "table mt-4">
+				<thead class = "thead-light">
+					<tr>
+						<th scope="col">TYPE</th>
+						<th scope="col">Particular Name</th>
+						<th scope="col">Quantity</th>
+						<th scope="col">Price</th>
+						<th scope="col">Subtotal</th>
+						<th *ngIf="sgst==true" scope="col">SGST(%)</th>
+						<th *ngIf="sgst==true" scope="col">SGST</th>
+						<th *ngIf="sgst==true" scope="col">CGST(%)</th>
+						<th *ngIf="sgst==true" scope="col">CGST</th>
+						<th *ngIf="igst==true" scope="col">IGST(%)</th>
+						<th *ngIf="igst==true" scope="col">IGST</th>
+						<th scope="col">Tax Subtotal</th>
+						<th scope="col">Total Amount</th>
+						<th scope="col">Add</th>
+						<!-- <th scope="col">Tax</th> -->
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>
+							<select class = "custom-select" id ="itemTyp" name="itemTyp" class="form-control"  [(ngModel)]="product" (change)="particular.IM_TYP=product;getProductName(product)" #itemTyp="ngModel" required >
+								<option value="">Please Select</option>	
+								<option [ngValue]="product" *ngFor="let product of finalresult">{{product}}</option>
+							</select>
+						</td>
+						<td style="width:300px">
+						<!-- {{ selectedProduct | json}} -->
+							<!-- <select class = "custom-select" [ngClass]="{'is-invalid' : itemName.touched && itemName.invalid, 'is-valid' : itemName.touched && itemName.valid }" id ="itemName" name="itemName" class="form-control" (change)="particular.IM_ID=selectedProduct.IM_ID;particular.IM_NM=selectedProduct.IM_NM;particular.IM_TAX=selectedProduct.IM_TAX;particular.IM_UM=selectedProduct.IM_UM; getTaxData(particular.IM_ID); " [(ngModel)]="selectedProduct" #focusText #itemName="ngModel" required >
+								<option selected>Select one</option>
+								<option [ngValue]="product" *ngFor="let product of productName,let i=index">{{product.IM_NM}}</option>
+							</select> -->
+							<select size="1" #focusText    class="selectpicker selectpicker1 custom-select form-control"  data-live-search="true" (change)="getItemDetails()"  placeholder="select Party" required  >
+								<option disabled value="">SELECT ITEM</option>
+								<option [value]="product.IM_ID"  *ngFor="let product of productName,let i=index">{{product.IM_NM}}</option>
+							</select>
+
+							<!-- <div  [ngClass]="itemName.touched && itemName.invalid ? 'invalid-feedback' : 'valid-feedback'" *ngIf="itemName.touched && itemName.invalid">
+								<span *ngIf="itemName.errors.required">Particular name </span>
+							</div> -->
+						</td>
+					
+						<td>
+							<input type="number" pattern="[0-9 .\s]+" [ngClass]="{'is-invalid' : quantity.touched && quantity.invalid, 'is-valid' : quantity.touched && quantity.valid }" id ="quantity" name="quantity" class="form-control" [(ngModel)]="particular.quantity" #quantity="ngModel" (change)="calculateAmt(particular)" required />
+							<div   [hidden]="quantity.valid" class="alert alert-danger">Please Enter Number Only</div>	
+						</td>
+							<td>
+							<input type="number" pattern="[0-9 .\s]+" [ngClass]="{'is-invalid' : price.touched && price.invalid, 'is-valid' : price.touched && price.valid }"  id ="price" name="sellingPrice" class="form-control" [(ngModel)]="particular.sellingPrice" #price="ngModel" placeholder="0" (change)="calculateAmt(particular)" required />
+							<div  [hidden]="price.valid" class="alert alert-danger">Please Enter Number Only</div>	
+						</td>
+						
+							<td>
+							<input type="subTotal" [ngClass]="{'is-invalid' : subTotal.touched && subTotal.invalid, 'is-valid' : subTotal.touched && subTotal.valid }" id ="subTotal" name="subTotal" class="form-control" [(ngModel)]="particular.subTotal" #subTotal="ngModel" placeholder="0" required disabled />
+						</td>
+						
+						<td *ngIf="sgst==true">
+							<input  type="sgstp"  id ="sgstp" name="sgstp" class="form-control" [(ngModel)]="particular.sgstp"  disabled />
+						</td>
+						
+						<td *ngIf="sgst==true">
+							<input  type="sgst" [ngClass]="{'is-invalid' : sgst.touched && sgst.invalid, 'is-valid' : sgst.touched && sgst.valid }" id ="sgst" name="sgst" class="form-control" [(ngModel)]="particular.sgst" #sgst="ngModel" placeholder="0"  disabled />
+						</td>
+						
+						
+						<td *ngIf="sgst==true">
+							<input  type="cgstp"  id ="cgstp" name="cgstp" class="form-control" [(ngModel)]="particular.cgstp"  disabled />
+						</td>
+						<td *ngIf="sgst==true">
+							<input  type="cgst" [ngClass]="{'is-invalid' : cgst.touched && cgst.invalid, 'is-valid' : cgst.touched && cgst.valid }" id ="cgst" name="sgst" class="form-control" [(ngModel)]="particular.cgst" #cgst="ngModel" placeholder="0"  disabled />
+						</td>
+						<td *ngIf="igst==true">
+							<input  type="igstp" id ="igstp" name="igstp" class="form-control" [(ngModel)]="particular.igstp"   disabled />
+						</td>
+						
+						<td *ngIf="igst==true">
+							<input  type="igst" [ngClass]="{'is-invalid' : igst.touched && igst.invalid, 'is-valid' : igst.touched && igst.valid }" id ="igst" name="igst" class="form-control" [(ngModel)]="particular.igst" #igst="ngModel" placeholder="0"  disabled />
+						</td>
+						
+		
+						
+					
+					
+						<td>
+							<input type="taxSub" [ngClass]="{'is-invalid' : taxSub.touched && taxSub.invalid, 'is-valid' : taxSub.touched && taxSub.valid }" id ="taxSub" name="taxSub" class="form-control" [(ngModel)]="particular.taxSubTotal" #taxSub="ngModel" placeholder="0"  disabled />
+						</td>
+						
+						<td>
+							<input type="text" [ngClass]="{'is-invalid' : amount.touched && amount.invalid, 'is-valid' : amount.touched && amount.valid }" id ="amount" name="amount" class="form-control" [(ngModel)]="particular.amount" #amount="ngModel" placeholder="0" required disabled />
+						</td>
+						
+						<td>
+							<button type="button" class="btn" (click) = addParticular(particular)>+</button>
+							<!-- (click) = addParticular() -->
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			
+								
+			<table class = "table">
+				<thead class = "thead-light">
+					<tr>
+						<th scope="col">Sr. No.</th>
+						<th scope="col">Particular Name</th>
+						<th scope="col">Quantity</th>
+						<th scope="col">Price</th>
+						<th scope="col">Subtotal</th>
+						<th *ngIf="sgst==true" scope="col">SGST(%)</th>
+						<th *ngIf="sgst==true" scope="col">SGST</th>
+						<th *ngIf="sgst==true" scope="col">CGST(%)</th>
+						<th *ngIf="sgst==true" scope="col">CGST</th>
+						<th *ngIf="igst==true" scope="col">IGST(%)</th>
+						<th *ngIf="igst==true" scope="col">IGST</th>
+							<th scope="col">Tax Subtotal</th>
+						<th scope="col">Total Amount</th>
+						<th scope="col">Manage</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr *ngFor="let item of invoice.particular; let i = index">
+						<td>{{ i + 1 }}</td>
+						<td>{{ item.IM_NM }}</td>
+						<td>{{ item.quantity}}</td>
+						<td>{{ item.sellingPrice }}</td>
+						<td>{{ item.subTotal }}</td>
+						<td *ngIf="sgst==true">{{ item.sgstp }}</td>
+						<td *ngIf="sgst==true">{{ item.sgst }}</td>
+						<td *ngIf="sgst==true">{{ item.cgstp }}</td>
+						<td *ngIf="sgst==true">{{ item.cgst }}</td>
+						<td *ngIf="igst==true">{{ item.igstp }}</td>
+						<td *ngIf="igst==true">{{ item.igst }}</td>
+						<td>{{ item.taxSubTotal }}</td>
+						<td>{{ item.amount }}</td>
+						<td><i (click)="removeParticular(i)" class = "fas fa-times"></i></td>
+					</tr>
+					<tr></tr>
+					<tr style="font-weight:bold">
+					
+						<td ><span *ngIf="sgst==true">TOTAL SGST</span></td>
+						<td><span *ngIf="sgst==true">{{invoice.tsgst}}</span></td>
+						<td *ngIf="sgst==true"></td>
+						<td *ngIf="sgst==true"></td>
+						<td *ngIf="igst==true"></td>
+						<td *ngIf="igst==true"></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td>Total</td>
+						<td>{{ invoice.subTotal }}</td>
+						
+					</tr>
+					<tr style="font-weight:bold">
+						<td><span *ngIf="sgst==true">TOTAL CGST</span></td>
+						<td><span  *ngIf="sgst==true">{{invoice.tcgst}}</span></td>
+						<td *ngIf="sgst==true"></td>
+						<td *ngIf="sgst==true"></td>
+						<td *ngIf="igst==true"></td>
+						<td *ngIf="igst==true"></td>
+						<td></td>
+						<td></td>
+							<td></td>
+						<td></td>
+						<td>Total TAX</td>
+						<td>{{ invoice.taxSubTotal }}</td>
+						
+					</tr>
+					<tr style="font-weight:bold;color:red">
+						<td><span *ngIf="igst==true">TOTAL IGST</span></td>
+						<td ><span *ngIf="igst==true">{{invoice.tigst}}</span></td>
+						<td *ngIf="igst==true"></td>
+						<td *ngIf="igst==true"></td>
+						<td *ngIf="sgst==true"></td>
+						<td *ngIf="sgst==true"></td><td></td><td></td>
+						<td></td>
+						<td></td>
+						<td>Total</td>
+						<td>{{ invoice.amount }}</td>
+					
+					</tr>
+				</tbody>
+			</table>			
+			
+			<div class="form-group row mt-3">
+			<label class="col-sm-2 col-form-label text-right">Remark </label>
+				<div class="col-sm-9">
+					<textarea type="remark" [ngClass]="remark.touched && remark.invalid ? 'is-invalid' : 'is-valid'" name="remark"  class="form-control" [(ngModel)]="invoice.remark" #remark="ngModel" placeholder="Remark" ></textarea>
+					<div [ngClass]="remark.touched && remark.invalid ? 'is-invalid' : 'is-valid'" *ngIf="remark.touched && remark.invalid">
+						<span *ngIf="remark.errors.required">Remark is required!</span>
+					</div>
+				</div>
+			</div>
+				
+			<button *ngIf="!Retrieve" [disabled]="isSaving" class="btn btn-primary mt-3">Submit</button>
+			<button type="button"(click)="resetForm()" class="btn btn-primary mt-3">Reset</button>
+		</form>
+	</div>

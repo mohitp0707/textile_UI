@@ -1,0 +1,167 @@
+<nav class="navbar navbar-expand-lg navbar-right bg-info text-center text-white">
+	<div class="col-md-2 col-sm-1">
+		<img src="../../../../assets/img/tex-pro.png" class="img-avatar" width="100" height="50" />
+	
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  
+  </div>
+ <button  type="button"  data-toggle="collapse" data-target="#content" aria-expanded="false" aria-controls="collapseExample" (click)="contentShow=!contentShow"><i class="fa fa-bars" style="font-size:20px;color:red"></i></button>
+	
+	<span class="text-white text-center"><b> WELCOME : {{ costCenter }} </b></span>&nbsp;&nbsp;&nbsp;
+	<span class="text-right"> Login User :{{userName}}</span>
+	
+	 <div class="collapse navbar-collapse " id="navbarSupportedContent">
+	<!-- <a routerLinkActive="active" class="nav-link p-0 ml-auto" routerLink="/dashboard/manageuser">
+		<i class="fas fa-sign-in-alt mt-1 ml-auto"></i>					
+	</a>
+	<a routerLinkActive="active" class="nav-link" routerLink="/society/complaints">
+		<i class="fas fas fa-list-ul mt-1 ml-auto"></i>
+		<i class="fas fa-sort-down mt-1 ml-2"></i>
+	</a>
+	<a routerLinkActive="active" class="nav-link" routerLink="/dashboard/manageuser">
+		<i class="fas fa-bell mt-1 ml-auto"></i>
+		<i class="fas fa-sort-down mt-1 ml-2"></i>
+	</a> -->
+
+	
+	<div class="dropdown  p-0 ml-auto">
+	<a routerLinkActive="active" class="nav-link p-0 ml-auto" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		<i class="fas fa-user mt-1 ml-1"></i>
+		<i class="fas fa-sort-down mt-1 ml-2"></i>
+	
+	</a>
+	<div class="dropdown-menu dropdown-menu-right logCol" aria-labelledby="dropdownMenuLink">
+			<a class="dropdown-item"  [routerLink]="" (click)="logout()">Logout</a>
+	</div>
+
+	
+</div>
+	
+	</div>
+</nav>
+
+<div class="container-fluid">
+	<div class="row h-100">
+		<div class="col-sm-2 h-100 shadow-lg border-right overflow-auto collapse show" id="content">
+			<ul class="nav row flex-column nav-pills">
+				<li>
+					<a [routerLinkActiveOptions]="{exact: true}" routerLinkActive="active" class="nav-link" routerLink="/dashboard">
+						<i class="fa fa-tachometer-alt position-absolute mt-1 mr-1 ml-2"></i>
+						<span class = "ml-5">Dashboard</span>
+					</a>
+				</li>
+
+				<li>
+					<a routerLinkActive="active" class="nav-link" routerLink="/dashboard/masters">
+						<i class="fas fa-handshake position-absolute mt-1 mr-1 ml-2"></i>
+						<span class = "ml-5">Masters</span>
+					</a>
+					<!--   between span tag of party <i class="fas fa-chevron-down fa-1x ml-3" (click)="collapsedP = !isCollapsed" [attr.aria-expanded]="!isCollapsed" aria-controls="collapseParty"></i> -->
+					<!-- <ul style = "list-style-type:none" id="collapseParty" [ngbCollapse]="!isCollapsed">
+						<li>
+							<a routerLinkActive="active" class="nav-link" [routerLink]="['addparty','client']">
+							<i class="fas fa-user position-absolute mt-1 mr-1 ml-2"></i>
+							<span class = "ml-5">Add Client</span>
+						</a>
+						</li>
+						<li>
+							<a routerLinkActive="active" class="nav-link" [routerLink]="['viewparty','client']">
+							<i class="fas fa-user position-absolute mt-1 mr-1 ml-2"></i>
+							<span class = "ml-5">View Client </span>
+						</a>
+						</li>
+						<li>
+							<a routerLinkActive="active" class="nav-link" [routerLink]="['addparty','vendor']">
+							<i class="fas fa-user position-absolute mt-1 mr-1 ml-2"></i>
+							<span class = "ml-5">Add Vendor</span>
+						</a>
+						</li>
+						<li>
+							<a routerLinkActive="active" class="nav-link" [routerLink]="['viewparty','vendor']">
+							<i class="fas fa-user position-absolute mt-1 mr-1 ml-2"></i>
+							<span class = "ml-5">View Vendor</span>
+						</a>
+						</li>
+					</ul> -->
+				</li>
+
+				<li>
+					<a routerLinkActive="active" class="nav-link" routerLink="/dashboard/stock">
+						<i class="fas fa-shopping-cart position-absolute mt-1 mr-1 ml-2"></i>
+						<span class = "ml-5">Inventory</span>
+					</a>
+				</li>
+				<li>
+					<a routerLinkActive="active" class="nav-link" routerLink="/dashboard/manufacturing">
+						<i class="fas fa-cogs position-absolute mt-1 mr-1 ml-2"></i>
+						<span class = "ml-5">Manufacturing</span>
+					</a>
+				</li>
+				<li>
+					<a routerLinkActive="active" class="nav-link" routerLink="/dashboard/OtherModule">
+						<i class="fas fa-cogs position-absolute mt-1 mr-1 ml-2"></i>
+						<span class = "ml-5">OTHER</span>
+					</a>
+				</li>
+				<li>
+					<a routerLinkActive="active" class="nav-link" routerLink="/dashboard/report">
+						<i class="fas fa-cogs position-absolute mt-1 mr-1 ml-2"></i>
+						<span class = "ml-5">Report</span>
+					</a>
+				</li>
+				<li>
+					<a routerLinkActive="active" class="nav-link" routerLink="/dashboard/manageuser">
+						<i class="fas fa-users position-absolute mt-1 mr-1 ml-2"></i>
+						<span class = "ml-5">Manage User</span>
+					</a>
+				</li>
+				<li>
+					<a [routerLinkActiveOptions]="{exact: true}" routerLinkActive="active" class="nav-link" >
+						<i class="fas fa-user-circle position-absolute mt-1 mr-1 ml-2"></i>
+						<span class = "ml-5">Accounting<i class="fas fa-chevron-down fa-1x ml-3" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed" aria-controls="collapseAc"></i></span>
+					</a>
+					<ul style = "list-style-type:none" id="collapseAc" [ngbCollapse]="isCollapsed">
+						<!-- <li>
+							<a routerLinkActive="active" class="nav-link" routerLink="/dashboard/accounting/account">
+								<i class="fas fa-user position-absolute mt-1 mr-1 ml-2"></i>
+								<span class = "ml-5">Account</span>
+							</a>
+						</li> -->
+
+						<li>
+							<a routerLinkActive="active" class="nav-link" routerLink="/dashboard/accounting/invoice">
+								<i class="fas fa-file-alt position-absolute mt-1 mr-1 ml-2"></i>
+								<span class = "ml-5">Invoice</span>
+							</a>
+						</li>
+						<!-- <li>
+							<a routerLinkActive="active" class="nav-link" routerLink="/dashboard/accounting/transaction">
+								<i class="fas fa-exchange-alt position-absolute mt-1 mr-1 ml-2"></i>
+								<span class = "ml-5">Transaction</span>
+							</a>
+						</li> -->
+					</ul>
+				</li>
+				
+				<!-- <li>
+					<a routerLinkActive="active" class="nav-link pl-3" routerLink="/dashboard/society/document">
+						<i class="fas fa-file position-absolute mt-1 mr-1 ml-2"></i>
+						<span class = "ml-5">Document Manager</span>
+					</a>
+				</li> -->
+			
+				
+				<!-- <li class="nav-link"><a routerLink="/login/edit-profile">Profile</a></li>
+				<li class="nav-link"><a routerLink="/login/change-password">Change Password</a></li>
+				<li class="nav-link"><a routerLink="/login/logout">Logout</a></li> -->
+			</ul>
+		</div>
+		<div [ngClass]="contentShow == true? 'col-sm-10 h-100 overflow-auto' : 'col-sm-12 h-100 overflow-auto'" >
+			<!-- <h1 class="text-center">Welcome To Society MGMT</h1> -->
+			<router-outlet></router-outlet>
+		</div>
+	</div>
+</div>
+	

@@ -1,0 +1,69 @@
+<h2 class="page-header pt-4 pb-2 border-bottom">Add Document</h2>
+	<!-- <div *ngIf="invalidForm" class="alert alert-danger" role="alert">
+		Please fill out all fields.
+	</div> -->
+	
+	<ngb-alert type="danger" *ngIf="ds.invalidForm" (close)="ds.invalidForm = false">
+		{{ ds.errorMessage }}
+	</ngb-alert>
+	
+	<ngb-alert type="success" *ngIf="ds.formSubmitted" (close)="ds.formSubmitted = false">
+	{{ ds.submittedMessage }}
+	</ngb-alert>
+	
+	<div *ngIf="!ds.formSubmitted" class="border p-2 pt-4">
+		<form class="needs-validation" method="post" #addDocumentForm="ngForm"  (ngSubmit)="submitForm(addDocumentForm,document)">
+					
+			<div class="form-group row">
+				<label for="documentName" class="col-sm-2 col-form-label text-right">Document Name </label>
+				<div class="col-sm-9">
+					<input type = "text" [ngClass]="{'is-invalid' : documentName.touched && documentName.invalid, 'is-valid' : documentName.touched && document.valid }" id ="documentName" name="documentName" class="form-control" [(ngModel)]="document.documentName" #documentName="ngModel" required autofocus/>
+				</div>
+			</div>
+			
+			<div class="form-group row">
+				<label for="type" class="col-sm-2 col-form-label text-right">Document Type </label>
+				<div class="col-sm-9">
+					<input type = "text" [ngClass]="{'is-invalid' : type.touched && type.invalid, 'is-valid' : type.touched && type.valid }" id ="type" name="type" class="form-control" [(ngModel)]="document.type" #type="ngModel" required />
+				</div>
+			</div>
+			
+			<div class="form-group row">
+				<label for="description" class="col-sm-2 col-form-label text-right">Description </label>
+				<div class="col-sm-9">
+				<textarea type = "text" [ngClass]="{'is-invalid' : description.touched && description.invalid, 'is-valid' : description.touched && description.valid }" id ="description" name="description" class="form-control" [(ngModel)]="document.description" #description="ngModel" required ></textarea>
+				</div>
+			</div>
+
+			<div class="form-group row">
+				<label for="remark" class="col-sm-2 col-form-label text-right">Remark </label>
+				<div class="col-sm-9">
+					<input type = "text" [ngClass]="{'is-invalid' : remark.touched && remark.invalid, 'is-valid' : remark.touched && remark.valid }" id ="remark" name="remark" class="form-control" [(ngModel)]="document.remark" #remark="ngModel" required />
+				</div>
+			</div>
+			
+			<div class="form-group row">
+			<label for="documentFile" class="col-sm-2 col-form-label text-right">Document File </label>
+				<div class="col-sm-9">
+					<input type = "text" [ngClass]="{'is-invalid' : documentFile.touched && documentFile.invalid, 'is-valid' : documentFile.touched && documentFile.valid }" id ="documentFile" name="documentFile" class="form-control" [(ngModel)]="document.documentFile" #documentFile="ngModel" required />
+				</div>
+			</div>
+			
+			<div class="form-group row">
+			<label for="date" class="col-sm-2 col-form-label text-right">Date </label>
+				<div class="col-sm-9">
+					<input type = "date" [ngClass]="{'is-invalid' : date.touched && documentFile.invalid, 'is-valid' : date.touched && date.valid }" id ="documentFile" name="date" class="form-control" [(ngModel)]="document.documentFile" #date="ngModel" required />
+				</div>
+			</div>
+			
+			<div class="form-group row">
+			<label for="modifiedDate" class="col-sm-2 col-form-label text-right">Modified Date </label>
+				<div class="col-sm-9">
+					<input type = "date" [ngClass]="{'is-invalid' : date.touched && modifiedDate.invalid, 'is-valid' : modifiedDate.touched && modifiedDate.valid }" id ="modifiedDate" name="modifiedDate" class="form-control" [(ngModel)]="document.modifiedDate" #modifiedDate="ngModel" required />
+				</div>
+			</div>
+			
+			<button class="btn btn-primary mt-3">Submit</button>
+			
+		</form>
+	</div>

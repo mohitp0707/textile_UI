@@ -1,0 +1,93 @@
+<h2 class="page-header pt-4 pb-2 border-bottom">Godown Master</h2>
+<ngb-alert type="success" *ngIf="ds.formSubmitted" (close)="ds.formSubmitted = false">
+		{{ ds.submittedMessage }}
+	</ngb-alert>
+
+
+<form class="needs-validation" *ngIf="!ds.formSubmitted" #addStorageForm="ngForm" (ngSubmit)="save(addStorageForm,addStorage,$event)">
+
+	<div class="form-group row">
+	
+		<label for="storagename" class="col-sm-2 col-form-label text-right"> Warehouse Name </label>
+		<div class="col-sm-5">
+			<input type="text" #name="ngModel"    id="storagename" name="name" class="form-control" [ngbTypeahead]="search" placeholder="Warehouse Name"  [(ngModel)]="addStorage.name"  required />	
+			
+			<div  class="col-sm-5" [hidden]="name.valid|| (name.pristine && name.untouched)" class="alert alert-danger">Please Enter name</div> 
+		</div>
+		
+
+		<label for="type" class="col-sm-1 col-form-label text-right">Type </label>
+		<div class="col-sm-3">
+			<select id ="type" #cate="ngModel" name="type" class="form-control"  [(ngModel)]="addStorage.type" required>
+				<option value="Raw Godown" selected>Raw Godown</option>
+				<option value="Grey Godown" >Grey Godown</option>
+				<option value="Finish Godown" >Finish Godown</option>
+			</select>
+			
+		</div>
+		
+		
+	</div>
+	
+	<div class="form-group row">
+		<label for="address" class="col-sm-2 col-form-label text-right"> Address </label>
+		<div class="col-sm-9">
+			<input type="text" #address="ngModel"    id="address" name="address" class="form-control" placeholder="Enter Address"  [(ngModel)]="addStorage.address"   />	
+		</div>
+	</div>
+	
+	<div class="form-group row">
+		<label for="building" class="col-sm-2 col-form-label text-right"> Building </label>
+		<div class="col-sm-4">
+			<input type="text" #building="ngModel"    id="building" name="building" class="form-control" placeholder="Enter Building"  [(ngModel)]="addStorage.building"   />	
+		</div>
+		
+		<label for="storagename" class="col-sm-1 col-form-label text-right"> Floor </label>
+		<div class="col-sm-4">
+			<input type="text" #floor="ngModel"    id="floor" name="floor" class="form-control" placeholder="Enter Floor"  [(ngModel)]="addStorage.floor" />	
+		</div>
+	</div>
+	
+	<div class="form-group row">
+		<label for="chamber" class="col-sm-2 col-form-label text-right"> Chamber </label>
+		<div class="col-sm-4">
+			<input type="text" #chamber="ngModel"   id="chamber" name="chamber" class="form-control" placeholder="Enter Chamber"  [(ngModel)]="addStorage.chamber"   />	
+		</div>
+		
+		<label for="status" class="col-sm-1 col-form-label text-right">Status </label>
+				<div class="col-sm-4">
+					<select id ="Staus" #cate="ngModel" name="Staus" class="form-control"  placeholder="Selct Staus"  [(ngModel)]="addStorage.Status" required>
+						<option value="Active" selected>Active</option>
+						<option value="In-Active" >In-Active</option>
+					</select>
+				</div>
+	</div>
+	
+	<div class="form-group row">
+		<label for="length" class="col-sm-2 col-form-label text-right"> Length </label>
+		<div class="col-sm-2">
+			<input type="text" #length="ngModel"    id="length" name="length" class="form-control" placeholder="Enter Length"  [(ngModel)]="addStorage.length"  />	
+		</div>
+		
+		<label for="width" class="col-sm-1 col-form-label text-right"> Width </label>
+		<div class="col-sm-2">
+			<input type="text" #width="ngModel"    id="width" name="width" class="form-control" placeholder="Enter Width"  [(ngModel)]="addStorage.width"  />	
+		</div>
+		
+		<label for="height" class="col-sm-1 col-form-label text-right"> Height </label>
+		<div class="col-sm-2">
+			<input type="text" #height="ngModel"    id="height" name="height" class="form-control" placeholder="Enter Height"  [(ngModel)]="addStorage.height"   />	
+		</div>
+	</div>
+	
+	<div class="form-group row">
+		<div class="col-md-2">
+		</div>
+		<div class="col-md-9">
+			<button [disabled]="!savedisable" class="btn ml-auto mr-auto btn-success">Save</button>
+			<span *ngIf="!savedisable">Submitting...</span>
+			
+			<button type="reset" class="btn btn-primary">Clear</button>
+		</div>
+		</div>
+</form>

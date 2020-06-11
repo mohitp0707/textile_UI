@@ -1,0 +1,28 @@
+<h2 class="page-header pt-4 pb-2 border-bottom">List of notices</h2>
+<table class="table table-bordered mt-4">
+	<thead class = "thead-dark">
+		<tr>
+			<th>Sr. No.</th>
+			<th>Flat No</th>
+			<th>Wing</th>
+			<th>Building</th>
+			<th>Owner Name</th>			
+			<th>Manage</th>
+		</tr>
+	
+		<tr *ngFor="let flat of FlatData ; let i = index">
+			<td>{{i + 1}}</td>
+			<td>{{flat.flatNo}}</td>
+			<td>{{flat.wing}}</td>
+			<td>{{flat.building}}</td>
+			<td>{{flat.owner}}</td>
+			
+			<td>
+				<a [routerLink]="['../add-house', flat.id]"><button class="btn btn-primary" ><i class="fas fa-pencil-alt" aria-hidden="true"></i></button> </a> 
+				
+				<button class="btn btn-danger" (click)="deletedata(flat.id, i)"> <i class="fas fa-trash-alt" aria-hidden="true" ></i> </button>
+				
+			</td>
+		</tr>
+	</thead>
+</table>

@@ -1,0 +1,92 @@
+
+	<h2 class="page-header pt-4 pb-2 border-bottom">Add Task</h2>
+	<!-- <div *ngIf="invalidForm" class="alert alert-danger" role="alert">
+		Please fill out all fields.
+	</div> -->
+	
+	<ngb-alert type="danger" *ngIf="ds.invalidForm" (close)="ds.invalidForm = false">
+		{{ ds.errorMessage }}
+	</ngb-alert>
+	
+	<ngb-alert type="success" *ngIf="ds.formSubmitted" (close)="ds.formSubmitted = false">
+		{{ ds.submittedMessage }}
+	</ngb-alert>
+	
+	<div *ngIf="!ds.formSubmitted" class="border p-2 pt-4">
+		<form class="needs-validation" method="post" #addTaskForm="ngForm"  (ngSubmit)="submitForm(addTaskForm,task)">
+					
+			<div class="form-group row">
+				<label for="taskName" class="col-sm-2 col-form-label text-right">Task Name </label>
+				<div class="col-sm-9">
+					<input type = "text" [ngClass]="{'is-invalid' : taskName.touched && taskName.invalid, 'is-valid' : taskName.touched && taskName.valid }" id ="taskName" name="taskName" class="form-control" pattern = "[a-zA-z]" [(ngModel)]="task.taskName" #taskName="ngModel" required autofocus />
+					<small class="invalid-feedback" *ngIf="taskName.touched && taskName.invalid">
+						<span *ngIf="taskName.errors.required">Task Name required</span>
+					</small>
+				</div>
+			</div>
+			
+			<div class="form-group row">
+				<label for="assignTo" class="col-sm-2 col-form-label text-right">Assign To </label>
+				<div class="col-sm-9">
+					<select class="custom-select" [ngClass]="{'is-invalid' : assignTo.touched && assignTo.invalid, 'is-valid' : assignTo.touched && assignTo.valid }" id ="assignTo" name="assignTo" class="form-control" [(ngModel)]="task.assignTo" #assignTo="ngModel" placeholder="Assign Task To">
+					<option selected>ABC</option>
+					<option value="1">EFG</option>
+					<option value="2">HIJ</option>
+				</select>
+				</div>
+			</div>
+			
+			<div class="form-group row">
+				<label for="description" class="col-sm-2 col-form-label text-right">Description </label>
+				<div class="col-sm-9">
+					<textarea type = "text" [ngClass]="{'is-invalid' : description.touched && description.invalid, 'is-valid' : description.touched && description.valid }" rows = "4" maxlength = "256" id ="description" name="description" class="form-control" [(ngModel)]="task.description" #description="ngModel" required></textarea>
+					<small class="invalid-feedback" *ngIf="description.touched && description.invalid">
+						<span *ngIf="description.errors.required">Description required</span>
+					</small>
+				</div>
+			</div>
+			
+			<div class="form-group row">
+				<label for="taskDate" class="col-sm-2 col-form-label text-right">Task Date </label>
+				<div class="col-sm-9 input-group">
+					<input type = "text" [ngClass]="{'is-invalid' : taskDate.touched && taskDate.invalid, 'is-valid' : taskDate.touched && taskDate.valid }" id ="taskDate" name="taskDate" class="form-control" [(ngModel)]="task.taskDate" #taskDate="ngModel" ngbDatepicker #d="ngbDatepicker" required />
+					<div class="input-group-append">
+						<button class="btn btn-outline-secondary" (click)="d.toggle()" type="button"><i class = "fa fa-calendar-alt"></i>					</button>
+					</div>
+					<!-- <small class="invalid-feedback" *ngIf="taskDate.touched && taskDate.invalid">
+						<span *ngIf="taskDate.errors.required">Date required</span>
+					</small> -->
+				</div>
+			</div>
+			
+			<div class="form-group row">
+				<label for="dueDate" class="col-sm-2 col-form-label text-right">Due Date </label>
+				<div class="col-sm-9 input-group">
+					<input type = "text" [ngClass]="{'is-invalid' : dueDate.touched && dueDate.invalid, 'is-valid' : dueDate.touched && dueDate.valid }" id ="dueDate" name="dueDate" class="form-control" [(ngModel)]="task.dueDate" #dueDate="ngModel" ngbDatepicker #d1="ngbDatepicker" required />
+					<div class="input-group-append">
+						<button class="btn btn-outline-secondary" (click)="d1.toggle()" type="button"><i class = "fa fa-calendar-alt"></i>
+						</button>
+					</div>
+					<small class="invalid-feedback" *ngIf="dueDate.touched && dueDate.invalid">
+						<span *ngIf="dueDate.errors.required">Due Date required</span>
+					</small>
+				</div>
+			</div>
+			
+			<div class="form-group row">
+				<label for="status" class="col-sm-2 col-form-label text-right">Status </label>
+				<div class="col-sm-9 input-group">
+					<select class="custom-select" [ngClass]="{'is-invalid' : status.touched && status.invalid, 'is-valid' : status.touched && status.valid }" id ="status" name="status" class="form-control" [(ngModel)]="task.status" #status="ngModel">
+						<option selected>New</option>
+						<option value="1">In progress</option>
+						<option value="2">Completed</option>
+					</select>
+					<small class="invalid-feedback" *ngIf="status.touched && status.invalid">
+						<span *ngIf="status.errors.required">Due Date required</span>
+					</small>
+				</div>
+			</div>
+					
+			<button class="btn btn-primary mt-3">Submit</button>
+		</form>
+	</div>

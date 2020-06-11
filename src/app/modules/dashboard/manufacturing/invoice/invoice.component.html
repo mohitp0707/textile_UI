@@ -1,0 +1,405 @@
+<h3 class="page-header pt-4 pb-2 border-bottom">Invoice</h3>
+
+<div  class="border p-2 pt-4">
+<form class="needs-validation" method="post" (ngSubmit)="saveForm(addInvoiceForm,invoice)" #addInvoiceForm="ngForm">
+	<div class="form-group row">
+        <div class="col-sm-1">
+					<label for="JDate" class="col-form-label text-right"> Date</label>
+				</div>
+				<div class="col-sm-3 input-group">
+						<input  class="form-control" type="date" [ngClass]="{ 'is-invalid' : JDate.touched && JDate.invalid , 'is-valid' : JDate.touched && JDate.valid }" id="JDate" name="JDate"  [(ngModel)]="invoice.JDate" #JDate="ngModel" ngbDatepicker #d2="ngbDatepicker" required />
+							<div class="input-group-append">
+								<button class="btn btn-outline-secondary" (click)="d2.toggle()" type="button"><i class = "fas fa-calendar-alt"></i></button>
+							</div>
+        </div>
+        <div class="col-sm-1">
+            <label for="invNo" class="col-form-label">INV NO</label>
+          </div>
+          <div class="col-sm-2">
+              <input *ngIf="isValid" type="text"   id="invNo" name="invNo" class="form-control" [(ngModel)]="invoice.invNo"    />
+              <input *ngIf="!isValid" type="text"   id="invNo" name="invNo" class="form-control" [(ngModel)]="invoice.invNo1"    readonly />
+          </div>
+
+          <div class="col-sm-2">
+              <label for="lrNO" class="col-form-label">LR NO </label>
+          </div>
+          <div class="col-sm-3">
+                <input type="text"   id="lrno" name="lrno" class="form-control" [(ngModel)]="invoice.lrno"   />
+          </div>
+        
+   
+  </div>
+  <div class="form-group row">
+        <div class = "col-sm-1 input-group">
+					<label for="selectParty" class="text-right">Party </label>
+				</div>
+				<div class = "col-sm-3 input-group">
+				  <!-- <select *ngIf="isValid" class="custom-select form-control" [ngClass]="{'is-invalid' : selectParty.touched && selectParty.invalid, 'is-valid' : selectParty.touched && selectParty.valid }" id ="selectParty" name="selectParty" class="form-control" [disabled]="isAdd" [(ngModel)]="party1" #selectParty="ngModel" placeholder="selectParty" required (change)="invoice.PM_ID=party1.PM_ID;invoice.PM_NAME=party1.PM_NAME;getdiptId(invoice)" >
+				    <option [ngValue]="party1"  *ngFor="let party1 of party">{{party1.PM_NAME}}</option>		
+          </select> -->
+          <select size="1"   *ngIf="isValid"   class="selectpicker custom-select form-control" [disabled]="isAdd" data-live-search="true" (change)="getPartyDet()"  placeholder="select Party" required  >
+            <option disabled value="">Select Party</option>
+            <option [value]="party1.PM_ID"  *ngFor="let party1 of party">{{party1.PM_NAME}}</option>
+          </select>
+				  <input *ngIf="!isValid" class="form-control" [disabled]="butDisabled"  type="text" name="PM_NAME" [(ngModel)]="invoice.PM_NAME"  readonly/>
+        </div>
+
+
+        <div class = "col-sm-1 input-group">
+            <label for="selectParty" class="text-right">D.C.No </label>
+          </div>
+          <div class = "col-sm-2 input-group">
+            <select *ngIf="isValid" class="custom-select form-control" [ngClass]="{'is-invalid' : dispatchNo.touched && dispatchNo.invalid, 'is-valid' : dispatchNo.touched && dispatchNo.valid }" id ="selectParty" name="dispatchNo" class="form-control" [disabled]="isAdd" [(ngModel)]="invoice.DSP_DPNO" #dispatchNo="ngModel" required (change)="getBatch(invoice)" >
+              <option [ngValue]="disp.DSP_DPNO"  *ngFor="let disp of dispatchID">{{disp.DSP_DPNO}}</option>		
+            </select>
+            <input *ngIf="!isValid" class="form-control" [disabled]="butDisabled"  type="text" name="DSP_DPNO" [(ngModel)]="invoice.DSP_DPNO"  readonly/>
+          </div>
+
+      <div class="col-sm-2">
+          <label for="LRDate" class="col-form-label ">LR Date</label>
+        </div>
+        <div class="col-sm-3 input-group">
+            <input  class="form-control" type="date" [ngClass]="{ 'is-invalid' : LRDate.touched && LRDate.invalid , 'is-valid' : LRDate.touched && LRDate.valid }" id="LRDate" name="LRDate"  [(ngModel)]="invoice.LRDate" #LRDate="ngModel" ngbDatepicker #d3="ngbDatepicker" required />
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary" (click)="d3.toggle()" type="button"><i class = "fas fa-calendar-alt"></i></button>
+              </div>
+        </div> 
+        
+      
+  </div>
+  <div class="form-group row">
+
+      <div class="col-sm-1">
+          <label for="transport" class="col-form-label">TRANSPORT</label>
+      </div>
+      <div class="col-sm-3">
+            <input type="text"   id="transport" name="transport" class="form-control" [(ngModel)]="invoice.transport"    readonly />
+      </div>
+
+      <div class="col-sm-1">
+          <label for="taxtyp" class="col-form-label">TAX(%)</label>
+      </div>
+      <div class="col-sm-2">
+            <input type="number" min="1" #taxp="ngModel" [disabled]="isAdd || !isValid" [ngClass]="{'is-invalid' : taxp.touched && taxp.invalid, 'is-valid' : taxp.touched && taxp.valid }"   id="taxp" name="taxp" class="form-control" [(ngModel)]="invoice.taxp" required />
+      </div>
+
+        <div class="col-sm-2">
+          <label for="taxtyp" class="col-form-label">TAX</label>
+      </div>
+      <div class="col-sm-3">
+            <input type="text"   id="taxtyp" name="taxtyp" class="form-control" [(ngModel)]="invoice.taxtyp" readonly />
+      </div>
+
+  </div>
+
+
+  <table class = "table mt-4">
+      <thead class = "thead-light">
+        <tr>
+          <th></th>
+          <th scope="col">BATCH</th>
+          <th scope="col">PROCESS</th>
+          <th scope="col">PCS</th>
+          <th scope="col">MTR</th>
+          <th scope="col">RATE</th>
+          <th scope="col">Add</th>
+          </tr>
+        </thead>
+        <tr>
+          <td></td>
+          <td style="width:400px">
+          <!-- {{ selectedProduct | json}} -->
+            <select class = "custom-select" [ngClass]="{'is-invalid' : batchName.touched && batchName.invalid, 'is-valid' : batchName.touched && batchName.valid }" id ="batchName" name="batchName" class="form-control" (change)="particular.batch=batch;getdetail(batch);" [(ngModel)]="batch" #batchName="ngModel" required >
+              <option  value="">Select Batch</option>
+              <option [ngValue]="batch.DSP_Batch" *ngFor="let batch of dispatchbatch,let i=index">{{batch.DSP_Batch}}</option>
+            </select>
+            <div  [ngClass]="batchName.touched && batchName.invalid ? 'invalid-feedback' : 'valid-feedback'" *ngIf="batchName.touched && batchName.invalid">
+            
+              <span *ngIf="batchName.errors.required">Particular name </span>
+            </div>
+          </td>
+
+          <td>
+            <input type="text"  id ="procssName" name="procssName" class="form-control" [(ngModel)]="particular.procssName"  readonly />
+          </td>
+          
+          <td>
+            <input type="text"  id ="pcs" name="pcs" class="form-control" [(ngModel)]="particular.pcs"  readonly />
+          </td>
+          <td>
+              <input type="text"  id ="mtr" name="mtr" class="form-control" [(ngModel)]="particular.mtr"  readonly />
+          </td>
+        
+          <td>
+            <input type="number" [ngClass]="{'is-invalid' : rate.touched && rate.invalid, 'is-valid' : rate.touched && rate.valid }" id ="rate" name="rate" class="form-control" [(ngModel)]="particular.rate" #rate="ngModel" required />
+            <!-- <div   [hidden]="rate.valid" class="alert alert-danger">Please Enter Number Only</div>	 -->
+          </td>
+            
+          <td>
+            <button  type="button" class="btn btn-info" (click) = addParticular(particular)>+</button>
+            <!-- (click) = addParticular() -->
+          </td>
+        </tr>
+        <tr>
+          <td>
+              <label for="ADD PROCESS" class="col-form-label text-right">PROCESS</label>
+          </td>
+            <td style="width:400px">
+                <!-- {{ selectedProduct | json}} -->
+                  <select class = "custom-select" [ngClass]="{'is-invalid' : procName.touched && procName.invalid, 'is-valid' : procName.touched && procName.valid }" id ="procName" name="procName" class="form-control" (change)="addprocesdata.PR_ID=proc.id;addprocesdata.PR_NM=proc.name;" [(ngModel)]="proc" #procName="ngModel"  >
+                    <option  value="">Select Process</option>
+                    <option [ngValue]="proc" *ngFor="let proc of processData,let i=index">{{proc.name}}</option>
+                  </select>
+                  <div  [ngClass]="procName.touched && procName.invalid ? 'invalid-feedback' : 'valid-feedback'" *ngIf="procName.touched && procName.invalid">
+                    <span *ngIf="procName.errors.required">Particular name </span>
+                  </div>
+              </td>
+              <td>
+                  <label for="ADD PROCESS" class="col-form-label text-right">RATE</label>
+              </td>
+              <td>
+                  <input type="number"  id ="rate1" name="rate1" class="form-control" [(ngModel)]="addprocesdata.rate1" />
+              </td>
+              <td>
+                  <button  type="button" class="btn btn-info" (click) = adProcess(addprocesdata)>+</button>
+                  <!-- (click) = addParticular() -->
+              </td>
+        </tr>
+  </table>
+  <h5 class="page-header pt-4 pb-2 border-bottom">PROCESS CHARGE</h5>
+  <table class = "table">
+      <thead class = "thead-light">
+        <tr>
+          <th scope="col">Sr. No.</th>
+          <th scope="col">BATCH</th>
+          <th scope="col">PROCESS</th>
+          <th scope="col">PCS</th>
+          <th scope="col">MTR</th>
+          <th scope="col">RATE</th>
+          <th scope="col">AMOUNT</th>
+          <th scope="col">Manage</th>
+          </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of batchData; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ item.batch }}</td>
+          <td>{{ item.procssName }}</td>
+          <td>{{ item.pcs | number:'0.2' }}</td>
+          <td>{{ item.mtr | number:'0.2' }}</td>
+          <td>{{ item.rate | number:'0.2' }}</td>
+          <td>{{ item.amt | number:'0.2' }}</td>    
+            <td><i (click)="removeParticular(i)" class = "fas fa-times"></i></td>
+          </tr>
+      </tbody>
+  </table>
+
+  <h5 class="page-header pt-4 pb-2 border-bottom">ADDITION PROCESS CHARGE</h5>
+  <table class = "table">
+      <thead class = "thead-light">
+        <tr>
+          <th scope="col">Sr. No.</th>
+          <th scope="col">BATCH</th>
+          <th scope="col">PROCESS</th>
+          <th scope="col">RATE</th>
+          <th scope="col">AMOUNT</th>
+          <th scope="col">Manage</th>
+          </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of processMainData; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ item.batch }}</td>
+          <td>{{ item.PR_NM }}</td>
+          <td>{{ item.rate1 | number:'0.2' }}</td>
+          <td>{{ item.amt | number:'0.2' }}</td>
+            <td><i (click)="removeProcParticular(i)" class = "fas fa-times"></i></td>
+          </tr>
+      </tbody>
+    </table>
+    <h5 class="page-header pt-4 pb-2 border-bottom">AMOUNT DETAILS</h5>
+    <div class="row">
+      <div class="col-md-1">
+        <label for="totalpcs" class="col-form-label">TOTAL PCS </label>
+      </div>
+      <div class="col-md-3">
+        <input type="text"  id ="totalpcs" name="totalpcs" class="form-control" [ngModel]="invoice.totalpcs | number:'0.2' "  readonly />
+      </div>
+      <div class="col-md-1">
+        <label for="totalMtr" class="col-form-label">TOTAL MTR </label>
+      </div>
+      <div class="col-md-3">
+        <input type="text"  id ="totalMtr" name="totalMtr" class="form-control" [ngModel]="invoice.totalMtr | number:'0.2'"  readonly />
+      </div>
+      <div class="col-md-1">
+        <label for="totalbatamt" class="col-form-label">BATCH AMOUNT </label>
+      </div>
+      <div class="col-md-3">
+        <input type="text"  id ="totalbatamt" name="totalbatamt" class="form-control" [ngModel]="invoice.totalbatamt | number:'0.2'"  readonly />
+      </div>
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3">
+      <label for="totaleproamt" class="col-form-label">ADDITIONAL PROCESS AMOUNT </label>
+    </div>
+    <div class="col-md-3">
+      <input type="text"  id ="totaleproamt" name="totaleproamt" class="form-control" [ngModel]="invoice.totaleproamt | number:'0.2'"  readonly />
+    </div>
+    <div class="col-md-3">
+      <label for="totalbatprocamt" class="col-form-label">TOTAL(PROC+ADD PROC) </label>
+    </div>
+    <div class="col-md-3">
+      <input type="text"  id ="totalbatprocamt" name="totalbatprocamt" class="form-control" [ngModel]="invoice.totalbatprocamt | number:'0.2' "  readonly />
+    </div>
+  </div>
+
+  <div class="row mt-3">
+    <div class="col-md-1">
+      <label for="disp" class="col-form-label">Discount(%) </label>
+    </div>
+    <div class="col-md-3">
+      <input type="number"  id ="disp" name="disp" class="form-control" [(ngModel)]="invoice.disp" [disabled]="othrchrgAdd" (change)="discount()" />
+    </div>
+    <div class="col-md-1">
+      <label for="disAmt" class="col-form-label">Discount Amount</label>
+    </div>
+    <div class="col-md-3">
+      <input type="text"  id ="disAmt" name="disAmt" class="form-control" [ngModel]="invoice.disAmt | number:'0.2' "  readonly />
+    </div>
+    <div class="col-md-1">
+      <label for="totalbatamt" class="col-form-label">Total Amount </label>
+    </div>
+    <div class="col-md-3">
+      <input type="text"  id ="totalamtwithdis" name="totalamtwithdis" class="form-control" [ngModel]="invoice.totalamtwithdis | number:'0.2'"  readonly />
+    </div>
+</div>
+
+
+  <h5 class="page-header pt-4 pb-2 border-bottom">OTHER CHARGES</h5>
+    <table class = "table mt-4">
+      <thead class = "thead-light">
+        <tr>
+          <th scope="col">NAME</th>
+          <th scope="col">TYPE</th>
+          <th scope="col">{{ othrchrtyp == false ? 'AMOUNT' : 'RATE' }}</th>
+          <th scope="col">Add</th>
+          </tr>
+        </thead>
+        <tr>
+            <td style="width:400px">
+                <!-- {{ selectedProduct | json}} -->
+                  <select class = "custom-select" [ngClass]="{'is-invalid' : othrChrge1.touched && othrChrge1.invalid, 'is-valid' : othrChrge1.touched && othrChrge1.valid }" id ="othrChrge1" name="othrChrge1" class="form-control" (change)="othrChrge.PR_ID=proc.id;othrChrge.PR_NM=proc.name;" [(ngModel)]="proc" #othrChrge1="ngModel" required >
+                    <option [ngValue]="proc" *ngFor="let proc of othrchrgeData,let i=index">{{proc.name}}</option>
+                  </select>
+                  <div  [ngClass]="othrChrge.touched && othrChrge.invalid ? 'invalid-feedback' : 'valid-feedback'" *ngIf="othrChrge.touched && othrChrge.invalid">
+                    <span *ngIf="othrChrge.errors.required">Particular name </span>
+                  </div>
+              </td>
+              <td>
+                <select id ="chrgtyp"  name="chrgtyp" class="form-control" (change)="othrchrgechange(othrChrge.chrgtyp)"  [(ngModel)]="othrChrge.chrgtyp">
+                    <option value="AMOUNT" selected>AMOUNT</option>
+                    <option value="MTR" >MTR</option>
+                </select>
+              </td>
+              <td>
+                  <input type="number"  id ="rate2" name="rate2" class="form-control" [(ngModel)]="othrChrge.rate2" required />
+              </td>
+              <td>
+                  <button  type="button" class="btn btn-info" (click) = othrCharges(othrChrge)>+</button>
+                  <!-- (click) = addParticular() -->
+              </td>
+            </tr>
+        </table>
+
+        <h5 class="page-header pt-4 pb-2 border-bottom">OTHER CHARGES</h5>
+        <table class = "table">
+            <thead class = "thead-light">
+              <tr>
+                <th scope="col">Sr. No.</th>
+                <th scope="col">NAME</th>
+                <th scope="col">RATE</th>
+                <th scope="col">AMOUNT</th>
+                <th scope="col">Manage</th>
+                </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of othrrate; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ item.PR_NM }}</td>
+                <td>{{ othrchrtyp == false ? 0 : item.rate2 }}</td>
+                <td>{{ item.amt }}</td>
+                  <td><i (click)="removeothchrge(i)" class = "fas fa-times"></i></td>
+                </tr>
+            </tbody>
+          </table>
+        <h5 class="page-header pt-4 pb-2 border-bottom">OTHER CHARGES DETAILS</h5>
+          <div class="row">
+            <div class="col-md-3">
+              <label for="othchrge" class="col-form-label">OTHER CHARGES </label>
+            </div>
+            <div class="col-md-3">
+              <input type="text"  id ="othchrg" name="othchrg" class="form-control" [ngModel]="invoice.totalothchrg | number:'0.2' "  readonly />
+            </div>
+            <div class="col-md-3">
+              <label for="transport" class="col-form-label">TOTAL</label>
+            </div>
+            <div class="col-md-3">
+              <input type="text"  id ="totamtwotxt" name="totamtwotxt" class="form-control" [ngModel]="invoice.totamtwotxt | number:'0.2'"  readonly />
+            </div>
+        </div>
+
+        <h5 class="page-header pt-4 pb-2 border-bottom">TAX DETAILS</h5>
+        <div class="row">
+          <div class="col-md-1">
+            <label for="othchrge" class="col-form-label">SGST </label>
+          </div>
+          <div class="col-md-3">
+            <input type="text"  id ="sgst" name="sgst" class="form-control" [ngModel]="invoice.sgst | number:'0.2'"  readonly />
+          </div>
+          <div class="col-md-1">
+            <label for="transport" class="col-form-label">CGST</label>
+          </div>
+          <div class="col-md-3">
+            <input type="text"  id ="cgst" name="cgst" class="form-control" [ngModel]="invoice.cgst | number:'0.2' "  readonly />
+          </div>
+          <div class="col-md-1">
+            <label for="transport" class="col-form-label">IGST</label>
+          </div>
+          <div class="col-md-3">
+            <input type="text"  id ="igst" name="igst" class="form-control" [ngModel]="invoice.igst | number:'0.2'"  readonly />
+          </div>
+      </div>
+      <div class="row mt-3">
+        <div class="col-md-3">
+          <label for="totTax" class="col-form-label">TOTAL TAX </label>
+        </div>
+        <div class="col-md-3">
+          <input type="text"  id ="totTax" name="totTax" class="form-control" [ngModel]="invoice.totTax | number:'0.2'"  readonly />
+        </div>
+        <div class="col-md-3">
+          <label for="totalamt" class="col-form-label">TOTAL AMOUNT </label>
+        </div>
+        <div class="col-md-3">
+          <input type="totalamt"  id ="totalamt" name="totalamt" class="form-control" [ngModel]="invoice.totalamt | number:'0.2' "  readonly />
+        </div>
+      </div>
+      <div class="row mt-3">
+          <div class="col-md-3">
+            <label for="roundoff" class="col-form-label">Round Off </label>
+          </div>
+          <div class="col-md-3">
+            <input type="text"  id ="roundoff" name="roundoff" class="form-control" [ngModel]="invoice.roundoff | number:'0.2'"  readonly />
+          </div>
+          <div class="col-md-3">
+            <label for="finalamt" class="col-form-label">AMOUNT </label>
+          </div>
+          <div class="col-md-3">
+            <input type="finalamt"  id ="finalamt" name="finalamt" class="form-control" [ngModel]="invoice.finalamt | number:'0.2'"  readonly />
+          </div>
+      </div>
+      <button [disabled]="isSaving" *ngIf="isValid" class="btn btn-primary mt-3">SAVE</button>
+      <button *ngIf="!isValid" type="button" (click)="delete()" class="btn btn-primary mt-3">DELETE</button>
+			<button type="button"  *ngIf="isValid" (click)="reset()" class="btn btn-primary mt-3">Reset</button>
+  </form>
+</div>

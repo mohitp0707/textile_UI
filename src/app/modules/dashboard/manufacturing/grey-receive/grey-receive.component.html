@@ -1,0 +1,267 @@
+
+<h3 class="page-header pt-4 pb-2 border-bottom">GREY RECEIVE</h3>
+
+<div  class="border p-2 pt-4 doNotPrint">
+	
+<form class="needs-validation" method="post" (ngSubmit)="saveForm(addInvoiceForm,invoice)" #addInvoiceForm="ngForm">
+	<div class="form-group row ">
+				<div class = "col-sm-1 input-group">
+					<label for="selectParty" class="text-right">PARTY </label>
+				</div>
+				<div class = "col-sm-4 input-group">
+				<select size="1"   *ngIf="isValid"   class="selectpicker custom-select form-control" [disabled]="butDisabled" data-live-search="true" (change)="getPartyDet()"  placeholder="select Party" required  >
+					<option disabled value="">Select Party</option>
+					<option [value]="party1.PM_ID"  *ngFor="let party1 of party">{{party1.PM_NAME}}</option>
+				</select>
+				<input *ngIf="!isValid" class="form-control" [disabled]="butDisabled"  type="text" name="PM_NAME" [(ngModel)]="invoice.PM_NAME" />
+						<!-- <div class="input-group-append">
+						<button class="btn btn-outline-secondary" type="button" data-toggle="tooltip" title="Add Party" data-placement="top"><i class = "fas fa-plus-square"></i></button>
+						</div> -->
+					
+						<!-- <button class = "btn btn-outline-primary ml-auto">Add party</button> -->
+				</div>
+				<div class = "col-sm-1 input-group">
+					<label for="GR_Date" class="col-form-label text-right"> DATE </label>
+				</div>
+				<div class = "col-sm-3 input-group">
+					<input class="form-control" type="date" [ngClass]="{ 'is-invalid' : GR_Date.touched && GR_Date.invalid , 'is-valid' : GR_Date.touched && GR_Date.valid }" id="GR_Date" name="GR_Date"  [(ngModel)]="invoice.GR_Date" #GR_Date="ngModel" ngbDatepicker #d="ngbDatepicker" required />
+						<div class="input-group-append">
+							<button class="btn btn-outline-secondary" (click)="d.toggle()" type="button"><i class = "fas fa-calendar-alt"></i></button>
+						</div>
+				</div>
+
+				<div class="col-sm-1 input-group">
+						<label for="Process" class="col-form-label text-right">PROCESS</label>
+				</div>
+				<div class="col-sm-2 input-group">
+						<select class = "custom-select form-control" [ngClass]="{'is-invalid' : itemName.touched && itemName.invalid, 'is-valid' : itemName.touched && itemName.valid }" id ="itemName" name="itemName"   [(ngModel)]="invoice.process" (change)="getProcessBatch(invoice.process)" #itemName="ngModel" required >
+										<option value="TD" >TD</option>
+										<option value="PD">PD</option>
+										<option value="RF">R.F.</option>			
+						</select>
+					</div>
+	</div>
+			<div class="form-group row">
+				<div class="col-sm-2">
+						<label for="challanNo" class="col-form-label text-right">CHALLAN NO</label></div>
+				<div class="col-sm-2">
+					<input type="text" [ngClass]="{'is-invalid':challanNo.touched && challanNo.invalid, 'is-valid':challanNo.touched && challanNo.valid }" id="challanNo" name="GR_ChallNo" class="form-control" [(ngModel)]="invoice.GR_ChallNo" #challanNo="ngModel"  placeholder="Challan Number" required />
+				</div>
+				<div class="col-sm-2 input-group">
+					<label for="challanNo" class="col-form-label text-right">CHALLAN DATE</label>
+				</div>
+				<div class="col-sm-3 input-group">
+					<input class="form-control" type="text" [ngClass]="{ 'is-invalid' : challanDate.touched && challanDate.invalid , 'is-valid' : challanDate.touched && challanDate.valid }" id="challanDate" name="GR_Chdate"  [(ngModel)]="invoice.GR_Chdate" #challanDate="ngModel" ngbDatepicker #d2="ngbDatepicker" required />
+						<div class="input-group-append">
+							<button class="btn btn-outline-secondary" (click)="d2.toggle()" type="button"><i class = "fas fa-calendar-alt"></i></button>
+						</div>
+				
+				</div>
+					<div class="col-sm-1">
+						<label for="quality" class="col-form-label text-right">QUALITY</label>
+					</div>
+					<div class="col-sm-2">
+						<input type="text" [ngClass]="{'is-invalid':quality.touched && quality.invalid, 'is-valid':quality.touched && quality.valid }" id="quality" name="quality" class="form-control" [(ngModel)]="invoice.quality" #quality="ngModel"  placeholder="quality" required />
+						
+					</div>
+				</div>
+				<div class="form-group row">
+						<div class = "col-sm-2 input-group">
+								<label for="BatchNo" class="col-form-label text-right">LOT NO </label>
+							</div>
+						<div class = "col-sm-2 input-group">
+								<input type="text"   id="BatchNo" name="GR_Batch" class="form-control" [(ngModel)]="invoice.GR_Batch" #challanNo="ngModel"   readonly required  />
+						</div>
+
+						<div class="col-sm-2 input-group">
+								<label for="VehNo" class="col-form-label">VEHICLE NO</label>
+						</div>
+						<div class="col-sm-3 input-group">
+								<input type="text"   id="VehNo" name="VehNo" class="form-control" [(ngModel)]="invoice.vhNo" #pcs="ngModel"  />
+						</div>
+						<div class="col-sm-1">
+								<label for="width" class="col-form-label">WIDTH</label>
+						</div>
+						<div class="col-sm-2">
+								<input type="number"   id="width" name="width" class="form-control" [(ngModel)]="invoice.GR_Width" #pcs="ngModel" />
+						</div>
+				
+				</div>
+			
+
+		<div class="form-group row">
+				<div class="col-sm-2">
+				<label for="tpcs" class="col-form-label">TOTAL PCS</label>
+				</div>
+				<div class="col-sm-2">
+					<input type="number" [disabled]="isDisabled"   id="tpcs" name="pcs" class="form-control" [(ngModel)]="invoice.pcs" #pcs="ngModel"   required />
+				
+				</div>
+				<div class="col-sm-2 input-group">
+					<label for="TMeter" class="col-form-label text-right">TOTAL MTR</label>
+				</div>
+				<div class="col-sm-3 input-group">
+					<input type="number" readonly [ngClass]="{'is-invalid':Tmeter.touched && Tmeter.invalid, 'is-valid':Tmeter.touched && Tmeter.valid }" id="TMeter" name="TMeter" class="form-control" [(ngModel)]="invoice.TMeter" #Tmeter="ngModel"  placeholder="Total Meter" required />
+				</div>
+
+				<div class="col-sm-1 input-group">
+						<label for="Godown" class="col-form-label text-right">GODOWN</label>
+				</div>
+				<div class="col-sm-2 input-group">
+						<select class="custom-select form-control" id ="Godown" required name="Godown" class="form-control" [(ngModel)]="invoice.GR_WH" #Godown="ngModel">
+							<option [ngValue]="Godown1.GM_Name"  *ngFor="let Godown1 of GodownArr" >{{Godown1.GM_Name}}</option>
+						</select>	
+				</div>
+				
+		</div>
+		<div class="form-group row">
+
+	
+			<div class="col-sm-2 input-group">
+				<label for="Godown" class="col-form-label text-right">Remark</label>
+			</div>
+			<div class="col-sm-10 input-group">
+				<textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="GR_Rmk" [(ngModel)]="invoice.GR_Rmk"></textarea>
+			</div>
+
+		</div>
+
+	<table class = "table mt-4">
+				<thead class = "thead-light">
+					<tr>
+						<th scope="col">PARTICULAR NAME</th>
+						<th scope="col">UNIT</th>
+						<th scope="col">QTY(MTR)</th>
+						<th scope="col">ADD</th>
+						</tr>
+					</thead>
+					<tr>
+						<td style="width:600px">
+						<!-- {{ selectedProduct | json}} -->
+							<select class = " form-control custom-select" [ngClass]="{'is-invalid' : itemName.touched && itemName.invalid, 'is-valid' : itemName.touched && itemName.valid }" id ="itemName" name="itemName"  (change)="particular.IM_ID=selectedProduct.IM_ID;particular.IM_NM=selectedProduct.IM_NM;getUnit(selectedProduct.IM_UM);  " [(ngModel)]="selectedProduct" #itemName="ngModel" required >
+								
+								<option [ngValue]="product" *ngFor="let product of productList,let i=index">{{product.IM_NM}}</option>
+							</select>
+							<div  [ngClass]="itemName.touched && itemName.invalid ? 'invalid-feedback' : 'valid-feedback'" *ngIf="itemName.touched && itemName.invalid">
+								<span *ngIf="itemName.errors.required">Particular name </span>
+							</div>
+						</td>
+						
+						<td>
+							<input type="text"  id ="unit" name="unit" class="form-control" [(ngModel)]="particular.unit" #unit="ngModel" readonly />
+							<div   [hidden]="unit.valid" class="alert alert-danger">Unit Require</div>	
+						</td>
+					
+						<td>
+							<input type="number" pattern="[0-9 .\s]+" [ngClass]="{'is-invalid' : quantity.touched && quantity.invalid, 'is-valid' : quantity.touched && quantity.valid }" id ="quantity" name="quantity" #focusText class="form-control" [(ngModel)]="particular.quantity" #quantity="ngModel" required />
+							<div   [hidden]="quantity.valid" class="alert alert-danger">Please Enter Number Only</div>	
+						</td>
+							
+						<td>
+							<button  type="button" class="btn btn-info" (click) = addParticular(particular)>+</button>
+							<!-- (click) = addParticular() -->
+						</td>
+					</tr>
+			</table>
+			
+			
+			<table class = "table">
+				<thead class = "thead-light">
+					<tr>
+						<th scope="col">SR. NO.</th>
+						<th scope="col">PARTICULAR NAME</th>
+						<th scope="col">UNIT</th>
+						<th scope="col">QTY</th>
+						<th scope="col">MANAGE</th>
+						</tr>
+				</thead>
+				<tbody>
+					<tr *ngFor="let item of invoice.RecQtyList; let i = index">
+						<td>{{ i + 1 }}</td>
+						<td>{{ item.IM_NM }}</td>
+						<td>{{ item.unit }}</td>
+						<td>{{ item.quantity }}</td>
+							<td><i (click)="removeParticular(i)" class = "fas fa-times"></i></td>
+						</tr>
+					<tr style="font-weight:bold;color:red">
+						<td><span>TOTAL Qty</span></td>
+						<td >{{invoice.GR_TQTY}}<span></span></td>
+					</tr>
+				</table>
+			<button [disabled]="isSaving" class="btn btn-primary mt-3">{{ isValid == true ? 'SAVE' : 'UPDATE' }}</button>
+			<!-- <button *ngIf="isValid" type="button" class="btn btn-primary mt-3" (click)="savPrint(addInvoiceForm,invoice)">{{ isValid == true ? 'SAVE PRINT' : 'UPDATE' }}</button> -->
+			<button *ngIf="resetshow" type="button" (click)="reset()" class="btn btn-primary mt-3">Reset</button>
+		</form>
+	</div>
+
+<button  type="button" class="btn btn-primary hidebut" id="butClick" data-toggle="modal" data-target=".bd-example-modal-lg"></button>
+
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+		<div class="container" id="print-section">
+		<div class="row">
+			<div class="col-md-4"></div>
+		  <div class="col-md-4">
+			<h2 class="head text-center ">{{basicdatails.co_cn}}</h2>
+			<h6 class="text-justify"><b>Address:</b> {{basicdatails.CO_Address}}</h6>
+		  </div> 
+		  <div class="col-md-4"></div>  
+		</div>   
+		<h4 class="text-center">Grey Receive List </h4>
+		
+		  <div class="table-responsive">
+		  <table class="table">
+				<tr>
+				  <th>Supplier:{{basicdatails.pm_name}}</th>
+				  <th>Challan No:{{basicdatails.gr_challno}}</th>
+				  <th>Challan Date:{{basicdatails.gr_chdate}}</th>
+				</tr>
+				<tr>
+				  <td rowspan="2">
+					Add:{{basicdatails.PM_ADD}}
+				  </td>
+				  <th>Process:{{basicdatails.gr_process}}</th>
+				  <th>Lot No:{{basicdatails.gr_batch}}</th>
+				</tr>
+				<tr>
+				  <th>Godown:{{basicdatails.gr_wh}}</th>
+				  <th>Vehicle No:{{basicdatails.gr_vehcile}}</th>
+				</tr>
+			</table>
+		  </div>  
+		  <div class="table-responsive">
+		  <table class="table table-bordered">
+		   <tr>
+				<th> Sr.No</th>
+				<th>Item</th>
+				<th>Unit</th>
+				<th>Meter</th>
+			 </tr>    
+			 <tr *ngFor="let product of details; let i = index">
+				<td>{{i+1}}</td>
+				<td>{{product.product}}</td>
+				<td>{{product.GRD_Unit}}</td>
+				<td>{{product.qty}}</td>
+			 </tr>
+		  </table>
+		  </div>
+		  <div class="table-responsive">
+			  <table class="table ">
+			   <tr>
+					<th>Total pices:{{basicdatails.tmtr}}</th>
+					 <th>Total Meter:{{basicdatails.tpcs}}</th>
+				 </tr>    
+			  </table>
+			  </div>
+		 </div> 
+
+
+		 <div class="modal-footer">
+			<button type="button" class="btn btn-secondary"  printSectionId="print-section" ngxPrint >Print</button>
+			<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+		  </div>
+
+    </div>
+  </div>
+</div>

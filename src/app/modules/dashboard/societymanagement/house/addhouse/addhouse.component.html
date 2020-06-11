@@ -1,0 +1,69 @@
+
+<h2 class="page-header pt-4 pb-2 border-bottom">Add Flat</h2>
+<!-- <div *ngIf="invalidForm" class="alert alert-danger" role="alert">
+	Please fill out all fields.
+</div> -->
+
+<ngb-alert type="danger" *ngIf="ds.invalidForm" (close)="ds.invalidForm = false">
+	{{ds.errorMessage }}
+</ngb-alert>
+
+<ngb-alert type="success" *ngIf="ds.formSubmitted" (close)="ds.formSubmitted = false">
+	{{ ds.submittedMessage }}
+</ngb-alert>
+
+<div *ngIf="!ds.formSubmitted" class="border p-2 pt-4">
+	<form class="needs-validation" method="post" #flatForm="ngForm"  (ngSubmit)="submitForm(flatForm, flat)">
+		<div class="form-group row">
+			<label for="flatNo" class="col-sm-2 col-form-label text-right">Flat No. </label>
+			<div class="col-sm-9">
+				<input type="text" [ngClass]="{'is-invalid' : flatNo.touched && flatNo.invalid, 'is-valid' : flatNo.touched && flatNo.valid }" id ="flatNo" name="flatNo" class="form-control" pattern="[0-9]+" [(ngModel)]="flat.flatNo" #flatNo="ngModel" placeholder="Flat No." required>
+				<small class="form-text text-muted">Enter numbers only eg. 251</small>
+				<div  [ngClass]="flatNo.touched && flatNo.invalid ? 'invalid-feedback' : 'valid-feedback'" *ngIf="flatNo.touched && flatNo.invalid">
+					<span *ngIf="flatNo.errors.required">Flat Number required</span>
+					<span *ngIf="flatNo.errors.pattern">Flat Number not valid</span>
+				</div>
+			</div>
+		</div>
+		
+		<div class="form-group row">
+			<label for="wing" class="col-sm-2 col-form-label text-right">Wing </label>
+			<div class="col-sm-9">
+				<input type="text" [ngClass]="{ 'is-invalid' : wing.touched && wing.invalid , 'is-valid' : wing.touched && wing.valid }" id="wing" name="wing" class="form-control" pattern="[A-Z]{1,2}-[0-9]{1,2}" [(ngModel)]="flat.wing" #wing="ngModel" placeholder="Wing" required />
+				<small *ngIf="!wing.invalid" class="form-text text-muted">Enter alphabets and numbers only eg. A-1</small>
+				<small class="invalid-feedback" *ngIf="wing.touched && wing.invalid">
+					<span *ngIf="wing.errors.required">Wing Number required</span>
+					<span *ngIf="wing.errors.pattern">Wing Name not valid</span>
+				</small>
+				<small class="form-text text-muted">Enter alphabets only eg. A</small>
+				<div [ngClass]="wing.touched && wing.invalid ? 'is-invalid' : 'is-valid'" *ngIf="wing.touched && wing.invalid">
+				</div>
+			</div>
+		</div>
+		
+		<div class="form-group row">
+			<label for="building" class="col-sm-2 col-form-label text-right">Building </label>
+			<div class="col-sm-9">
+				<input type="text" [ngClass]="{ 'is-invalid': building.touched && building.invalid, 'is-valid' : building.touched && building.valid }" id="b" name="building" class="form-control" pattern="[a-zA-Z]+" [(ngModel)]="flat.building" #building="ngModel" placeholder="Building" required>
+				<small class="invalid-feedback" *ngIf="building.touched && building.invalid">
+					<span *ngIf="building.errors.required">Building Number required</span>
+					<span *ngIf="building.errors.pattern">Building Name not valid</span>
+				</small>
+				<small class="form-text text-muted">Enter alphabets only eg. A</small>
+				<div [ngClass]="building.touched && building.invalid ? 'is-invalid' : 'is-valid'" *ngIf="building.touched && building.invalid">
+					<span *ngIf="building.errors.required">Building Number required</span>
+				</div>
+			</div>
+		</div>
+		<div class="form-group row">
+			<label for="owner" class="col-sm-2 col-form-label text-right">Owner Name </label>
+			<div class="col-sm-9">	
+				<select class="form-control">
+				        <option *ngFor = "let user of users, let i=index" name="owner" [(ngModel)]="flat.owner">{{user.name}}</option>
+				</select>
+			</div>
+		</div>
+		
+		<button class="btn mt-3">Submit</button>
+	</form>
+</div>

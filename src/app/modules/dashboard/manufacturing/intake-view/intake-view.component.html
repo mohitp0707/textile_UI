@@ -1,0 +1,44 @@
+<h3 class="page-header pt-4 pb-2 border-bottom ">Job Intake List</h3>
+<p></p>
+<div class="row">
+	<div class="col-md-2">Search</div>
+	<div class="col-md-10">
+	<input class="form-control" type="text" name="search" [(ngModel)]="searchText">
+	<p><p>
+ </div>
+</div>
+<div class="content table-responsive table-full-width">
+	<table class="table table-bordered table-sm">
+		<thead class = "thead-light">
+			<tr>
+				<th>SR.No.</th>
+				<th>DATE</th>
+				<th>Intake DATE</th>
+				<th>PARTY</th>
+				<th>LOT NO</th>
+				<th>BATCH No</th>
+				<th> PCS</th>
+				<th> Meter</th>
+				<th>Manage</th>
+			</tr>
+			</thead>
+			<tr *ngFor="let product of jobIntake | filter: {supp: searchText, dat:searchText,Lot: searchText,batch: searchText,procs: searchText} | paginate: { itemsPerPage: 20, currentPage: p } ; let i = index">
+				<td>{{ i + 1 }}</td>
+				<td>{{ product.dat }}</td>
+				<td>{{ product.JIdate }}</td>
+				<td>{{ product.supp }}</td>
+				<td>{{ product.Lot }}</td>
+				<td>{{ product.batch }}</td>
+				<td>{{ product.tpcs }}</td>
+				<td>{{ product.tmtr }}</td>
+				<td>
+					<!-- <a [routerLink]="['../Intake', product.Id]"><button class="btn btn-primary " ><i class="fas fa-pencil-alt" aria-hidden="true"></i></button> </a>  -->
+					<button *ngIf="delete && !buttonState(product)" class="btn btn-danger"  (click)="deletedata(product.Id, i)" [disabled]="buttonState(product)" > <i class="fas fa-trash-alt" aria-hidden="true" ></i> </button>
+					<!-- <button class="btn btn-danger"> <i class="fas fa-print" aria-hidden="true" ></i> </button>		 -->
+				</td>
+			</tr>
+			
+	</table>
+	<pagination-controls (pageChange)="p = $event"></pagination-controls>
+</div>
+

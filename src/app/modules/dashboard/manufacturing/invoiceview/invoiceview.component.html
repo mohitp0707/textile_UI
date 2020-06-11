@@ -1,0 +1,75 @@
+<h3 class="page-header pt-4 pb-2 border-bottom text-center "><u>INVOICE VIEW</u> </h3>
+<p></p>
+
+<div class="content table-responsive table-full-width">
+	<table class="table table-bordered table-sm">
+		<thead class = "thead-light">
+			<tr>
+				<th>SR. NO.</th>
+				<th>DATE</th>
+				<th>PARTY</th>
+				<th>Invoice No</th>
+        <th>DC NO</th>
+        <th>TRANSPORTER</th>
+        <th>LR NO</th>
+				<th>TAX TYPE</th>
+        <th>PCS</th>
+				<th>MTR</th>
+				<th>TAX</th>
+        <th>AMOUNT</th>
+        <th>MANAGE</th>
+			</tr>
+			</thead>
+			<tr>
+					<td></td>
+					<td><input class="form-control" type="text" name="search1" [(ngModel)]="serdat"> </td>
+					<td><input class="form-control" type="text" name="search1" [(ngModel)]="sersupp"> </td>
+					<td><input class="form-control" type="text" name="search1" [(ngModel)]="serinvNo"> </td>
+					<td><input class="form-control" type="text" name="search1" [(ngModel)]="serdcNo"> </td>
+					<td><input class="form-control" type="text" name="search1" [(ngModel)]="sertrans"> </td>
+					<td><input class="form-control" type="text" name="search1" [(ngModel)]="serlrNo"> </td>
+					<td><input class="form-control" type="text" name="search1" [(ngModel)]="sertaxtyp"> </td>
+          <td><input class="form-control" type="text" name="search1" [(ngModel)]="sertpcs"> </td>
+          <td><input class="form-control" type="text" name="search1" [(ngModel)]="sermtr"> </td>
+          <td><input class="form-control" type="text" name="search1" [(ngModel)]="sertax"> </td>
+          <td><input class="form-control" type="text" name="search1" [(ngModel)]="seramt"> </td>
+          <td></td>
+				</tr>
+			<tr *ngFor="let product of invoiceview |filter: {invNo: serinvNo} |filter: {tpcs: sertpcs} |filter: {tax: sertax} |filter: {tmtr: sermtr} |filter: {amt: seramt} | filter: {lrNo: serlrNo} |filter: {SI_TaxTyp: sertaxtyp} | filter: {supp: sersupp} |filter: {dat: serdat} |filter: {dcNo: serdcNo}|filter: {trams: sertrans}| paginate: { itemsPerPage: 20, currentPage: p } ; let i = index">
+				<td>{{ i + 1 }}</td>
+        <td>{{ product.dat }} </td>
+				<td>{{ product.supp }} </td>
+				<td>{{ product.invNo }} </td>
+				<td>{{ product.dcNo }} </td>
+				<td>{{ product.trams }} </td>
+				<td >{{ product.lrNo }}</td>
+        <td>{{ product.SI_TaxTyp }}</td>
+				<td>{{product.tpcs}}</td>
+        <td>{{product.tmtr}}</td>
+        <td>{{ product.tax }}</td>
+        <td>{{ product.amt }}</td>
+        <td>
+					<a *ngIf="update"  [routerLink]="['../invoice', product.id]"><button class="btn btn-primary " ><i class="fas fa-pencil-alt" aria-hidden="true"></i></button> </a> 
+
+					<!-- <button  class="btn btn-danger"  (click)="deletedata(product.DSP_ID, i)" > <i class="fas fa-trash-alt" aria-hidden="true" ></i> </button> -->
+					 <a [routerLink]="['../../printing/invoice', product.id]"> <button class="btn btn-danger"> <i class="fas fa-print" aria-hidden="true" ></i> </button>	</a>	 
+				</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+        <td>TOTAL</td>
+				<td>{{ invoiceview |filter: {tpcs: sertpcs} |filter: {tax: sertax} |filter: {tmtr: sermtr} |filter: {amt: seramt} | filter: {lrNo: serlrNo} |filter: {SI_TaxTyp: sertaxtyp} | filter: {supp: sersupp} |filter: {dat: serdat} |filter: {dcNo: serdcNo}|filter: {trams: sertrans}| paginate: { itemsPerPage: 20, currentPage: p } | sumpipe:'tpcs' |  number: '0.2'}}</td>
+        <td>{{ invoiceview |filter: {tpcs: sertpcs} |filter: {tax: sertax} |filter: {tmtr: sermtr} |filter: {amt: seramt} | filter: {lrNo: serlrNo} |filter: {SI_TaxTyp: sertaxtyp} | filter: {supp: sersupp} |filter: {dat: serdat} |filter: {dcNo: serdcNo}|filter: {trams: sertrans}| paginate: { itemsPerPage: 20, currentPage: p } | sumpipe:'tmtr' |  number: '0.2' }}</td>
+        <td>{{ invoiceview |filter: {tpcs: sertpcs} |filter: {tax: sertax} |filter: {tmtr: sermtr} |filter: {amt: seramt} | filter: {lrNo: serlrNo} |filter: {SI_TaxTyp: sertaxtyp} | filter: {supp: sersupp} |filter: {dat: serdat} |filter: {dcNo: serdcNo}|filter: {trams: sertrans}| paginate: { itemsPerPage: 20, currentPage: p } | sumpipe:'tax'  |  number: '0.2' }}</td>
+				<td>{{ invoiceview |filter: {tpcs: sertpcs} |filter: {tax: sertax} |filter: {tmtr: sermtr} |filter: {amt: seramt} | filter: {lrNo: serlrNo} |filter: {SI_TaxTyp: sertaxtyp} | filter: {supp: sersupp} |filter: {dat: serdat} |filter: {dcNo: serdcNo}|filter: {trams: sertrans}| paginate: { itemsPerPage: 20, currentPage: p } | sumpipe:'amt'  |  number: '0.2' }}</td>
+        <td></td>
+      </tr>
+
+	</table>
+</div>

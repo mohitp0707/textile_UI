@@ -1,0 +1,52 @@
+<h3 class="page-header pt-4 pb-2 border-bottom ">Job Card Stock Report</h3>
+<div class="content table-responsive table-full-width">
+	<table id="dattab" class="table tablefixed table-bordered table-sm">
+		<thead class = "thead-light">
+			<tr>
+				<th>Sr. No.</th>
+        <th>Supplier Name</th>
+        <th>BATCH NO</th>
+        <th>QUALITY</th>
+        <th>Shade</th>
+        <th>TOTAL PCS</th>
+        <th>QTY(MTR)</th>
+        <!-- <th>WAREHOUSE</th>
+			 -->
+			</tr>
+			<tr>
+          <td></td>
+          <td><input class="form-control" type="text" name="search" [(ngModel)]="sersupp"> </td>
+          <td><input class="form-control" type="text" name="search1" [(ngModel)]="serBatch"> </td>
+          <td><input class="form-control" type="text" name="search1" [(ngModel)]="serQual"> </td>
+          <td><input class="form-control" type="text" name="search1" [(ngModel)]="sershade"> </td>
+          <td><input class="form-control" type="text" name="search1" [(ngModel)]="serTpc"> </td>
+          <td><input class="form-control" type="text" name="search1" [(ngModel)]="serQty"> </td>
+          <!-- <td><input class="form-control" type="text" name="search1" [(ngModel)]="serWare"> </td> -->
+        </tr>
+      </thead>
+      <tbody>
+			<tr *ngFor="let product of stockData | filter: {Supp: sersupp} | filter: {shade: sershade} | filter: {GR_Batch: serBatch} | filter: {GR_Quality: serQual} | filter: {Qty: serQty} | filter: {Tpcs: serTpc} | paginate: { itemsPerPage: 20, currentPage: p } ; let i = index">
+				<td>{{ i + 1 }}</td>
+				<td>{{ product.Supp }}</td>
+				<td>{{ product.GR_Batch }}</td>
+        <td>{{ product.GR_Quality }}</td>
+        <td>{{ product.shade }}</td>
+        <td>{{product.Tpcs | number:'0.2' }}</td>
+        <td>{{product.Qty | number:'0.2' }}</td>
+        <!-- <td>{{ product.Ware }}</td> -->
+       
+      </tr>
+      <tr>
+        <td></td><td></td><td></td>
+        <td>Total</td>
+        <td>{{Tpcs}}</td>
+        <td>{{TMeter}}</td>
+        <td></td>
+      </tr>
+    </tbody>
+	</table>
+	<pagination-controls *ngIf="stockData.length>0" (pageChange)="p = $event"></pagination-controls>
+</div>
+
+
+<button class="btn btn-info" *ngIf="stockData.length>0" (click)="export()">Export Pdf</button>

@@ -1,0 +1,93 @@
+<h2 class="page-header pt-4 pb-2 border-bottom">OTHER CHARGE</h2>
+<div class="container">
+  <form class="needs-validation" method="post" #addPartyForm="ngForm"  (ngSubmit)="submitForm(addPartyForm,proc)">
+    <div class="form-group row">
+        <div class="col-md-6">
+            <h5 class="page-header pt-4 pb-2 border-bottom">OTHER CHARGE NAME</h5>
+          <div class="row">
+            <div class="col-md-10">
+               <input id="name" name="Proc_name"   type="text"  class="form-control"    [(ngModel)]="proc.Proc_name" required>
+             </div>
+             <div class="col-md-2">
+                <button type="button" (click)="addprocname()" class="btn btn-info">+</button>
+             </div>
+        </div>
+          <table  class = "table mt-4">
+              <thead class = "thead-light">
+              <tr>
+                <th scope="col">Sr. No.</th>
+                <th scope="col">Particular Name</th>
+              </tr>
+          </thead>
+        <tr *ngFor="let item of nametab; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ item.Proc_name }}</td>
+            <td><i (click)="removprocname(i)" class = "fas fa-times"></i></td>
+        </tr>
+        </table>
+        <button *ngIf="datacount"  type="button" (click)="saveprocname()" class="btn btn-info mt-3">SAVE</button>
+
+        <h5 mt-4 class="page-header pt-4 pb-2 border-bottom">SAVE DATA</h5>
+        <table  class = "table">
+            <thead class = "thead-light">
+              <tr>
+                <th scope="col">Sr. No.</th>
+                <th scope="col">Particular Name</th>
+              </tr>
+            </thead>
+              <tr *ngFor="let item of retname; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td *ngIf="editable!=i">{{ item.name }}</td>
+                <td *ngIf="editable==i"><input type="text" class="form-control" name="name" [(ngModel)]="item.name"></td>
+                <td *ngIf="editable!=i"><i (click)="editprocname(i)" class = "fas fa-pencil-alt"></i></td>
+                <td *ngIf="editable==i"><i (click)="saveeditprocname(item)" class = "fas fa-save"></i></td>
+              </tr>
+        </table> 
+    </div>
+
+    <div class="col-md-6">
+      <h5 class="page-header pt-4 pb-2 border-bottom">PROCESS NAME</h5>
+    <div class="row">
+      <div class="col-md-10">
+         <input id="procname" name="Proc_procname"   type="text"  class="form-control"    [(ngModel)]="proc.procname" required>
+       </div>
+       <div class="col-md-2">
+          <button type="button" (click)="addinvprocpname()" class="btn btn-info">+</button>
+       </div>
+  </div>
+    <table  class = "table mt-4">
+        <thead class = "thead-light">
+        <tr>
+          <th scope="col">Sr. No.</th>
+          <th scope="col">Particular Name</th>
+        </tr>
+    </thead>
+  <tr *ngFor="let item of nametabproc; let i = index">
+      <td>{{ i + 1 }}</td>
+      <td>{{ item.procname }}</td>
+      <td><i (click)="removprocnameproc(i)" class = "fas fa-times"></i></td>
+  </tr>
+  </table>
+  <button *ngIf="datacountname"  type="button" (click)="saveprocnamename()" class="btn btn-info mt-3">SAVE</button>
+
+  <h5 mt-4 class="page-header pt-4 pb-2 border-bottom">SAVE DATA</h5>
+  <table  class = "table">
+      <thead class = "thead-light">
+        <tr>
+          <th scope="col">Sr. No.</th>
+          <th scope="col">Particular Name</th>
+        </tr>
+      </thead>
+        <tr *ngFor="let item of retnametab; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td *ngIf="editable2!=i">{{ item.name }}</td>
+          <td *ngIf="editable2==i"><input type="text" class="form-control" name="name" [(ngModel)]="item.name"></td>
+          <td *ngIf="editable2!=i"><i (click)="editprocname2(i)" class = "fas fa-pencil-alt"></i></td>
+          <td *ngIf="editable2==i"><i (click)="saveeditprocnamename(item)" class = "fas fa-save"></i></td>
+        </tr>
+  </table> 
+</div>
+    </div>
+    </form>
+    </div>
+    

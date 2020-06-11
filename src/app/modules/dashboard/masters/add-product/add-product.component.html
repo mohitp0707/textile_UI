@@ -1,0 +1,154 @@
+<h2 class="page-header pt-4 pb-2 border-bottom">Add Product</h2>
+	<ngb-alert type="success" *ngIf="ds.formSubmitted" (close)="ds.formSubmitted = false">
+		{{ ds.submittedMessage }}
+	</ngb-alert>	
+
+	<form  class="needs-validation" *ngIf="!ds.formSubmitted" #addProductForm="ngForm"  (ngSubmit)="save(addProductForm,addProduct,$event)" >
+		
+			<div class="form-group row">
+			
+				<label for="PCode" class="col-sm-2 col-form-label text-right">Product Code </label>
+				<div class="col-sm-2">
+			<input type="text" #pcode="ngModel"  id="PCode" name="IM_ID" class="form-control" pattern="[A-Za-z0-9\s]+" placeholder="Product Code" ngModel [(ngModel)]="addProduct.IM_ID" readonly/>			
+				</div>
+			
+				<label for="Prdouctname" class="col-sm-1 col-form-label text-right"> Name </label>
+				<div class="col-sm-6">
+					<input type="text" #name="ngModel"    id="IM_NM" name="productName" class="form-control " placeholder="Name"  [(ngModel)]="addProduct.IM_NM" [ngbTypeahead]="search"  required />
+					<small class="form-text text-muted">NAME-SIZE-CAPACITY-BRAND</small>
+						<!-- <b>{{name.className}}</b> //remove varriable ngModel -->
+					<div  class="col-sm-5" [hidden]="name.valid|| (name.pristine && name.untouched)" class="alert alert-danger">Please Enter name</div> 
+		
+				</div>
+				</div>
+			<div class="form-group row">
+				<label for="unit" class="col-sm-2 col-form-label text-right">Unit </label>
+				<div class="col-sm-4">
+					<input type="text" #unit="ngModel"  id="unit" name="IM_UM" class="form-control" [(ngModel)]="addProduct.IM_UM"  placeholder="Unit"  required />
+		
+					<div  class="col-sm-4" [hidden]="unit.valid || (unit.pristine && unit.untouched)" class="alert alert-danger">Please Enter Unit</div>
+					
+				</div>
+				<label for="status" class="col-sm-1 col-form-label text-right">Status </label>
+				<div class="col-sm-4">
+					<select id ="Staus" #cate="ngModel" name="Staus" class="form-control"  placeholder="Selct Staus"  [(ngModel)]="addProduct.IM_STATUS">
+						<option value="Active" selected>Active</option>
+						<option value="In-Active" >In-Active</option>
+					</select>
+					
+				</div>
+			</div>
+
+			<div class="form-group row">
+				<label for="category" class="col-sm-2 col-form-label text-right">Category </label>
+				<div class="col-sm-4">
+					
+					<select  class="custom-select form-control" [ngClass]="{'is-invalid' : cate.touched && cate.invalid, 'is-valid' : cate.touched && cate.valid }" id ="IM_CAT" name="IM_CAT" class="form-control" [(ngModel)]="addProduct.IM_CAT" #cate="ngModel"  (change)="getChild(addProduct.IM_CAT)"  required >
+							<option value="" selected>Select Category</option> 
+							<option [ngValue]="batch.CAT_NAME"  *ngFor="let batch of parentCat">{{batch.CAT_NAME}}</option>	
+						</select>
+					<div  class="col-sm-4"  *ngIf="cate.invalid && cate.touched" class="alert alert-danger">Please Choose</div>	
+				</div>
+
+				<label for="type" class="col-sm-1 col-form-label text-right">Type </label>
+				<div class="col-sm-4">
+				<select  class="custom-select form-control" [ngClass]="{'is-invalid' : type.touched && type.invalid, 'is-valid' : type.touched && type.valid }" id ="IM_TYP" name="IM_TYP" class="form-control" [(ngModel)]="addProduct.IM_TYP" #type="ngModel"  required >
+							<option [ngValue]="batch.CAT_NAME"  *ngFor="let batch of childCat">{{batch.CAT_NAME}}</option>	
+				</select>
+					<div  class="col-sm-5"  *ngIf="type.invalid && type.touched" class="alert alert-danger">Please Choose</div>	
+				</div>
+		
+				</div>
+
+		<div class="form-group row">
+			<!-- <label for="Brand"  class="col-sm-2 col-form-label text-right"> Brand </label>
+			<div class="col-sm-4">
+				<input type="text" #brand="ngModel"  id="Brand" name="IM_BRND" class="form-control" pattern="[A-Za-z0-9 .\s]+" placeholder="Brand"  [(ngModel)]="addProduct.IM_BRND"/>
+				<div  class="col-sm-5" [hidden]="brand.valid" class="alert alert-danger">Please Enter Alphanumerice Only</div>	
+			</div> -->
+
+				<label for="PType" class="col-sm-2 col-form-label text-right">Product Type </label>
+				<div class="col-sm-4">
+					<input type="text" #ptype="ngModel"  id="unit" name="IM_PRTYP" class="form-control" pattern="[A-Za-z\s]+" placeholder="Product Type"  [(ngModel)]="addProduct.IM_PRTYP"/>
+					<div  class="col-sm-4" [hidden]="ptype.valid" class="alert alert-danger">Please Enter Alphabhet Only</div>	
+				</div>
+
+				<label for="HSN"  class="col-sm-1 col-form-label text-right"> HSN </label>
+				<div class="col-sm-4">
+					<input type="text" #HSN="ngModel"  id="HSN" name="IM_HSN" class="form-control" pattern="[A-Za-z0-9\s]+" placeholder="HSN"  [(ngModel)]="addProduct.IM_HSN"/>
+					<div  class="col-sm-4" [hidden]="HSN.valid" class="alert alert-danger" >Please Enter Alphanumerice Only</div>			
+				</div>
+		</div>
+		<!-- <div class="form-group row">
+			
+				<label for="SHNAME" class="col-sm-1 col-form-label text-right">SHORT NAME </label>
+				<div class="col-sm-4">
+					<input type="text" #SNAME="ngModel"  id="SHNAME" name="IM_SHNM" class="form-control" pattern="[A-Za-z0-9 .\s]+" placeholder="Short Name"  [(ngModel)]="addProduct.IM_SHNM" />
+					<div  class="col-sm-5" [hidden]="SNAME.valid" class="alert alert-danger" >Please Enter Alphanumerice Only</div>		
+				</div>
+		</div>
+		
+		<div class="form-group row">
+			<label for="Size"  class="col-sm-2 col-form-label text-right"> Size </label>
+			<div class="col-sm-4">
+				<input type="text" #Size="ngModel"  id="Size" name="Size" class="form-control"  placeholder="Size"  [(ngModel)]="addProduct.Size"/>
+			</div>
+
+			<label for="Capacity" class="col-sm-1 col-form-label text-right">Capacity </label>
+				<div class="col-sm-4">
+			<input type="text" #Capacity="ngModel"  id="Capacity" name="Capacity" class="form-control"  placeholder="Capacity"  [(ngModel)]="addProduct.Capacity"/>		
+					</div>
+		</div>
+				 -->
+				
+			<div class="form-group row"> 
+			<label for="TaxName" class="col-sm-2 col-form-label text-right">Tax Name</label>
+				<div class="col-sm-4">
+			
+			<select id ="TaxName" name="IM_TAX" #taxName="ngModel" class="form-control"  [(ngModel)]="addProduct.IM_TAX" required>
+				<option value="" selected>Select Category</option> 
+				<option [ngValue]="taxName.TAX_ID" *ngFor="let taxName of taxDetails">{{taxName.TAX_Name}}</option> 	
+			</select>
+			</div>
+			<div class="col-sm-2">
+				<input type="radio" name="IM_TAXTYP" id="include" [(ngModel)]="addProduct.IM_TAXTYP" value="include"><label for="include">Tax Include</label><br>
+				</div>
+				<div class="col-sm-2">
+				<input type="radio" id="exclude" name="IM_TAXTYP" [(ngModel)]="addProduct.IM_TAXTYP" value="exclude"><label for="exclude">Tax Exclude</label><br>
+			</div>
+			
+	
+			</div>
+			<div class="form-group row">
+				<label for="unit" class="col-sm-2 col-form-label text-right">Min Stock </label>
+				<div class="col-sm-4">
+					<input type="number" #unit="ngModel"  id="IM_MINSTK" name="IM_MINSTK" class="form-control" [(ngModel)]="addProduct.IM_MINSTK"  placeholder="MINIUM STOCK"  required />			
+				</div>
+			</div>
+			
+			<div class="form-group row">
+				
+		<label for="description" class="col-md-2 text-right">Description</label>
+		<div class="col-sm-9">
+    <textarea class="form-control" name="IM_DESC" id="description" rows="3" [(ngModel)]="addProduct.IM_DESC" ></textarea>
+			</div>
+		</div>
+			
+
+		<div class="form-group row">
+		<div class="col-md-2">
+		</div>
+		<div class="col-md-9">
+			<button [disabled]="!savedisable" class="btn btn-success ml-auto mr-auto">Save</button>
+			<span *ngIf="!savedisable">Submitting...</span>
+			<!-- </div> -->
+			<button *ngIf="!retrieve" type="reset" class="btn btn-primary" (click)="getId()">Clear</button>
+		</div>
+		</div>
+
+
+		
+		</form>
+		
+		
+		

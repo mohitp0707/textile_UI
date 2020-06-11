@@ -1,0 +1,36 @@
+<h3 class="page-header pt-4 pb-2 border-bottom ">Stock Out List</h3>
+<p></p>
+<div class="row">
+	<div class="col-md-2">Search</div>
+	<div class="col-md-10">
+	<input class="form-control" type="text" name="search" [(ngModel)]="searchText">
+	<p><p>
+ </div>
+</div>
+<div class="content table-responsive table-full-width">
+	<table class="table table-bordered table-sm">
+		<thead class = "thead-light">
+			<tr>
+				<th>Sr. No.</th>
+				<th>Date</th>
+				<th>Employee</th>
+				<th>Godown</th>
+				<th>Manage</th>
+			</tr>
+			</thead>
+			<tr *ngFor="let product of stockOut | paginate: { itemsPerPage: 10, currentPage: p } | filter: {dat: searchText, godown:searchText,emp: searchText} ; let i = index">
+				<td>{{ i + 1 }}</td>
+				<td>{{ product.dat }}</td>
+				<td>{{ product.godown }}</td>
+				<td>{{ product.emp }}</td>
+				<td>
+					<a [routerLink]="['../stockout', product.id]"><button class="btn btn-primary " ><i class="fas fa-pencil-alt" aria-hidden="true"></i></button> </a> 
+						
+					<button class="btn btn-danger" (click)="deletedata(product.id, i)" > <i class="fas fa-trash-alt" aria-hidden="true" ></i> </button>
+					<button class="btn btn-danger"> <i class="fas fa-print" aria-hidden="true" ></i> </button>		
+				</td>
+			</tr>
+	</table>
+	<pagination-controls (pageChange)="p = $event"></pagination-controls>
+</div>
+

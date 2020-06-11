@@ -1,0 +1,28 @@
+<h2 class="page-header pt-4 pb-2 border-bottom">List of notices</h2>
+<table class="table table-bordered mt-4">
+	<thead class = "thead-dark">
+		<tr>
+			<th>Sr. No.</th>
+			<th>Title</th>
+			<th>Category</th>
+			<th>Description</th>
+			<th>Publish Date</th>
+			<th>Manage</th>			
+		</tr>
+		
+		<tr *ngFor = "let notice of noticeList ; let i=index">
+			<td>{{ i + 1}}</td>
+			<td>{{ notice.title }}</td>
+			<td>{{ notice.category }}</td>
+			<td>{{ notice.description }}</td>
+			<td>{{ notice.publishDate }}</td>
+			
+			<td>
+					<a [routerLink]="['../add-notice', notice.id]"><button class="btn btn-primary" ><i class="fas fa-pencil-alt" aria-hidden="true"></i></button> </a> 
+						
+					<button class="btn btn-danger" (click)="deletedata(notice)"> <i class="fas fa-trash-alt" aria-hidden="true" ></i> </button>
+							
+				</td>
+		</tr>
+	</thead>
+</table>

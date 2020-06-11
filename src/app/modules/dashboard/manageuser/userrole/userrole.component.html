@@ -1,0 +1,55 @@
+<h2 class="page-header pt-4 pb-2 border-bottom">User Role Assign</h2>
+<!-- <div *ngIf="invalidForm" class="alert alert-danger" role="alert">
+  Please fill out all fields.
+</div> -->
+<div  class="border p-2 pt-4">
+  <form class="needs-validation" method="post" #addUserForm="ngForm"  (ngSubmit)="submitForm(addUserForm,user)">
+    <div class="form-group row">
+      <label for="confirmPassword" class="col-sm-2 col-form-label text-right">USR Name </label>
+      <div class="col-sm-4">
+        <select class="custom-select form-control" id ="usr" name="usr" class="form-control"  [(ngModel)]="user.emp" #dspby="ngModel" (change)="getuserRole(user)"  >
+        <option [ngValue]="emp.USR_Name"  *ngFor="let emp of userName">{{emp.USR_Name}}</option>		
+        </select>
+      </div>
+
+      <label for="confirmPassword" class="col-sm-2 col-form-label text-right">FORM GROUP </label>
+      <div class="col-sm-4">
+        <select class="custom-select form-control" id ="usr" name="usr" class="form-control"  [(ngModel)]="user.frm" #dspby="ngModel" (change)="getuserRole(user)"  >
+        <option [ngValue]="frm.USR_TYPE"  *ngFor="let frm of frmGroup">{{frm.USR_TYPE}}</option>		
+        </select>
+      </div>
+    </div>
+
+    <table class = "table">
+            <thead class = "thead-light">
+              <tr>
+                <th scope="col">Sr. No.</th>
+                <th scope="col">FORM NAME</th>
+                <th scope="col">TYPE</th>
+                <th scope="col">SAVE</th>
+                <th scope="col">VIEW</th>
+                <th scope="col">DELETE</th>
+                </tr>
+            </thead>
+            <!-- <tr *ngIf="sershow">
+              <td></td>
+                <td><input class="form-control" type="text" name="search1" [(ngModel)]="serfrm" ></td>
+                <td><input class="form-control" type="text" name="search1" [(ngModel)]="sertyp" ></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr> -->
+            <tbody>
+              <tr *ngFor="let item of userRoles  ; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ item.name }}</td>
+                <td>{{ item.typ }}</td>
+                <td><input type="checkbox" name="JCP" value="1" [checked]="item.saver" (click)="checks(i,$event)" ></td>
+                <td><input type="checkbox" name="JCP" value="1" [checked]="item.viewr" (click)="checkv(i,$event)" ></td>
+                  <td><input type="checkbox" name="JCP" value="1" [checked]="item.delr" (click)="checkd(i,$event)"></td>
+                </tr>
+ 
+            </table>
+            <button class="btn btn-primary mt-3">SAVE</button>
+    </form>
+  </div>

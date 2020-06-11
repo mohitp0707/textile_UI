@@ -1,0 +1,148 @@
+<h3 class="page-header pt-4 pb-2 border-bottom text-center "><u>Track Report</u> </h3>
+<p></p>
+
+<div class="content table-responsive table-full-width">
+	<table id="dattab" class="table tablefixed table-bordered table-sm">
+		<thead class = "thead-light">
+			<tr>
+				<th>SR. NO.</th>
+				<th>PARTY</th>
+				<th>CHALLAN</th>
+				<th>LOT NO</th>
+				<th>RECEIVE PCS</th>
+				<th>RECEIVE MTR</th>
+				<th>GREY CHECK</th>
+        		<th>BATCH</th>
+				<!-- <th>JOB CARD</th> -->
+				<th>JOB INTAKE</th>
+				<th>JOBCARD PCS</th>
+				<th>JOBCARD MTR</th>
+				<th>PROCESS</th>
+        		<th>PACKING</th>
+				<th>DISPATCH</th>
+				<th>INVOICE</th>
+			</tr>
+			<tr>
+					<td></td>
+					<td><input class="form-control" type="text" name="search1" [(ngModel)]="sersupp"> </td>
+					<td><input class="form-control" type="text" name="search1" [(ngModel)]="serchl"> </td>
+					<td><input class="form-control" type="text" name="search1" [(ngModel)]="serlot"> </td>
+					<td><input class="form-control" type="text" name="search1" [(ngModel)]="sergpcs"> </td>
+					<td><input class="form-control" type="text" name="search1" [(ngModel)]="sergmtr"> </td>
+					<td><input class="form-control" type="text" name="search1" [(ngModel)]="serchk"> </td>
+					<td><input class="form-control" type="text" name="search1" [(ngModel)]="serbatc"> </td>
+					<!-- <td><input class="form-control" type="text" name="search1" [(ngModel)]="serjob"> </td> -->
+					<td><input class="form-control" type="text" name="search1" [(ngModel)]="serInt"> </td>
+
+					<td><input class="form-control" type="text" name="search1" [(ngModel)]="serjpcs"> </td>
+					<td><input class="form-control" type="text" name="search1" [(ngModel)]="serjmtr"> </td>
+
+          			<td><input class="form-control" type="text" name="search1" [(ngModel)]="serProc"> </td>
+         			 <td><input class="form-control" type="text" name="search1" [(ngModel)]="serpack"> </td>
+					<td><input class="form-control" type="text" name="search1" [(ngModel)]="serdisp"> </td>
+					<td><input class="form-control" type="text" name="search1" [(ngModel)]="serInv"> </td>
+				</tr>
+			</thead>
+			<tbody>
+			<tr *ngFor="let product of trackdata |filter: {jtpcs: serjpcs} |filter: {jmtr: serjmtr} |filter: {mtr: sergmtr} |filter: {tpcs: sergpcs} |filter: {party: sersupp} |filter: {GR_ChallNo: serchl} |filter: {invoice: serInv}|filter: {lotNo: serlot}|filter: {GRCHK: serchk}   | filter: {GR_Batch: serbatc}  |  filter: {Intake: serInt} | filter: {process: serProc} | filter: {packing: serpack} | filter: {dispatch: serdisp} | paginate: { itemsPerPage: 20, currentPage: p } ; let i = index">
+				<td>{{ i + 1 }}</td>
+				<td>{{ product.party }} </td>
+				<td>{{ product.GR_ChallNo }} </td>
+				<td>{{ product.lotNo }} </td>
+				<td>{{ product.tpcs | number:'0.2' }} </td>
+				<td>{{ product.mtr | number:'0.2' }} </td>
+				<td class="{{product.GRCHK == 'Done' ? 'Check' : 'Uncheck'}}">{{ product.GRCHK }}</td>
+        		<td>{{ product.GR_Batch }}</td>
+				<!-- <td class="{{product.Jobcard == 'Done' ? 'Check' : 'Uncheck'}}">{{ product.Jobcard }}</td> -->
+				<td class="{{product.Intake == 'Done' ? 'Check' : 'Uncheck'}}">{{product.Intake}}</td>
+				<td>{{ product.jtpcs }} </td>
+				<td>{{ product.jmtr }} </td>
+        		<td style="cursor: pointer" (dblclick)="clickproc(product)" class="{{product.process == 'Done' ? 'Check' : 'Uncheck'}}">{{product.process}}</td>
+        		<td class="{{product.packing == 'Done' ? 'Check' : 'Uncheck'}}">{{ product.packing }}</td>
+				<td style="cursor: pointer" (dblclick)="clickdisp(product)" class="{{product.dispatch == 'Done' ? 'Check' : 'Uncheck'}}">{{ product.dispatch }}</td>
+				<td style="cursor: pointer" (dblclick)="clickinv(product)" class="{{product.invoice == 'Done' ? 'Check' : 'Uncheck'}}">{{ product.invoice }}</td>
+        
+      </tr>
+	</tbody>
+	</table>
+</div>
+<button *ngIf="trackdata.length>0" class="btn btn-info" (click)="export()">Export Pdf</button>
+
+<div class="row mt-4">
+	<div class="col-md-6">
+
+	</div>
+	<div class="col-md-6">
+			<pagination-controls *ngIf="trackdata.length>0" (pageChange)="p = $event"></pagination-controls>
+	</div>
+</div>
+
+<div *ngIf="dispatchtabl" class="content table-responsive table-full-width mt-4">
+	<table id="dattab" class="table table-bordered table-sm">
+		<thead class = "thead-light">
+			<tr>
+				<th>SR.No.</th>
+				<th>PARTY</th>
+				<th>DATE</th>
+				<th>DC NO.</th>
+				<th>PACKING ID</th>
+				<th>TRANSPORTER</th>
+				<th>VEHICLE NO</th>
+				<th>PCS</th>
+				<th>MTR</th>
+			</tr>
+			</thead>
+			<tr  *ngFor="let product of disptabl ; let i = index">
+				<td>{{ i + 1 }}</td>
+				<td>{{ product.supp }}</td>
+				<td>{{ product.dat }}</td>
+				<td>{{ product.dcNo }}</td>
+				<td>{{ product.dsp_packid }}</td>
+				<td>{{ product.trans }}</td>
+				<td>{{ product.vehicleno }}</td>
+				<td>{{ product.tpcs | number:'0.2' }}</td>
+				<td>{{ product.tmtr | number:'0.2' }}</td>
+			</tr>
+		</table>
+</div>
+
+<div *ngIf="invoicetabl" class="content table-responsive table-full-width mt-4">
+	<table id="dattab" class="table table-bordered table-sm">
+		<thead class = "thead-light">
+			<tr>
+				<th>SR.No.</th>
+				<th>Bill NO</th>
+				<th>DATE</th>
+				<th>TRNASPORT</th>
+				<th>LR NO</th>
+				<th>TAX</th>
+				<th>AMOUNT</th>
+			</tr>
+			</thead>
+			<tr  *ngFor="let product of invtabl   let i = index">
+				<td>{{ i + 1 }}</td>
+				<td>{{ product.invNo }}</td>
+				<td>{{ product.dat }}</td>
+				<td>{{ product.trans }}</td>
+				<td>{{ product.lrNo }}</td>
+				<td>{{ product.tax  }}</td>
+				<td>{{ product.amt | number:'0.2' }}</td>
+			</tr>
+		</table>
+</div>
+<div *ngIf="proctabl" class="content table-responsive table-full-width mt-4">
+	<table id="dattab" class="table table-bordered table-sm">
+		<thead class = "thead-light">
+			<tr>
+				<th>SR.No.</th>
+				<th>ALL PROCESS</th>
+				<th>DONE PROCESS</th>
+			</tr>
+			</thead>
+			<tr  *ngFor="let product of proctable   ; let i = index">
+				<td>{{ i + 1 }}</td>
+				<td>{{ product.totprco }}</td>
+				<td>{{ product.donproc }}</td>
+			</tr>
+		</table>
+</div>

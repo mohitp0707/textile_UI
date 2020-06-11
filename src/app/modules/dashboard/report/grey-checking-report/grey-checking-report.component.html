@@ -1,0 +1,118 @@
+<h3 class="page-header pt-4 pb-2 border-bottom ">Grey Checking List</h3>
+<p></p>
+
+
+<div class="row">
+	<div class = "col-sm-1 input-group">
+		<label for="GR_Date" class="col-form-label text-right">From </label>
+		</div>
+		<div class = "col-sm-3 input-group">
+			<input class="form-control" type="date" id="GR_Fdat" name="GR_Fdat"  [(ngModel)]="invoice.GR_Fdat" ngbDatepicker #d="ngbDatepicker" required />
+			<div class="input-group-append">
+				<button class="btn btn-outline-secondary" (click)="d.toggle()" type="button"><i class = "fas fa-calendar-alt"></i></button>
+			</div>
+	</div>
+
+	<div class = "col-sm-1 input-group">
+		<label for="GR_Date" class="col-form-label text-right">TO </label>
+		</div>
+		<div class = "col-sm-3 input-group">
+			<input class="form-control" type="date" id="GR_Tdat" name="GR_Tdat"  [(ngModel)]="invoice.GR_Tdat"  ngbDatepicker #d1="ngbDatepicker" required />
+			<div class="input-group-append">
+				<button class="btn btn-outline-secondary" (click)="d1.toggle()" type="button"><i class = "fas fa-calendar-alt"></i></button>
+			</div>
+	</div>
+	<div class="col-sm-3"><button class="btn btn-info" (click)="getdata(invoice)">Show</button> </div>
+</div>
+
+
+<div class="content table-responsive table-full-width mt-4">
+	<table id="dattab" class="table tablefixed table-bordered table-sm">
+		<thead class = "thead-light">
+			<tr>
+				<th>SR.No.</th>
+				<th>DATE</th>
+				<th  style="width: 200px;">PARTY</th>
+				<th>BATCH</th>
+				<th style="width: 100px;">RECEIVE PCS</th>
+				<th>CHALLAN MTR</th>
+				<th>RECEUVE MTR</th>
+				<th>DIFF(MTR)</th>
+				<th>PROCESS</th>
+			</tr>
+      <tr>
+		  <td></td>
+		  <td><input class="form-control" type="text" name="search1" [(ngModel)]="setDat" (input)="chanDat(setDat)"> </td>
+          <td  style="width: 200px;"><input class="form-control" type="text" name="search1" [(ngModel)]="sersupp"> </td>
+          <td><input class="form-control" type="text" name="search1" [(ngModel)]="serBatch"> </td>
+          <td style="width: 100px;"><input class="form-control" type="text" name="search1" [(ngModel)]="serPcs"> </td>
+          <td><input class="form-control" type="text" name="search1" [(ngModel)]="serMtr"> </td>
+          <td><input class="form-control" type="text" name="search1" [(ngModel)]="serRmt"> </td>
+		  <td><input class="form-control" type="text" name="search1" [(ngModel)]="serDmtr"> </td>
+		  <td><input class="form-control" type="text" name="search1" [(ngModel)]="setProc"> </td>
+		</tr>
+	</thead>
+	<tbody>
+			<tr *ngFor="let product of greyChecking  | filter: {Supp: sersupp}| filter: {GR_Process: setProc} | filter: {Dat: setDat} |filter: {GRCHK_Batch: serBatch} | filter: {RPCS: serPcs} | filter: {Tmeter: serMtr} | filter: {Rmtr: serRmt} | filter: {Dmtr: serDmtr} | paginate: { itemsPerPage: 20, currentPage: p } ; let i = index">
+				<td>{{ i + 1 }}</td>
+				<td>{{ product.Dat }}</td>
+				<td  style="width: 200px;">{{ product.Supp }}</td>
+				<td>{{ product.GRCHK_Batch }}</td>
+				<td style="width: 100px;">{{ product.RPCS | number:'0.2' }}</td>
+				<td>{{ product.Tmeter | number:'0.2' }}</td>
+				<td>{{ product.Rmtr | number:'0.2' }}</td>
+				<td>{{ product.Dmtr | number:'0.2' }}</td>
+				<td>{{ product.GR_Process }}</td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td><span style="font-weight: bold">Total</span></td>
+				<td><span style="font-weight: bold">{{ greyChecking  | filter: {Supp: sersupp}  | filter: {GRCHK_Batch: serBatch} | filter: {RPCS: serPcs} | filter: {Tmeter: serMtr} | filter: {Rmtr: serRmt} | filter: {Dmtr: serDmtr} | paginate: { itemsPerPage: 10, currentPage: p } | sumpipe:'RPCS' | number:'0.2'}}</span></td>
+				<td><span style="font-weight: bold">{{ greyChecking  | filter: {Supp: sersupp}  | filter: {GRCHK_Batch: serBatch} | filter: {RPCS: serPcs} | filter: {Tmeter: serMtr} | filter: {Rmtr: serRmt} | filter: {Dmtr: serDmtr} | paginate: { itemsPerPage: 10, currentPage: p } | sumpipe:'Tmeter' | number:'0.2'}}</span></td>
+				<td><span style="font-weight: bold">{{ greyChecking  | filter: {Supp: sersupp}  | filter: {GRCHK_Batch: serBatch} | filter: {RPCS: serPcs} | filter: {Tmeter: serMtr} | filter: {Rmtr: serRmt} | filter: {Dmtr: serDmtr} | paginate: { itemsPerPage: 10, currentPage: p } | sumpipe:'Rmtr' | number:'0.2'}}</span></td>
+				<td><span style="font-weight: bold">{{ greyChecking  | filter: {Supp: sersupp}  | filter: {GRCHK_Batch: serBatch} | filter: {RPCS: serPcs} | filter: {Tmeter: serMtr} | filter: {Rmtr: serRmt} | filter: {Dmtr: serDmtr} | paginate: { itemsPerPage: 10, currentPage: p } | sumpipe:'Dmtr' | number:'0.2'}}</span></td>
+			</tr>
+			<tr class="blank_row">  <td colspan="9"></td></tr>
+			<tr>
+				<td><span style="font-weight: bold">Total</span></td>
+				<td><span style="font-weight: bold">PD(PCS)</span></td>
+				<td><span style="font-weight: bold">PD(MTR)</span></td>
+				<td><span style="font-weight: bold">TD(PCS)</span></td>
+				<td><span style="font-weight: bold">TD(MTR)</span></td>
+				<td><span style="font-weight: bold">RF(PCS)</span></td>	
+				<td><span style="font-weight: bold">RF(MTR)</span></td>
+				<td><span style="font-weight: bold;color:red">TOTAL(PCS)</span></td>
+				<td><span style="font-weight: bold;color:red">TOTAL(MTR)</span></td>
+			</tr>
+			<tr>
+					<td><span style="font-weight: bold"> TO DAY</span></td>
+					<td><span style="font-weight: bold">{{ greyChecking | filter: {Supp: sersupp} | filter: {Dat: today}  | filter: {GRCHK_Batch: serBatch} | filter: {RPCS: serPcs} | filter: {Tmeter: serMtr} | filter: {Rmtr: serRmt} | filter: {Dmtr: serDmtr} | filter: {GR_Process:'PD' }   | sumpipe:'RPCS' | number:'0.2' }}</span></td>
+					<td><span style="font-weight: bold">{{ greyChecking | filter: {Supp: sersupp} | filter: {Dat: today}  | filter: {GRCHK_Batch: serBatch} | filter: {RPCS: serPcs} | filter: {Tmeter: serMtr} | filter: {Rmtr: serRmt} | filter: {Dmtr: serDmtr} | filter: {GR_Process:'PD' }   | sumpipe:'Rmtr' | number:'0.2' }}</span></td>
+					<td><span style="font-weight: bold">{{ greyChecking | filter: {Supp: sersupp} | filter: {Dat: today}  | filter: {GRCHK_Batch: serBatch} | filter: {RPCS: serPcs} | filter: {Tmeter: serMtr} | filter: {Rmtr: serRmt} | filter: {Dmtr: serDmtr} | filter: {GR_Process:'TD' }   | sumpipe:'RPCS' | number:'0.2' }}</span></td>
+					<td><span style="font-weight: bold">{{ greyChecking | filter: {Supp: sersupp} | filter: {Dat: today}  | filter: {GRCHK_Batch: serBatch} | filter: {RPCS: serPcs} | filter: {Tmeter: serMtr} | filter: {Rmtr: serRmt} | filter: {Dmtr: serDmtr} | filter: {GR_Process:'TD' }   | sumpipe:'Rmtr' | number:'0.2' }}</span></td>
+					<td><span style="font-weight: bold">{{ greyChecking | filter: {Supp: sersupp} | filter: {Dat: today}  | filter: {GRCHK_Batch: serBatch} | filter: {RPCS: serPcs} | filter: {Tmeter: serMtr} | filter: {Rmtr: serRmt} | filter: {Dmtr: serDmtr} | filter: {GR_Process:'RF' }   | sumpipe:'RPCS' | number:'0.2' }}</span></td>
+					<td><span style="font-weight: bold">{{ greyChecking | filter: {Supp: sersupp} | filter: {Dat: today}  | filter: {GRCHK_Batch: serBatch} | filter: {RPCS: serPcs} | filter: {Tmeter: serMtr} | filter: {Rmtr: serRmt} | filter: {Dmtr: serDmtr} | filter: {GR_Process:'RF' }   | sumpipe:'Rmtr' | number:'0.2' }}</span></td>
+					<td><span style="font-weight: bold;color:red">{{ greyChecking | filter: {Supp: sersupp} | filter: {Dat: today}  | filter: {GRCHK_Batch: serBatch} | filter: {RPCS: serPcs} | filter: {Tmeter: serMtr} | filter: {Rmtr: serRmt} | filter: {Dmtr: serDmtr}  | sumpipe:'RPCS' | number:'0.2' }}</span></td>
+					<td><span style="font-weight: bold;color:red">{{ greyChecking | filter: {Supp: sersupp} | filter: {Dat: today}  | filter: {GRCHK_Batch: serBatch} | filter: {RPCS: serPcs} | filter: {Tmeter: serMtr} | filter: {Rmtr: serRmt} | filter: {Dmtr: serDmtr}  | sumpipe:'Rmtr' | number:'0.2' }}</span></td>
+			</tr>
+			<tr>
+					
+					<td><span style="font-weight: bold">UP TO DATE</span></td>
+					<td><span style="font-weight: bold">{{ greyChecking  | filter: {Supp: sersupp} |  filter: {GRCHK_Batch: serBatch} | filter: {RPCS: serPcs} | filter: {Tmeter: serMtr} | filter: {Rmtr: serRmt} | filter: {Dmtr: serDmtr} | filter: {GR_Process:'PD' }   | sumpipe:'RPCS' | number:'0.2' }}</span></td>
+					<td><span style="font-weight: bold">{{ greyChecking   | filter: {Supp: sersupp} |  filter: {GRCHK_Batch: serBatch} | filter: {RPCS: serPcs} | filter: {Tmeter: serMtr} | filter: {Rmtr: serRmt} | filter: {Dmtr: serDmtr} | filter: {GR_Process:'PD' }   | sumpipe:'Rmtr' | number:'0.2' }}</span></td>
+					<td><span style="font-weight: bold">{{ greyChecking   | filter: {Supp: sersupp} |  filter: {GRCHK_Batch: serBatch} | filter: {RPCS: serPcs} | filter: {Tmeter: serMtr} | filter: {Rmtr: serRmt} | filter: {Dmtr: serDmtr} | filter: {GR_Process:'TD' }   | sumpipe:'RPCS' | number:'0.2' }}</span></td>
+					<td><span style="font-weight: bold">{{ greyChecking  | filter: {Supp: sersupp} |  filter: {GRCHK_Batch: serBatch} | filter: {RPCS: serPcs} | filter: {Tmeter: serMtr} | filter: {Rmtr: serRmt} | filter: {Dmtr: serDmtr} | filter: {GR_Process:'TD' }   | sumpipe:'Rmtr' | number:'0.2' }}</span></td>
+					<td><span style="font-weight: bold">{{ greyChecking   | filter: {Supp: sersupp} |  filter: {GRCHK_Batch: serBatch} | filter: {RPCS: serPcs} | filter: {Tmeter: serMtr} | filter: {Rmtr: serRmt} | filter: {Dmtr: serDmtr} | filter: {GR_Process:'RF' }   | sumpipe:'RPCS' | number:'0.2' }}</span></td>
+					<td><span style="font-weight: bold">{{ greyChecking   | filter: {Supp: sersupp} |  filter: {GRCHK_Batch: serBatch} | filter: {RPCS: serPcs} | filter: {Tmeter: serMtr} | filter: {Rmtr: serRmt} | filter: {Dmtr: serDmtr} | filter: {GR_Process:'RF' }   | sumpipe:'Rmtr' | number:'0.2' }}</span></td>
+					<td><span style="font-weight: bold">{{ greyChecking   | filter: {Supp: sersupp} |  filter: {GRCHK_Batch: serBatch} | filter: {RPCS: serPcs} | filter: {Tmeter: serMtr} | filter: {Rmtr: serRmt} | filter: {Dmtr: serDmtr}  | sumpipe:'RPCS' | number:'0.2' }}</span></td>
+					<td><span style="font-weight: bold">{{ greyChecking   | filter: {Supp: sersupp} |  filter: {GRCHK_Batch: serBatch} | filter: {RPCS: serPcs} | filter: {Tmeter: serMtr} | filter: {Rmtr: serRmt} | filter: {Dmtr: serDmtr}  | sumpipe:'Rmtr' | number:'0.2' }}</span></td>
+
+			</tr>
+		</tbody>
+	</table>
+	<pagination-controls *ngIf="greyChecking.length>0" (pageChange)="p = $event"></pagination-controls>
+</div>
+
+<button *ngIf="greyChecking.length>0" class="btn btn-info" (click)="export()">Export Pdf</button>

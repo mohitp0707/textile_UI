@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<head>
+	<title>Design</title>
+
+	<style>
+
+		header {
+			position: relative;
+			width: 700px;
+			height: 150px;
+			margin: auto;
+		}
+		body{
+			width:700px;
+		}
+
+
+		header #first{
+			position: absolute;
+			left: 0px;
+			z-index: 1;
+		}
+		 header #second{
+			position: absolute;
+			left: 260px;
+			z-index: 2;
+		}
+
+
+		footer {
+			position: relative;
+			width: 700px;
+			height: 150px;
+			margin: auto;
+		}
+		footer #first{
+			position: absolute;
+			left: 0px;
+			bottom: 0px;
+			z-index: 2;
+			padding-top: 0px;
+		}
+		footer #second{
+			position: absolute;
+			left: 218px;
+			bottom: 0px;
+			z-index: 3;
+		}
+		footer #third{
+			position: absolute;
+			left: 300px;
+			bottom: 0px;
+			z-index: 1;
+		}
+		h3{
+			text-align: center;
+		}
+		.box{
+			border:1px solid black;
+			background-color: tomato;
+			color:white;
+			font-style: italic;
+			margin-bottom: 5px;
+			margin: 0px 30px 10px 30px;
+			font-weight: bold;
+
+		}
+
+.icon-bar {
+  position: fixed;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+  
+   width:200px;
+
+}
+
+
+.icon-bar a {
+  display: block;
+  
+  text-align: right;
+  padding: 10px;
+  margin:10px 0px 10px 0px ;
+  transition: all 0.3s ease;
+  color: white;
+  font-size: 20px;
+     border-radius: 0px 25px 25px 0px;
+}
+
+.icon-bar a:hover {
+  background-color: #000;
+}
+
+.facebook {
+  background: #3B5998;
+  color: white;
+}
+
+.twitter {
+  background: #55ACEE;
+  color: white;
+}
+
+.google {
+  background: #dd4b39;
+  color: white;
+}
+
+.linkedin {
+  background: #007bb5;
+  color: white;
+}
+
+.youtube {
+  background: #bb0000;
+  color: white;
+}
+
+.content {
+  margin-left: 75px;
+  font-size: 30px;
+}
+	</style>
+</head>
+<body>
+
+	<header>
+		<svg id="first" style="width: 100%; height: 150px;">
+			<polygon points="0,0, 0,40, 260,150 260,150 520,0" style="fill:rgb(255,0,0);stroke:purple;stroke-width:1" />
+		</svg>
+		<svg id="second" style="width: 100%; height: 150px;">
+			<polygon points="150,0, 0,150, 0,150, 66,90, 440,0" style="fill:rgb(0,0,255);stroke:black;stroke-width:2;" />
+		</svg>
+	</header>
+	<body>
+	<h3>LINKSYS ESERIES MULTIPLE OS COMMAND <br>INJECTION VULNERABILITIES</h3>
+
+	<div class="icon-bar">
+		<a href="#" class="facebook"><i class="fa fa-facebook"></i></a> 
+		<a href="#" class="twitter"><i class="fa fa-twitter"></i></a> 
+		<a href="#" class="google"><i class="fa fa-google"></i></a> 
+		<a href="#" class="linkedin"><i class="fa fa-linkedin"></i></a>
+	  </div>
+		  
+		  <p>e</p>
+		  <p>e</p>
+		  <p>e</p>
+		  <p>e</p>
+		  <p>e</p>
+		  <p>e</p>
+
+
+	<div class="box">
+		Multiple exploitable operating system command injections exist in the Linksys E-Series line of routers. Specially crafted entries to network configuration information can cause execution of arbitrary system commands, resulting in full control of the device. An attacker can send an authenticated HTTP request to trigger this vulnerability. When the apply.cgi page is requested with parameters indicating a change to persistent configuration settings, those parameters are processed by the 'get_cgi' function call during which they get placed directly into NVRAM via a 'set_nvram' call.
+	</div>
+</body>
+	<footer>
+		<svg id="first" style="width: 100%; height: 150px;">
+			<polygon points=" 0,150, 0,100, 220,0 220,0 440,150" style="fill:rgb(255,0,0);stroke:purple;stroke-width:1" />
+		</svg>
+		<svg id="second" style="width: 100%; height: 150px;">
+			<polygon points="110,150, 0,0 42,60 300,120 230,50 330,150" style="fill:rgb(0,0,255);stroke:black;stroke-width:2;" />
+		</svg>
+		<svg id="third" style="width: 100%; height: 100px;">
+			<polygon points=" 0,100, 0,100, 150,0 150,0 400,70 400,100" style="fill:rgb(255,0,0);stroke:purple;stroke-width:1" />
+		</svg>
+	</footer>
+</body>
+</html>

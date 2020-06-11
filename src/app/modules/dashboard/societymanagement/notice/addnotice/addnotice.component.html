@@ -1,0 +1,53 @@
+
+	<h2 class="page-header pt-4 pb-2 border-bottom">Add User</h2>
+	<!-- <div *ngIf="invalidForm" class="alert alert-danger" role="alert">
+		Please fill out all fields.
+	</div> -->
+	
+	<ngb-alert type="danger" *ngIf="ds.invalidForm" (close)="ds.invalidForm = false">
+		{{ ds.errorMessage }}
+	</ngb-alert>
+	
+	<ngb-alert type="success" *ngIf="ds.formSubmitted" (close)="ds.formSubmitted = false">
+	{{ ds.submittedMessage }}
+	</ngb-alert>
+	
+	<div *ngIf="!ds.formSubmitted" class="border p-2 pt-4">
+		<form class="needs-validation" method="post" #addnoticeForm="ngForm"  (ngSubmit)="submitForm(addnoticeForm,notice)">
+			<div class="form-group row">
+				<label for="title" class="col-sm-2 col-form-label text-right">title </label>
+				<div class="col-sm-9">
+					<input type="text" [ngClass]="{'is-invalid' : title.touched && title.invalid, 'is-valid' : title.touched && title.valid }" id ="title" name="title" class="form-control" [(ngModel)]="notice.title" #title="ngModel" placeholder="Title of notice" required />
+				</div>
+			</div>
+			
+			<div class="form-group row">
+				<label for="category" class="col-sm-2 col-form-label text-right">Category </label>
+					<div class="col-sm-9">
+						<select class="custom-select" [ngClass]="{'is-invalid' : category.touched && category.invalid, 'is-valid' : category.touched && category.valid }" id ="category" name="category" class="form-control" [(ngModel)]="notice.category" #category="ngModel" required>
+							<option selected>General</option>
+							<option value="1">Special</option>
+							<option value="2">Annual</option>
+							<option value="3">Emergency</option>
+						</select>
+					</div>
+			</div>
+			
+			<div class="form-group row">
+				<label for = "description" class="col-sm-2 col-form-label text-right">Description </label>
+				<div class="col-sm-9">
+					<textarea type="text" [ngClass]="{ 'is-invalid' : description.touched && description.invalid, 'is-valid': description.touched && description.valid }" id = "description" name="description" class="form-control"  [(ngModel)]="notice.description" #description="ngModel" placeholder="Description" required></textarea>
+				</div>
+			</div>
+			
+			
+			<div class="form-group row">
+				<label for="publishDate" class="col-sm-2 col-form-label text-right">publishDate</label>
+				<div class="col-sm-9">
+					<input type="date" [ngClass]="{'is-invalid' : publishDate.touched && publishDate.invalid, 'is-valid' : publishDate.touched && publishDate.valid }" id ="publishDate" name="publishDate" class="form-control" [(ngModel)]="notice.publishDate" #publishDate="ngModel" placeholder="Date of notice" required />
+				</div>
+			</div>
+			
+			<button class="btn btn-primary mt-3 ml-5">Submit</button>
+		</form>
+	</div>

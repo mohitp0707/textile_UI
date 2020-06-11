@@ -1,0 +1,119 @@
+html {
+	height: 100%;
+	
+}
+body {
+	height: 100%;
+	background-image:url('../image/Backgroud.jpg');
+	width:100%;
+	opacity: 0.7;
+	z-index:-1;
+}
+
+body.my-login-page {
+	background-color: #f7f9fb;
+	font-size: 14px;
+	
+}
+.my-login-page {
+	border:2px solid #E73C66;
+	h4{
+		margin:0px;
+		padding:20px;
+		background-color:#E73C66;
+		text-align:center;
+		font-family:"Times New Roman";
+		color:white;
+		font-family:"Times New Roman", Times, serif;
+		border-radius:2px;  
+	}
+	i{
+		color:#E73C66;
+	}		
+	.butt{
+		 width: 100%;
+		 background-color: #E73C66; 
+		 color: white;
+		 border: none;
+		 border-radius: 4px;
+		 font-weight:bold;
+		 margin:0px;
+	}
+	.brand {
+		width: 90px;
+		height: 90px;
+		overflow: hidden;
+		border-radius: 50%;
+		margin: 0 auto;
+		margin: 40px auto;
+		box-shadow: 0 0 40px rgba(0,0,0,.05);
+		img {
+		
+			width: 100%;
+		}
+	}
+	.card-wrapper {
+		width: 400px;
+		margin: 0 auto;
+	}
+	.card {
+		background: rgba(76, 175, 80, 0.6);
+		box-shadow: 0 0 40px rgba(0,0,0,.05);
+		.card-title {
+			margin-bottom: 30px;
+		}
+		
+	}
+	.card.fat {
+		padding: 10px 10px 0px;
+		
+	}
+	.card-title{
+	color:#fff;
+	text-align:center;
+	font-weight:bold;
+	
+	}
+	.form{
+	background: rgba(76, 175, 80, 0.6);
+	}
+	.form-control {
+		border-width: 2.3px;
+			
+	}
+	.form-group {
+		
+		label {
+			width: 100%;
+		}
+	}
+	
+	.margin-top20 {
+		margin-top: 20px;
+	}
+	.no-margin {
+		margin: 0;
+	}
+	
+}
+@media screen and (max-width: 425px) {
+	.my-login-page {
+		.card-wrapper {
+			width: 90%;
+			margin: 0 auto;
+		}
+	}
+}
+@media screen and (max-width: 320px) {
+	.my-login-page {
+		.card.fat {
+				margin-bottom:0px;
+				padding-bottom:0px;
+			.card-body {
+				margin-bottom:0px;
+				padding-bottom:0px;
+				
+			}
+		}
+	}
+}

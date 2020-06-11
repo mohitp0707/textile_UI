@@ -1,0 +1,46 @@
+<h3 class="page-header pt-4 pb-2 border-bottom ">Grey Recieve List</h3>
+<p></p>
+<div class="row">
+	<div class="col-md-6"></div>
+	<div class="col-md-2">Search</div>
+	<div class="col-md-4">
+	<input class="form-control" type="text" name="search" [(ngModel)]="searchText">
+	<p><p>
+ </div>
+</div>
+<div class="content table-responsive table-full-width">
+	<table class="table table-bordered table-sm">
+		<thead class = "thead-light">
+			<tr>
+				<th>SR.No.</th>
+				<th>DATE</th>
+				<th>PARTY</th>
+				<th>CH.No.</th>
+				<th>LOT No</th>
+				<th>PCS</th>
+				<th>MTR</th>
+				<th>GODOWN</th>
+				<th>Manage</th>
+			</tr>
+			</thead>
+			<tr *ngFor="let product of greyRecive | filter: {Supp: searchText, Dat:searchText,GR_Batch: searchText,GR_ChallNo: searchText,TQTY: searchText,GR_PROCESS: searchText} | paginate: { itemsPerPage: 20, currentPage: p } ; let i = index">
+				<td>{{ i + 1 }}</td>
+				<td>{{ product.Dat }}</td>
+				<td>{{ product.Supp }}</td>
+				<td>{{ product.GR_ChallNo }}</td>
+				<td>{{ product.GR_Batch }}</td>
+				<td>{{ product.TQTY }}</td>
+				<td>{{ product.TMTR }}</td>
+				<td>{{product.GR_WH}}</td>
+				<td>
+					<a *ngIf="update && !buttonState(product)"  [routerLink]="['../greyrecieveview', product.GR_ID]"><button class="btn btn-primary " [disabled]="buttonState(product)" ><i class="fas fa-pencil-alt" aria-hidden="true"></i></button> </a> 
+
+					<!-- <button *ngIf="delete && !buttonState(product)" class="btn btn-danger"  (click)="deletedata(product.GR_ID, i)" > <i class="fas fa-trash-alt" aria-hidden="true" ></i> </button> -->
+					<a [routerLink]="['../../printing/grvprint', product.GR_ID]"> <button class="btn btn-danger"> <i class="fas fa-print" aria-hidden="true" ></i> </button>	</a>	
+				</td>
+			</tr>
+			
+	</table>
+	<pagination-controls (pageChange)="p = $event"></pagination-controls>
+</div>
+

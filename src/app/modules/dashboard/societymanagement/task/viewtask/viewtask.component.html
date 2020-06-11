@@ -1,0 +1,27 @@
+<h2 class="page-header pt-4 pb-2 border-bottom">List of Meetings</h2>
+<table class="table table-bordered mt-4">
+	<thead class = "thead-dark">
+		<tr>
+			<th>Sr. No.</th>
+			<th>Task Name</th>
+			<th>Assign To</th>
+			<th>Date</th>
+			<th>Due Date</th>
+			<th>Manage</th>
+		</tr>
+		<tr *ngFor = "let task of taskList, let i=index">
+			<td>{{ i + 1}}</td>
+			<td>{{ task.taskName }}</td>
+			<td>{{ task.assignTo }}</td>
+			<td>{{ task.date }}</td>
+			<td>{{ task.dueDate }}</td>
+			
+			<td>
+					<a [routerLink]="['../add-task', task.id]"><button class="btn btn-primary" ><i class="fas fa-pencil-alt" aria-hidden="true"></i></button> </a> 
+						
+					<button class="btn btn-danger" (click)="deletedata(task)"> <i class="fas fa-trash-alt" aria-hidden="true" ></i> </button>
+							
+				</td>
+		</tr>
+	</thead>
+</table>

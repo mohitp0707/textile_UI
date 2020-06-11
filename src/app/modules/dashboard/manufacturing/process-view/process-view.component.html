@@ -1,0 +1,46 @@
+<h3 class="page-header pt-4 pb-2 border-bottom ">Process List </h3>
+<div class="row">
+	<div class="col-md-2">Search</div>
+	<div class="col-md-10">
+	<input class="form-control" type="text" name="search" [(ngModel)]="searchText">
+	<p><p>
+ </div>
+</div>
+<div class="content table-responsive table-full-width">
+	<table class="table table-bordered table-sm">
+		<thead class = "thead-light">
+			<tr>
+        <th>Sr. No.</th>
+        <th>ID</th>
+				<th>JOB CARDS</th>
+				<th>Date</th>
+				<th>Party</th>
+				<th>Process</th>
+				<th>Machine</th>
+				<th>count</th>
+				<th>TYPE</th>
+				<th>Manage</th>
+			</tr>
+			</thead>
+			<tr *ngFor="let proc of process  | filter: {ID: searchText, Batch:searchText,Dat: searchText,JPR_Process: searchText,count: searchText}| paginate: { itemsPerPage: 20, currentPage: p }; let i = index">
+				<td>{{ i + 1 }}</td>
+				<td>{{ proc.ID }}</td>
+        		<td>{{ proc.Batch }}</td>
+				<td>{{ proc.Dat }}</td>
+				<td>{{ proc.partyName }}</td>
+				<td>{{ proc.JPR_Process }}</td>
+				<td>{{ proc.machine }}</td>
+				<td>{{proc.count}}</td>
+				<td>{{proc.typ}}</td>
+				<td>
+				 <button *ngIf="update && !buttonStateAdd(proc)" class="btn btn-info"  [disabled]="buttonState(proc)" (click)="rLink(proc)"><a  [routerLink]="['../process', proc.ID ]"></a><i class="fas fa-plus" aria-hidden="true"></i></button> 
+						
+					<!-- <button class="btn btn-success" [disabled]="buttonState(proc)" (click)="done(proc)"> <i class="fa fa-check" aria-hidden="true" ></i> </button> -->
+					<button *ngIf="delete && !buttonState(proc)" class="btn btn-danger" [disabled]="buttonState(proc)" (click)="deletedata(proc.ID, i)" > <i class="fas fa-trash-alt" aria-hidden="true" ></i> </button>
+					<button class="btn btn-danger" [routerLink]="['../printProcess', proc.ID ]"> <i class="fas fa-print" aria-hidden="true" ></i> </button>		
+				</td>
+			</tr>
+	</table>
+	<pagination-controls (pageChange)="p = $event"></pagination-controls>
+</div>
+
