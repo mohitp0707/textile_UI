@@ -133,6 +133,7 @@ export class GreyChekingComponent implements OnInit {
 			// this.particular.quantity=0;
 			// this.particular.cquantity=0;
 			this.RecQtyList=data.recordsets[1];
+			console.log(data.recordsets[1]);
 			this.calculation();
 			this.spinnerService.hide();
 		},err => {
